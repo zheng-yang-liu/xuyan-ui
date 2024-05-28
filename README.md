@@ -8,10 +8,7 @@ xuyan-ui 组件库项目
     |__ packages  -- 存放开发的组件
 
     |__ test-ui  -- 测试组件库
-
-    |__ node_modules -- packages的依赖文件
-
-    |__ package.json -- xuyan-ui的包信息
+    
 ```
 
 
