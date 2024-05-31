@@ -7,6 +7,7 @@
   "typings": "index.d.ts",
   "keywords": ["yanyan-ui", "vue3", "xy", "组件库","ui"],
   "dependencies": {
+    "element-plus": "2.7.4",
     "vue": "^3.4.26"
   }
 }

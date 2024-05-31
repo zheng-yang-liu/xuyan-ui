@@ -38,5 +38,12 @@ export declare const Tools: {
    * @returns  深拷贝后的元素
    */
   deepCopy:(data:Array<any>|object)=>Array<any>|object;
+  /**
+   * 更具key数组去重
+   * @param array 需要去重的数组
+   * @param key 去重的key
+   * @returns  {*}
+   */
+  accordingToKeyUnique:(array:Array<any>, key?:string)=>Array<any>;
 
 };

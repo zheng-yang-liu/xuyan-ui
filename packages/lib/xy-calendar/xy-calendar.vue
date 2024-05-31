@@ -36,7 +36,7 @@ import {dateListItem,dayContent} from "../../types/tools";
 
 
 export default defineComponent({
-  name: "xyCalendar",
+  name: "xy-calendar",
   props: {
     //是否区分不同月份
     ifDivisionMonth:{

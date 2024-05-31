@@ -25,8 +25,3 @@ export type formatDateStr = {
   minute?: string,
   second?: string
 }
-export type observerOptions = {
-  root: Element | null,
-  margin:string,
-  threshold: number
-}
