@@ -3,7 +3,7 @@ import {
   dayContent,
   formatDateNum,
   formatDateStr,
-  observerOptions} from "../types/tools";
+  } from "../types/tools";
 /*
   *获取某日期所在月份的日历天数
   *@param year 年份
@@ -12,7 +12,12 @@ import {
   *@param startDayOfMonday 是否以星期一开始，true为星期一开始，false为星期日开始
   *@returns 返回一个数组，包含当前月份的日历天数
   */
-export const createCalendar = (year: number, month: number, dayContent: dayContent[] = [], startDayOfMonday: boolean = true): dateListItem[] => {
+export const createCalendar = (
+  year: number,
+  month: number,
+  dayContent: dayContent[] = [],
+  startDayOfMonday: boolean = true
+): dateListItem[] => {
   //当前月有多少天
   const daysInMonth:number = new Date(year, month + 1, 0).getDate();//下个月的第0天就是这个月的最后一天
   //上个月显示的天数
@@ -211,10 +216,26 @@ export const deepCopy = (data:Array<any>|object):Array<any>|object=>{
   }
   return newData;
 }
-
-
-
-
+/**
+ * 根据key数组去重
+ * @param array 需要去重的数组
+ * @param key 去重的key
+ * @returns  {*}
+ */
+export const accordingToKeyUnique = (array:Array<any>, key?:string):Array<any>=>{
+  let newArray:Array<any> = [],obj:Object = {};
+  if(key){
+    newArray = array.reduce((preVal:any,curVal:any):any=>{
+      obj[curVal[key]] ? "" : obj[curVal[key]] = preVal.push(curVal);
+      return preVal;
+    },[])
+  }else{
+    newArray = array.filter((val:any):Boolean=>{
+      return obj.hasOwnProperty(typeof val + JSON.stringify(val)) ? false : obj[typeof val + JSON.stringify(val)] = true;
+    })
+  }
+  return newArray;
+}
 
 
 

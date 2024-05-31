@@ -1,30 +1,53 @@
 <template>
   <div>
-    <xy-calendar
-      :currentMonth="state.currentMonth"
-      :currentYear="state.currentYear"
-      :startDayOfMonday="state.startDayOfMonday"
-      @changeDate="changeDate"
-    > </xy-calendar>
+
   </div>
 </template>
 
 <script setup lang="ts">
-import {reactive} from 'vue'
+import {reactive} from "vue"
 import {Tools} from "../../../packages"
 
-Tools.deepCopy({a: 1})
+const arr = [
+  {name: '张三', age: 18},
+  {name: '李四', age: 20},
+  {name: '张三', age: 1},
+  {name: '王五', age: 22},
+  {name: '李四', age: 20},
+  {name: '赵六', age: 24},
+  {name: '张三', age: 18},
+  {name: '李四', age: 20},
+  {name: '张三', age: 18},
+  {name: '王五', age: 22},
+  {name: '李四', age: 20},
+  {name: '赵六', age: 24},
+  {name: '张三', age: 18},
+  {name: '李四', age: 20},
+  {name: '张三', age: 18},
+  {name: '王五', age: 22},
+  {name: '李四', age: 20},
+  {name: '赵六', age: 24},
+  {name: '张三', age: 18},
+  {name: '李四', age: 20},
+  {name: '张三', age: 18},
+  {name: '王五', age: 22},
+  {name: '李四', age: 20},
+  {name: '赵六', age: 24},
+  {name: '张三', age: 18},
+  {name: '李四', age: 20},
+  {name: '张三', age: 18},
+  {name: '王五', age: 22},
+  {name: '李四', age: 20},
+  {name: '赵六', age: 24},
+  {name: '张三', age: 18},
+  {name: '李四', age: 20},
+  {name: '张三', age: 18},
+  {name: '王五', age: 22},
+  {name: '李四', age: 20},
+  {name: '赵六', age: 24},
+];
 
-const state = reactive({
-  currentYear: new Date().getFullYear(),
-  currentMonth: new Date().getMonth(),
-  startDayOfMonday: true
-})
-const date = Tools.convertTimeFormat("YYYY-MM-DD", new Date());
-console.log(date,'date');
-const changeDate = (dateInfo:any)=>{
-  console.log(dateInfo,'date');
-}
+console.log(Tools.accordingToKeyUnique(arr))
 </script>
 
 <style lang="scss">

@@ -1,7 +1,7 @@
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import xy from "../../packages/index.js"
+import xy from "../../packages"
 
 import App from './App.vue'
 import router from './router'
