@@ -236,6 +236,21 @@ export const accordingToKeyUnique = (array:Array<any>, key?:string):Array<any>=>
   }
   return newArray;
 }
+/**
+ * 防抖函数
+ * @param fn 需要防抖的函数
+ * @param delay 防抖时间
+ */
+export const debounce = (fn:Function, delay:number):Function=>{
+  let timer = null;
+  return function(...args){
+    clearTimeout(timer);
+    timer = setTimeout(()=>{
+      fn.apply(this,args);
+    },delay)
+  }
+}
+
 
 
 

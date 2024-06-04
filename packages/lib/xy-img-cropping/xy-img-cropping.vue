@@ -11,7 +11,7 @@
     <div class="croppingBox">
       <input type="file" @change="onFileChange" style="display: none" ref="fileInput"/>
       <div class="cropping-left" :style="previewSizeFixed ? { width: '400px' } : {width:'400px'}">
-        <div style="position:relative;background-color: green;overflow: hidden;width: 300px;height: 300px">
+        <div style="position:relative;overflow: hidden;width: 300px;height: 300px">
           <canvas
             ref="imgCanvas"
             :width="canvasWidth" :height="canvasHeight"
@@ -48,6 +48,7 @@
 
 <script lang="ts">
 import {defineComponent,ref,reactive,watch,onMounted,computed} from 'vue'
+
 export default defineComponent({
   name: "xy-img-cropping",
   props:{
@@ -57,7 +58,7 @@ export default defineComponent({
     },
     title:{
       type:String,
-      default:'头像编辑'
+      default:'图像编辑'
     },
     previewSizeFixed:{
       type:Boolean,
@@ -218,7 +219,7 @@ export default defineComponent({
             const scaledWidth = imgWidth * scale;
             const scaledHeight = imgHeight * scale;
             const imgMinLong = Math.min(scaledWidth, scaledHeight);
-            console.log(scaledWidth,scaledHeight,imgMinLong)
+            console.log(imgMinLong)
             // 计算图片绘制位置，使图片居中
             const x = (canvasWidth.value - scaledWidth) / 2;
             const y = (canvasHeight.value - scaledHeight) / 2;
@@ -229,7 +230,7 @@ export default defineComponent({
             // 绘制缩放和居中的图片
             ctx.drawImage(img, x, y, scaledWidth, scaledHeight);
 
-            drawPreview()
+            drawPreview();
           };
         }
       }
