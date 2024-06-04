@@ -32,7 +32,7 @@
       </div>
       <div class="cropping-right" :style="previewSizeFixed ? { width: '200px' } : {width:'400px'}">
         <div style="margin-bottom: 10px">预览</div>
-        <img :src="state.previewUrl" :class="previewSizeFixed?'itSAFixedSize':''" style="border: 1px black solid"/>
+        <img :src="state.previewUrl" :class="previewSizeFixed?'itSAFixedSize':''" style="border: 1px black solid" ref="previewImg"/>
       </div>
     </div>
     <template #footer>
@@ -65,7 +65,7 @@ export default defineComponent({
       default:true
     }
   },
-  emits:['update:visible'],
+  emits:['update:visible','confirmReturn'],
   setup(props, context) {
     const state = reactive({
       showCanvas: false,
@@ -82,6 +82,7 @@ export default defineComponent({
     const baseImg = ref<HTMLElement | null>(null)
     const imgCanvas = ref<HTMLCanvasElement | null>(null);
     const fileInput = ref<HTMLCanvasElement | null>(null);
+    const previewImg = ref<HTMLCanvasElement | null>(null);
     const canvasWidth = ref<number>(600);
     const canvasHeight = ref<number>(600);
     const overlayWidth = 300;
@@ -185,6 +186,8 @@ export default defineComponent({
         file&&convertToBase64(file);
     }
     const convertToBase64 = (file:File)=> {
+      console.log(file)
+      context.emit("confirmReturn",file);
       const reader = new FileReader();
       reader.onload = (e) => {
         // console.log(e)
@@ -200,6 +203,9 @@ export default defineComponent({
     const confirm = ()=>{
       // console.log('确定的逻辑')
       context.emit("update:visible",false);
+      // 将state.previewUrl 的base64转成file对象
+      console.log(previewImg.value)
+      // context.emit("confirmReturn",state.previewUrl);
     }
     const uploadFile = ()=>{
         fileInput.value&&fileInput.value.click();
@@ -218,12 +224,11 @@ export default defineComponent({
             const scale = Math.min(canvasWidth.value / imgWidth, canvasHeight.value / imgHeight);
             const scaledWidth = imgWidth * scale;
             const scaledHeight = imgHeight * scale;
-            const imgMinLong = Math.min(scaledWidth, scaledHeight);
-            console.log(imgMinLong)
+
             // 计算图片绘制位置，使图片居中
             const x = (canvasWidth.value - scaledWidth) / 2;
             const y = (canvasHeight.value - scaledHeight) / 2;
-            console.log(x,y)
+
             // 清除画布
             ctx.clearRect(0, 0, canvasWidth.value, canvasHeight.value);
 
@@ -275,6 +280,7 @@ export default defineComponent({
       holeStyle,
       onHoleMouseDown,
       onHandleMouseDown,
+      previewImg
     }
   },
 })

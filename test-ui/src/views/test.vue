@@ -1,136 +1,35 @@
 <template>
-  <div style="width: 500px;height: 500px;background-color: red;display: flex;align-items:center;justify-content:center">
-    <div style="position:relative;background-color: green;overflow: hidden;width: 300px;height: 300px">
-      <img src="@/assets/defaultPicture.png" style="width: 300px;height: 300px;position:absolute;top: 0;left: 0">
-          <div
-            class="hole"
-            :style="holeStyle"
-            @mousedown.stop.prevent="onHoleMouseDown"
-          >
-            <div
-              class="resize-handle"
-              @mousedown.stop.prevent="onHandleMouseDown"
-            ></div>
-          </div>
-    </div>
+  <div>
+    <el-button @click="test">hh</el-button>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, computed } from 'vue';
+<script setup lang="ts">
+const base64ToFile = (urlData, fileName) => {
+  let arr = urlData.split(',');
+  let mime = arr[0].match(/:(.*?);/)[1];
+  let bytes = atob(arr[1]); // 解码base64
+  let n = bytes.length
+  let ia = new Uint8Array(n);
+  while (n--) {
+    ia[n] = bytes.charCodeAt(n);
+  }
+  return new File([ia], fileName, { type: mime });
+};
 
-export default defineComponent({
-  setup() {
-    const hole = reactive({
-      width: 100,
-      height: 100,
-      top: 100,
-      left: 100,
-    });
+// 使用示例
+const base64String = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAAXNSR0IArs4c6QAABO9JREFUeF7tnX9MlHUcx98PMA4IxBCxGWnTLdvctP6pbB25thZlekUkW6T9oa5NglaGrVb+0w+FlA0qk/sDOmLyQ+gWGLQRm9niptZ/usRCGnYIActL7pL7wbXvbccCDrzjGPfZnvfzN8/3+3rer3s/z/P9Pn+gbbjvIT94iElAoxAxLgIgFCLLB4UI80EhFCItAWE8fIZQiLAEhOGwIRQiLAFhOGwIhQhLQBgOG0IhwhIQhsOGUIiwBIThsCEUIiwBYThsCIUIS0AYDhtCIcISEIbDhlCIsASE4bAhFCIsAWE4bAiFCEtAGA4bQiHCEhCGw4ZQiLAEhOGwIRQiLAFhOGwIhQhLQBgOG0IhwhIQhsOGUIiwBIThsCEUIiwBYThsCIUIS0AYDhtCIcISEIbDhlCIsASE4bAhFCIsAWE4bAiFCEtAGA4bQiHCEhCGw4ZQiLAEhOGwIRQiLAFhOGwIhQhLQBgOG0IhwhIQhsOGUIiwBIThsCHShNy/4WG/38//6SLFi/bgA4/7Xa5/pfDonkN7Ie8V/8WLv+o+CCkBaBUVx/21NSfhdrulMOmaQ+vpOe//8INj6Ovr13UQUi5eGxv723/s6Gdoa+uEx+OVwqVbDs3n8/m7us6g7EgVBgev6zYIKReuqXfekZExHDp0GD+etcHrZUtiKScgRAF0d59F2ZFKXLtmB9clsVMyJcTpdOLoJ5/Daj2NW7cmYkek85mnhKhWXLrUi/ff+wiXL//GlsTohzElRM2vVuyWLxtw4kQtJia4LomFk2lCVEv6+wdw+OMK9PRcgM/niwWTbudMTk7GNCEqCbfbA5vtfOA1+OrVP3QbzlJfeGJiIrZte3K2EAUyPu5Ec7MV5uo63LjhWGo23c0XFxeHzZs34p133wgtRCUyMjIKc7UFra2n4XK5dBfSUl5wVtZKvFa8FybT03MLUUBqf0utTWy2n+HxeJaSUTdzpaWloqDgeezdtxvLly+bX4h6qJ879wvKy6pw5UofJicndRPUUlxoSkoKduzIxf6iPcjKygxMOeuhPhNEbct3dnbj0yoz7PZB8OPi4qgyGAzIzX0CxSX7kJ1999SgtxWi/tLpdKG9/Tt8cbwWw8N/LQ6RjkcxGBKRk/MoDrxVhLVr74GmaZEJCUgZd6K1tR1mcx1GR8d0HGd0l65kGI1bcPDtEqxZkz1rsLAaEjzL4fgHLS1tqLM0Ynh4JDoyHZ6tZGzd+hhKXn8V69ffGzKBiISoERwOB1pa2qE++7Ip4f+qgs1488B+rFsXWkZYD/VQU6qmnGr+BhZLA9S3FB7zJ5CUlASj8RGUHiwOeZv6/9kRNyR48s2b42hqsqKx4WvY7de5OzyHk/T0ZTCZnsHLu168rYwFNyQ4t3r7stkuoKqyGgMDf/I7ygwpGRl3YtfuncjPNyEzM2Pa29RcnVpwQ4IDer0+9Pb+jpqaevxw5qfAPpjej/j4eKxefRdeKsxHXt52pKenhR1J1ELUTGrbfnBwCE2N1sB6Rb2B6XVVr3ZtN23aiMLCfBhztiA19Y6wZUR9y5o5k9oZrv+qGfX1p3S7S7xiRQaKivZgZ8FzSEhIiEjGogtRA3Z824Xy8ioMDelzRb9q1UqUlhbj2e1PRSyDQhYU2fwnyRPS0RXYHWZDpDSk43uUl1VSiJhbFoUIe4ZQSFRC/gOur0q5QBOT6wAAAABJRU5ErkJggg=='; // 省略了实际的Base64数据
+const file = base64ToFile(base64String, 'test.png');
+import {upload,getLink} from "@/api/index"
+const test = async ()=>{
 
-    const overlayWidth = 300;
-    const overlayHeight = 300;
+  const reswww = await getLink()
+  console.log(reswww)
 
-    let startX = 0;
-    let startY = 0;
-    let startWidth = 0;
-    let startHeight = 0;
-    let startTop = 0;
-    let startLeft = 0;
-    let resizing = false;
-    let dragging = false;
-    //改变位置
-    const onHoleMouseDown = (e: MouseEvent) => {
-      if (resizing) return;
-      console.log('onHoleMouseDown',e)
-      startX = e.clientX;
-      startY = e.clientY;
-      startTop = hole.top;
-      startLeft = hole.left;
-      dragging = true;
-
-      document.addEventListener('mousemove', onHoleMouseMove);
-      document.addEventListener('mouseup', onHoleMouseUp);
-    };
-
-    const onHoleMouseMove = (e: MouseEvent) => {
-      if (!dragging) return;
-
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
-
-      hole.top = Math.min(Math.max(startTop + dy, 0), overlayHeight - hole.height);
-      hole.left = Math.min(Math.max(startLeft + dx, 0), overlayWidth - hole.width);
-    };
-
-    const onHoleMouseUp = () => {
-      dragging = false;
-      document.removeEventListener('mousemove', onHoleMouseMove);
-      document.removeEventListener('mouseup', onHoleMouseUp);
-    };
-    //改变宽度
-    const onHandleMouseDown = (e: MouseEvent) => {
-      startX = e.clientX;
-      startY = e.clientY;
-      startWidth = hole.width;
-      startHeight = hole.height;
-      resizing = true;
-
-      document.addEventListener('mousemove', onHandleMouseMove);
-      document.addEventListener('mouseup', onHandleMouseUp);
-    };
-
-    const onHandleMouseMove = (e: MouseEvent) => {
-      if (!resizing) return;
-
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
-
-      hole.width = Math.min(Math.max(50, startWidth + dx), overlayWidth - hole.left);
-      hole.height = Math.min(Math.max(50, startHeight + dy), overlayHeight - hole.top);
-      //宽高保持1：1
-      hole.width = hole.height = Math.min(hole.width, hole.height);
-    };
-
-    const onHandleMouseUp = () => {
-      resizing = false;
-      document.removeEventListener('mousemove', onHandleMouseMove);
-      document.removeEventListener('mouseup', onHandleMouseUp);
-    };
-
-    const holeStyle = computed(() => ({
-      width: `${hole.width}px`,
-      height: `${hole.height}px`,
-      top: `${hole.top}px`,
-      left: `${hole.left}px`,
-      position: 'absolute',
-      background: 'transparent',
-      boxShadow: `0 0 0 300px rgba(0, 0, 0, 0.5), inset 0 0 0 2px transparent`,
-    }));
-
-    return {
-      hole,
-      holeStyle,
-      onHoleMouseDown,
-      onHandleMouseDown,
-    };
-  },
-});
+  console.log(file)
+  const res = await upload(file)
+  console.log(res)
+}
+test();
+// console.log(file);
 </script>
-
-<style scoped>
-.hole {
-  position: absolute;
-  background: transparent;
-}
-
-.resize-handle {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  bottom: 0;
-  right: 0;
-  background-color: black;
-  cursor: se-resize;
-}
-</style>

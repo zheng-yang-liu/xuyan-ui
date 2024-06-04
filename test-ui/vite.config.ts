@@ -19,5 +19,14 @@ export default defineConfig({
         additionalData: `@import "@/assets/main.scss";`
       }
     }
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
   }
 })
