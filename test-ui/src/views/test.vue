@@ -88,6 +88,8 @@ export default defineComponent({
 
       hole.width = Math.min(Math.max(50, startWidth + dx), overlayWidth - hole.left);
       hole.height = Math.min(Math.max(50, startHeight + dy), overlayHeight - hole.top);
+      //宽高保持1：1
+      hole.width = hole.height = Math.min(hole.width, hole.height);
     };
 
     const onHandleMouseUp = () => {
