@@ -1,51 +1,141 @@
 <template>
-  <div>
-    <canvas ref="canvas" :width="canvasWidth" :height="canvasHeight"></canvas>
-    <button @click="drawImage">Draw Image</button>
+  <div style="width: 500px;height: 500px;background-color: red;display: flex;align-items:center;justify-content:center">
+    <div style="position:relative;background-color: green;overflow: hidden;width: 300px;height: 300px">
+      <img src="@/assets/defaultPicture.png" style="width: 300px;height: 300px;position:absolute;top: 0;left: 0">
+          <div
+            class="hole"
+            :style="holeStyle"
+            @mousedown.stop.prevent="onHoleMouseDown"
+          >
+            <div
+              class="resize-handle"
+              @mousedown.stop.prevent="onHandleMouseDown"
+            ></div>
+          </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, reactive, computed ,watch} from 'vue';
 
 export default defineComponent({
-  name: 'CanvasImageComponent',
   setup() {
-    const canvas = ref<HTMLCanvasElement | null>(null);
-    const canvasWidth = 800;
-    const canvasHeight = 600;
-    const imageSrc = 'https://via.placeholder.com/150'; // 替换为你的图片 URL
-
-    const drawImage = () => {
-      if (canvas.value) {
-        const ctx = canvas.value.getContext('2d');
-        if (ctx) {
-          const img = new Image();
-          img.src = imageSrc;
-          img.onload = () => {
-            ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
-          };
-        }
-      }
-    };
-
-    onMounted(() => {
-      // 可以选择在组件挂载时就绘制图片
-      drawImage();
+    const hole = reactive({
+      width: 100,
+      height: 100,
+      top: 100,
+      left: 100,
     });
 
-    return {
-      canvas,
-      canvasWidth,
-      canvasHeight,
-      drawImage
+    const overlayWidth = 300;
+    const overlayHeight = 300;
+
+    let startX = 0;
+    let startY = 0;
+    let startWidth = 0;
+    let startHeight = 0;
+    let startTop = 0;
+    let startLeft = 0;
+    let resizing = false;
+    let dragging = false;
+
+    const onHoleMouseDown = (e: MouseEvent) => {
+      if (resizing) return;
+
+      startX = e.clientX;
+      startY = e.clientY;
+      startTop = hole.top;
+      startLeft = hole.left;
+      dragging = true;
+
+      document.addEventListener('mousemove', onHoleMouseMove);
+      document.addEventListener('mouseup', onHoleMouseUp);
     };
-  }
+
+    const onHoleMouseMove = (e: MouseEvent) => {
+      if (!dragging) return;
+
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+
+      hole.top = Math.min(Math.max(startTop + dy, 0), overlayHeight - hole.height);
+      hole.left = Math.min(Math.max(startLeft + dx, 0), overlayWidth - hole.width);
+    };
+
+    const onHoleMouseUp = () => {
+      dragging = false;
+      document.removeEventListener('mousemove', onHoleMouseMove);
+      document.removeEventListener('mouseup', onHoleMouseUp);
+    };
+    //改变宽度
+    const onHandleMouseDown = (e: MouseEvent) => {
+      startX = e.clientX;
+      startY = e.clientY;
+      startWidth = hole.width;
+      startHeight = hole.height;
+      resizing = true;
+
+      document.addEventListener('mousemove', onHandleMouseMove);
+      document.addEventListener('mouseup', onHandleMouseUp);
+    };
+
+    const onHandleMouseMove = (e: MouseEvent) => {
+      if (!resizing) return;
+
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+
+      hole.width = Math.min(Math.max(50, startWidth + dx), overlayWidth - hole.left);
+      hole.height = Math.min(Math.max(50, startHeight + dy), overlayHeight - hole.top);
+    };
+
+    const onHandleMouseUp = () => {
+      resizing = false;
+      document.removeEventListener('mousemove', onHandleMouseMove);
+      document.removeEventListener('mouseup', onHandleMouseUp);
+    };
+
+    const holeStyle = computed(() => ({
+      width: `${hole.width}px`,
+      height: `${hole.height}px`,
+      top: `${hole.top}px`,
+      left: `${hole.left}px`,
+      position: 'absolute',
+      background: 'transparent',
+      boxShadow: `0 0 0 300px rgba(0, 0, 0, 0.5), inset 0 0 0 2px transparent`,
+    }));
+
+    return {
+      hole,
+      holeStyle,
+      onHoleMouseDown,
+      onHandleMouseDown,
+    };
+  },
 });
 </script>
 
 <style scoped>
-canvas {
-  border: 1px solid black;
+.overlay {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.hole {
+  position: absolute;
+  background: transparent;
+}
+
+.resize-handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  bottom: 0;
+  right: 0;
+  background-color: black;
+  cursor: se-resize;
 }
 </style>
