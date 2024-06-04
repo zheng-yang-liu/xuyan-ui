@@ -1,6 +1,9 @@
 <template>
   <div>
-    <xy-img-cropping v-model:visible="state.visible"></xy-img-cropping>
+    <xy-img-cropping
+      v-model:visible="state.visible"
+      :previewSizeFixed="true"
+    ></xy-img-cropping>
     <el-button @click="state.visible = true"></el-button>
   </div>
 </template>

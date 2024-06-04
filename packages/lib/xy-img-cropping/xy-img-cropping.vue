@@ -3,14 +3,14 @@
   <el-dialog
     v-model="state.diaVisible"
     :title="title"
-    width="600"
+    :width="previewSizeFixed?600:800"
     align-center
     :close-on-press-escape="false"
     @close="closeAfter"
   >
     <div class="croppingBox">
       <input type="file" @change="onFileChange" style="display: none" ref="fileInput"/>
-      <div class="cropping-left">
+      <div class="cropping-left" :style="previewSizeFixed ? { width: '400px' } : {width:'400px'}">
         <div style="position:relative;background-color: green;overflow: hidden;width: 300px;height: 300px">
           <canvas
             ref="imgCanvas"
@@ -30,9 +30,9 @@
         </div>
 
       </div>
-      <div class="cropping-right">
-        <div>预览</div>
-        <img :src="state.previewUrl">
+      <div class="cropping-right" :style="previewSizeFixed ? { width: '200px' } : {width:'400px'}">
+        <div style="margin-bottom: 10px">预览</div>
+        <img :src="state.previewUrl" :class="previewSizeFixed?'itSAFixedSize':''" style="border: 1px black solid"/>
       </div>
     </div>
     <template #footer>
@@ -57,7 +57,11 @@ export default defineComponent({
     },
     title:{
       type:String,
-      default:'图片裁剪'
+      default:'头像编辑'
+    },
+    previewSizeFixed:{
+      type:Boolean,
+      default:true
     }
   },
   emits:['update:visible'],
@@ -93,7 +97,7 @@ export default defineComponent({
     //改变位置
     const onHoleMouseDown = (e: MouseEvent) => {
       if (resizing) return;
-      console.log('onHoleMouseDown',e)
+
       startX = e.clientX;
       startY = e.clientY;
       startTop = hole.top;
@@ -116,6 +120,7 @@ export default defineComponent({
 
     const onHoleMouseUp = () => {
       dragging = false;
+      drawPreview();
       document.removeEventListener('mousemove', onHoleMouseMove);
       document.removeEventListener('mouseup', onHoleMouseUp);
     };
@@ -144,6 +149,7 @@ export default defineComponent({
 
     const onHandleMouseUp = () => {
       resizing = false;
+      drawPreview();
       document.removeEventListener('mousemove', onHandleMouseMove);
       document.removeEventListener('mouseup', onHandleMouseUp);
     };
@@ -160,12 +166,17 @@ export default defineComponent({
 
     watch(()=>props.visible,(newVal)=>{
       state.diaVisible = newVal;
+      hole.width = 100;
+      hole.height = 100;
+      hole.top = 100;
+      hole.left = 100;
       if (baseImg.value&&newVal){
         setTimeout(()=>{
           drawImage(baseImg.value.src);
         },0)
       }
     })
+
     const onFileChange = (event:any)=> {
       const file = event.target.files[0];
         file&&convertToBase64(file);
@@ -215,14 +226,32 @@ export default defineComponent({
 
             // 绘制缩放和居中的图片
             ctx.drawImage(img, x, y, scaledWidth, scaledHeight);
-            //绘制蒙层
-            // state.croppedImageUrl = imgCanvas.value.toDataURL();
+
+            drawPreview()
           };
         }
       }
     };
-    const drawAMaskLayer = (imgInfo:object)=>{
-
+    const canvas = document.createElement('canvas');
+    const ctxPreview = canvas.getContext('2d');
+    const drawPreview = ()=>{
+      canvas.width = hole.width;
+      canvas.height = hole.height;
+      if (ctxPreview) {
+        const Long = Math.max(hole.width, hole.height);
+        ctxPreview.clearRect(0, 0, Long, Long);
+        ctxPreview.drawImage(
+          imgCanvas.value,
+          hole.left*2,
+          hole.top*2,
+          hole.width*2,
+          hole.height*2,
+          0,
+          0,
+          Long,
+          Long);
+        state.previewUrl = canvas.toDataURL();
+      }
     }
     onMounted(()=>{
 
@@ -278,12 +307,12 @@ $border: 1px solid #ebeef5;
     }
   }
   .cropping-right{
-    width: 33%;
     text-align: center;
-    img{
-      margin-top: 10px;
+    //设置img样式居中撑满-不变形
+    .itSAFixedSize{
       width: 100px;
       height: 100px;
+      object-fit: cover;
     }
   }
 }
