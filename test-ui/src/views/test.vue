@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed ,watch} from 'vue';
+import { defineComponent, reactive, computed } from 'vue';
 
 export default defineComponent({
   setup() {
@@ -39,10 +39,10 @@ export default defineComponent({
     let startLeft = 0;
     let resizing = false;
     let dragging = false;
-
+    //改变位置
     const onHoleMouseDown = (e: MouseEvent) => {
       if (resizing) return;
-
+      console.log('onHoleMouseDown',e)
       startX = e.clientX;
       startY = e.clientY;
       startTop = hole.top;
@@ -117,13 +117,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.overlay {
-  position: relative;
-  width: 300px;
-  height: 300px;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
 .hole {
   position: absolute;
   background: transparent;
