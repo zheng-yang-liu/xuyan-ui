@@ -2,54 +2,51 @@
   <el-dialog
     v-model="state.diaVisible"
     :title="title"
-    :width="previewSizeFixed?600:800"
+    :width="previewSizeFixed ? 600 : 800"
     align-center
     :close-on-press-escape="false"
     @closed="closeAfter"
     :close-on-click-modal="closeOnClickModal"
   >
     <div class="croppingBox">
-      <input type="file" @change="onFileChange" style="display: none" ref="fileInput"/>
-      <div class="cropping-left" :style="previewSizeFixed ? { width: '400px' } : {width:'400px'}">
-        <div style="position:relative;overflow: hidden;width: 300px;height: 300px" @wheel.stop.prevent="sizeWheel">
+      <input type="file" @change="onFileChange" style="display: none" ref="fileInput" />
+      <div class="cropping-left" :style="{ width: '400px' }">
+        <div class="canvas-container" @wheel.stop.prevent="sizeWheel">
           <canvas
             ref="imgCanvas"
-            :width="canvasWidth" :height="canvasHeight"
-            style="width: 300px;height: 300px;position:absolute;top: 0;left: 0;border:1px black solid"
+            :width="canvasWidth"
+            :height="canvasHeight"
+            class="cropping-canvas"
+            @mousedown.stop.prevent="onHoleMouseDownCanvas"
           ></canvas>
           <div
             class="hole"
             :style="holeStyle"
             @mousedown.stop.prevent="onHoleMouseDown"
           >
-            <div
-              class="resize-handle"
-              @mousedown.stop.prevent="onHandleMouseDown"
-            ></div>
+            <div class="resize-handle" @mousedown.stop.prevent="onHandleMouseDown"></div>
           </div>
         </div>
-
       </div>
-      <div class="cropping-right" :style="previewSizeFixed ? { width: '200px' } : {width:'400px'}">
+      <div class="cropping-right" :style="previewSizeFixed ? { width: '200px' } : { width: '400px' }">
         <div style="margin-bottom: 10px">预览</div>
-        <img :src="state.previewUrl" :class="previewSizeFixed?'itSAFixedSize':''" style="border: 1px black solid" ref="previewImg"/>
+        <img :src="state.previewUrl" :class="previewSizeFixed ? 'itSAFixedSize' : ''" class="preview-img" ref="previewImg" />
       </div>
     </div>
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="uploadFile">上传</el-button>
-        <el-button type="primary" @click="confirm">
-          确定
-        </el-button>
+        <el-button type="primary" @click="confirm">确定</el-button>
       </div>
     </template>
   </el-dialog>
 </template>
 
 <script lang="ts">
-import {defineComponent,ref,reactive,watch,onMounted,computed} from 'vue'
-import{base64ToFile,fileToBase64}from"../../tools"
-import {initBaseImg} from "./initBaseImg"
+import { defineComponent, ref, reactive, watch, onMounted, computed } from 'vue';
+import { base64ToFile, fileToBase64 } from "../../tools";
+import { initBaseImg } from "./initBaseImg";
+
 export default defineComponent({
   name: "xy-img-cropping",
   props:{
@@ -81,25 +78,24 @@ export default defineComponent({
   emits:['update:visible','confirmReturn'],
   setup(props, context) {
     const state = reactive({
-      showCanvas: false,
       diaVisible: false,
-      previewUrl:null,
-      currentBase64:initBaseImg
-    })
+      previewUrl: null,
+      currentBase64: initBaseImg,
+    });
+
     const hole = reactive({
       width: 100,
       height: 100,
       top: 100,
       left: 100,
     });
-    const ratio = ref(1)
+
+    const ratio = ref(1);
     const imgCanvas = ref<HTMLCanvasElement | null>(null);
-    const fileInput = ref<HTMLCanvasElement | null>(null);
-    const previewImg = ref<HTMLCanvasElement | null>(null);
+    const fileInput = ref<HTMLInputElement | null>(null);
     const canvasWidth = ref<number>(600);
     const canvasHeight = ref<number>(600);
-    const overlayWidth = 300;
-    const overlayHeight = 300;
+
     let startX = 0;
     let startY = 0;
     let startWidth = 0;
@@ -108,68 +104,10 @@ export default defineComponent({
     let startLeft = 0;
     let resizing = false;
     let dragging = false;
+    let canvasMove = false;
 
-    //改变位置
-    const onHoleMouseDown = (e: MouseEvent) => {
-      if (resizing) return;
-
-      startX = e.clientX;
-      startY = e.clientY;
-      startTop = hole.top;
-      startLeft = hole.left;
-      dragging = true;
-
-      document.addEventListener('mousemove', onHoleMouseMove);
-      document.addEventListener('mouseup', onHoleMouseUp);
-    };
-
-    const onHoleMouseMove = (e: MouseEvent) => {
-      if (!dragging) return;
-
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
-
-      hole.top = Math.min(Math.max(startTop + dy, 0), overlayHeight - hole.height);
-      hole.left = Math.min(Math.max(startLeft + dx, 0), overlayWidth - hole.width);
-    };
-
-    const onHoleMouseUp = () => {
-      dragging = false;
-      drawPreview();
-      document.removeEventListener('mousemove', onHoleMouseMove);
-      document.removeEventListener('mouseup', onHoleMouseUp);
-    };
-
-    //改变宽度
-    const onHandleMouseDown = (e: MouseEvent) => {
-      startX = e.clientX;
-      startY = e.clientY;
-      startWidth = hole.width;
-      startHeight = hole.height;
-      resizing = true;
-
-      document.addEventListener('mousemove', onHandleMouseMove);
-      document.addEventListener('mouseup', onHandleMouseUp);
-    };
-
-    const onHandleMouseMove = (e: MouseEvent) => {
-      if (!resizing) return;
-
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
-
-      hole.width = Math.min(Math.max(50, startWidth + dx), overlayWidth - hole.left);
-      hole.height = Math.min(Math.max(50, startHeight + dy), overlayHeight - hole.top);
-      //宽高保持1：1
-      if(props.previewSizeFixed) hole.width = hole.height = Math.min(hole.width, hole.height);
-    };
-
-    const onHandleMouseUp = () => {
-      resizing = false;
-      drawPreview();
-      document.removeEventListener('mousemove', onHandleMouseMove);
-      document.removeEventListener('mouseup', onHandleMouseUp);
-    };
+    let canvasMoveX = 0; // 添加变量用于存储canvas移动的当前位置
+    let canvasMoveY = 0;
 
     const holeStyle = computed(() => ({
       width: `${hole.width}px`,
@@ -181,176 +119,247 @@ export default defineComponent({
       boxShadow: `0 0 0 300px rgba(0, 0, 0, 0.5), inset 0 0 0 2px transparent`,
     }));
 
-    watch(()=>props.visible,(newVal)=>{
-      state.diaVisible = newVal;
-      if(newVal){
-        hole.width = 100;
-        hole.height = 100;
-        hole.top = 100;
-        hole.left = 100;
-        wheelScale.value = 1;
-        setTimeout(()=>{
-          drawImage(initBaseImg);
-        },0)
-      }
-    })
+    const wheelScale = ref<number>(1);
+    const overlayWidth = 300;
+    const overlayHeight = 300;
 
-    const onFileChange = (event:any)=> {
-      const file = event.target.files[0];
-        file&&convertToBase64(file);
-    }
-    const convertToBase64 = (file:File)=> {
-      fileToBase64(file,(base64)=>{
-        state.showCanvas = true;
+    watch(() => props.visible, (newVal) => {
+      state.diaVisible = newVal;
+      if (newVal) {
+        resetHole();
+        wheelScale.value = 1;
+        setTimeout(() => {
+          drawImage(initBaseImg);
+        }, 0);
+      }
+    });
+
+    const resetHole = () => {
+      hole.width = 100;
+      hole.height = 100;
+      hole.top = 100;
+      hole.left = 100;
+    };
+
+    const onFileChange = (event: Event) => {
+      const file = (event.target as HTMLInputElement).files?.[0];
+      if (file) convertToBase64(file);
+    };
+
+    const convertToBase64 = (file: File) => {
+      fileToBase64(file, (base64) => {
         state.currentBase64 = base64;
         wheelScale.value = 1;
         drawImage(base64);
       });
-    }
-    const closeAfter = ()=>{
-      context.emit("update:visible",false);
-    }
-    const confirm = async()=>{
-      // console.log('确定的逻辑')
-      if(props.uploadParamIsFile){//上传的参数是文件file
-        const file = base64ToFile(state.previewUrl);
-        if(props.uploadApi){
-          const res = await props.uploadApi(file);
-          if(res.status === 200){
+    };
 
-          }
+    const closeAfter = () => {
+      context.emit("update:visible", false);
+    };
+
+    const confirm = async () => {
+      const file = base64ToFile(state.previewUrl);
+      if (props.uploadApi) {
+        const res = await props.uploadApi(props.uploadParamIsFile ? file : state.previewUrl);
+        if (res.status === 200) {
+          context.emit("confirmReturn", props.uploadParamIsFile ? file : state.previewUrl);
+          context.emit("update:visible", false);
         }
-        context.emit("confirmReturn",file);
-        context.emit("update:visible",false);
-      }else{//上传的参数是文件base64
-        if(props.uploadApi){
-          const res = await props.uploadApi(state.previewUrl);
-        }
-        context.emit("confirmReturn",state.previewUrl);
-        context.emit("update:visible",false);
-      }
-    }
-    const uploadFile = ()=>{
-        fileInput.value&&fileInput.value.click();
-    }
-    const drawImage = (imgUrl) => {
-      console.log(imgUrl,'imgUrl---')
-      if (imgCanvas.value) {
-        const ctx = imgCanvas.value.getContext('2d');
-        if (ctx) {
-          const img = new Image();
-          img.src = imgUrl;
-          img.onload = () => {
-            const imgWidth = img.width;
-            const imgHeight = img.height;
-            // 计算适配 300x300 画布的比例
-            const scale = Math.min(canvasWidth.value / imgWidth, canvasHeight.value / imgHeight);
-            // 计算适配 300x300 画布的比例
-            const scaledWidth = imgWidth * scale;
-            const scaledHeight = imgHeight * scale;
-            // 计算图片绘制位置，使图片居中
-            const x = (canvasWidth.value - scaledWidth) / 2;
-            const y = (canvasHeight.value - scaledHeight) / 2;
-            // 清除画布
-            ctx.clearRect(0, 0, canvasWidth.value, canvasHeight.value);
-            // 绘制缩放和居中的图片
-            ctx.save();
-            ctx.translate(300,300);
-            ctx.scale(wheelScale.value, wheelScale.value);
-            ctx.translate(-300,-300);
-            ctx.drawImage(img, x, y, scaledWidth, scaledHeight);
-            ctx.restore();
-            drawPreview();
-          };
-        }
+      } else {
+        context.emit("confirmReturn", props.uploadParamIsFile ? file : state.previewUrl);
+        context.emit("update:visible", false);
       }
     };
-    let previewCenterX = 0;
-    let previewCenterY = 0;
-    const canvas = document.createElement('canvas');
-    const ctxPreview = canvas.getContext('2d');
-    const drawPreview = ()=>{
-      canvas.width = hole.width;
-      canvas.height = hole.height;
+
+    const uploadFile = () => {
+      fileInput.value?.click();
+    };
+
+    const drawImage = (imgUrl: string) => {
+      const ctx = imgCanvas.value?.getContext('2d');
+      if (ctx) {
+        const img = new Image();
+        img.src = imgUrl;
+        img.onload = () => {
+          const imgWidth = img.width;
+          const imgHeight = img.height;
+          const scale = Math.min(canvasWidth.value / imgWidth, canvasHeight.value / imgHeight);
+          const scaledWidth = imgWidth * scale;
+          const scaledHeight = imgHeight * scale;
+          const x = (canvasWidth.value - scaledWidth) / 2 + canvasMoveX; // 使用canvasMoveX
+          const y = (canvasHeight.value - scaledHeight) / 2 + canvasMoveY; // 使用canvasMoveY
+          ctx.clearRect(0, 0, canvasWidth.value, canvasHeight.value);
+          ctx.save();
+          ctx.translate(300 + canvasMoveX, 300 + canvasMoveY); // 使用canvasMoveX和canvasMoveY
+          ctx.scale(wheelScale.value, wheelScale.value);
+          ctx.translate(-(300 + canvasMoveX), -(300 + canvasMoveY)); // 使用canvasMoveX和canvasMoveY
+          ctx.drawImage(img, x, y, scaledWidth, scaledHeight);
+          ctx.restore();
+          drawPreview();
+        };
+      }
+    };
+
+    const drawPreview = () => {
+      const canvas = document.createElement('canvas');
+      const ctxPreview = canvas.getContext('2d');
       if (ctxPreview) {
-        const Long = Math.max(hole.width, hole.height);
-        ctxPreview.clearRect(0, 0, Long, Long);
+        canvas.width = hole.width;
+        canvas.height = hole.height;
+        ctxPreview.clearRect(0, 0, hole.width, hole.height);
         ctxPreview.drawImage(
           imgCanvas.value,
-          hole.left*2,
-          hole.top*2,
-          hole.width*2,
-          hole.height*2,
+          hole.left * 2,
+          hole.top * 2,
+          hole.width * 2,
+          hole.height * 2,
           0,
           0,
-          Long,
-          Long);
+          hole.width,
+          hole.height
+        );
         state.previewUrl = canvas.toDataURL();
       }
-    }
-    const wheelScale = ref<number>(1);
-    const sizeWheel = (event:WheelEvent)=>{
-     //滚动缩放canvas绘制的图形
-      console.log(event);
+    };
+
+    const sizeWheel = (event: WheelEvent) => {
       event.preventDefault();
-      // 计算缩放级别
-      const delta = Math.sign(event.deltaY) * -0.1; // 根据滚动方向调整缩放级别，这里假设deltaY为负值表示向上滚动（放大）
+      const delta = Math.sign(event.deltaY) * -0.1;
       wheelScale.value += delta;
-      wheelScale.value = Math.max(0.1, Math.min(5, wheelScale.value)); // 限制缩放级别范围
-
-      // 计算新的中心点（可选，以保持鼠标位置在缩放时不变）
-      const centerX = event.clientX - canvas.offsetLeft;
-      const centerY = event.clientY - canvas.offsetTop;
-      console.log(centerX,centerY)
-      previewCenterX = centerX;
-      previewCenterY = centerY;
-      console.log(state.currentBase64,'00000')
+      wheelScale.value = Math.max(0.1, Math.min(5, wheelScale.value));
       drawImage(state.currentBase64);
-    }
-    onMounted(()=>{
+    };
 
-    })
+    const onHoleMouseDown = (e: MouseEvent) => {
+      if (resizing) return;
+      startX = e.clientX;
+      startY = e.clientY;
+      startTop = hole.top;
+      startLeft = hole.left;
+      dragging = true;
+      document.addEventListener('mousemove', onHoleMouseMove);
+      document.addEventListener('mouseup', onHoleMouseUp);
+    };
+
+    const onHoleMouseMove = (e: MouseEvent) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      hole.top = Math.min(Math.max(startTop + dy, 0), overlayHeight - hole.height);
+      hole.left = Math.min(Math.max(startLeft + dx, 0), overlayWidth - hole.width);
+    };
+
+    const onHoleMouseUp = () => {
+      dragging = false;
+      drawPreview();
+      document.removeEventListener('mousemove', onHoleMouseMove);
+      document.removeEventListener('mouseup', onHoleMouseUp);
+    };
+
+    const onHandleMouseDown = (e: MouseEvent) => {
+      startX = e.clientX;
+      startY = e.clientY;
+      startWidth = hole.width;
+      startHeight = hole.height;
+      resizing = true;
+      document.addEventListener('mousemove', onHandleMouseMove);
+      document.addEventListener('mouseup', onHandleMouseUp);
+    };
+
+    const onHandleMouseMove = (e: MouseEvent) => {
+      if (!resizing) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      hole.width = Math.min(Math.max(50, startWidth + dx), overlayWidth - hole.left);
+      hole.height = Math.min(Math.max(50, startHeight + dy), overlayHeight - hole.top);
+      if (props.previewSizeFixed) hole.width = hole.height = Math.min(hole.width, hole.height);
+    };
+
+    const onHandleMouseUp = () => {
+      resizing = false;
+      drawPreview();
+      document.removeEventListener('mousemove', onHandleMouseMove);
+      document.removeEventListener('mouseup', onHandleMouseUp);
+    };
+
+    const onHoleMouseDownCanvas = (event: MouseEvent) => {
+      canvasMove = true;
+      startX = event.clientX; // 初始化起始位置为鼠标按下位置
+      startY = event.clientY;
+      document.addEventListener('mousemove', onHoleMouseMoveCanvas);
+      document.addEventListener('mouseup', onHoleMouseUpCanvas);
+    };
+
+    const onHoleMouseMoveCanvas = (e: MouseEvent) => {
+      if (!canvasMove) return;
+      const dx = e.clientX - startX; // 计算移动距离
+      const dy = e.clientY - startY;
+      canvasMoveX += dx; // 更新canvas移动的当前位置
+      canvasMoveY += dy;
+      startX = e.clientX; // 更新起始位置为当前鼠标位置
+      startY = e.clientY;
+      drawImage(state.currentBase64);
+    };
+
+    const onHoleMouseUpCanvas = () => {
+      canvasMove = false;
+      drawPreview();
+      document.removeEventListener('mousemove', onHoleMouseMoveCanvas);
+      document.removeEventListener('mouseup', onHoleMouseUpCanvas);
+    };
+
     return {
       state,
-      onFileChange,
-      closeAfter,
-      confirm,
-      uploadFile,
-      ratio,
+      hole,
+      holeStyle,
       imgCanvas,
       canvasWidth,
       canvasHeight,
       fileInput,
-      hole,
-      holeStyle,
+      wheelScale,
+      onFileChange,
+      closeAfter,
+      confirm,
+      uploadFile,
       onHoleMouseDown,
       onHandleMouseDown,
-      previewImg,
-      sizeWheel
-    }
+      onHoleMouseDownCanvas,
+      sizeWheel,
+    };
   },
-})
+});
 </script>
 
 <style lang="scss" scoped>
 $border: 1px solid #ebeef5;
-@mixin absoluteCanvas{
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  width: 300px;
-  height: 300px;
-}
-.croppingBox{
+
+.croppingBox {
   display: flex;
   border-bottom: $border;
   border-top: $border;
-  .cropping-left{
+
+  .cropping-left {
     padding: 20px;
-    .hole{
+    .canvas-container {
+      position: relative;
+      overflow: hidden;
+      width: 300px;
+      height: 300px;
+    }
+    .cropping-canvas {
+      width: 300px;
+      height: 300px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: 1px black solid;
+      cursor: move;
+    }
+    .hole {
       position: absolute;
       background: transparent;
-      cursor:move;
+      cursor: move;
       .resize-handle {
         position: absolute;
         width: 10px;
@@ -362,14 +371,22 @@ $border: 1px solid #ebeef5;
       }
     }
   }
-  .cropping-right{
+
+  .cropping-right {
     text-align: center;
-    //设置img样式居中撑满-不变形
-    .itSAFixedSize{
+    .itSAFixedSize {
       width: 100px;
       height: 100px;
       object-fit: cover;
     }
+    .preview-img {
+      border: 1px black solid;
+    }
   }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
