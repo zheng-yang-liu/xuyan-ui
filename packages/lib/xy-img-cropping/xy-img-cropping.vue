@@ -110,7 +110,7 @@ export default defineComponent({
     let canvasMoveX = 0; // 添加变量用于存储canvas移动的当前位置
     let canvasMoveY = 0;
 
-    const holeStyle = computed(() => ({
+    const holeStyle:any= computed(() => ({
       width: `${hole.width}px`,
       height: `${hole.height}px`,
       top: `${hole.top}px`,
@@ -147,7 +147,7 @@ export default defineComponent({
 
     const onFileChange = (event: Event) => {
       const file = (event.target as HTMLInputElement).files?.[0];
-      if (file) fileToBase64(file, (base64) => {
+      if (file) fileToBase64(file, (base64:string) => {
         state.currentBase64 = base64;
         wheelScale.value = 1;
         canvasMoveX = 0;

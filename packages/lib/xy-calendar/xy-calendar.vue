@@ -158,6 +158,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/style/mixin.scss";
 $iconSize:15px;
 .showOutsideBorder{
   border: 1px solid #ccc;

@@ -1,42 +1,35 @@
 <template>
   <div>
-    <xy-img-cropping
-      v-model:visible="state.visible"
-      @confirmReturn="confirmReturn"
-      :uploadApi="upload"
-    ></xy-img-cropping>
-    <el-button @click="state.visible = true"></el-button>
-    <el-button @click="dianji('zhangsassssssn')">点击</el-button>
+    <xy-calendar
+      :currentMonth="state.currentMonth"
+      :currentYear="state.currentYear"
+      :startDayOfMonday="state.startDayOfMonday"
+      @changeDate="changeDate"
+    > </xy-calendar>
   </div>
 </template>
 
 <script setup lang="ts">
-import {reactive} from "vue"
+import {reactive} from 'vue'
 import {Tools} from "../../../packages"
+
 const state = reactive({
-  visible:false,
+  currentYear: new Date().getFullYear(),
+  currentMonth: new Date().getMonth(),
+  startDayOfMonday: true,
+  diaVisible:''
 })
-import {upload} from "@/api/index"
-
-const confirmReturn = async (file)=>{
-  console.log(file);
-  // const res = await upload(file)
-  // console.log(res)
+const date = Tools.convertTimeFormat("YYYY-MM-DD", new Date());
+console.log(date,'date');
+const changeDate = (dateInfo:any)=>{
+  console.log(dateInfo,'date');
 }
-import {getLink} from "@/api/index"
-const test = async ()=>{
-  const res = await getLink()
-  console.log(res)
-}
-
-const dianji = ()=>{
-  // Tools.showConfirm("提示",()=>{
-  //   console.log("确定删除")
-  // })
-  Tools.showAlert("提示信息")
-}
-
-
+import {useCounterStore}from "@/stores/counter"
+const user = useCounterStore();
+console.log(user.doubleCount,'user');
+user.increment();
+console.log(user.doubleCount,'user');
+console.log(user.count,'user');
 </script>
 
 <style lang="scss">
