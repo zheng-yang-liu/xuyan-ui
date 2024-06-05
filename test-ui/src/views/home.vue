@@ -3,6 +3,7 @@
     <xy-img-cropping
       v-model:visible="state.visible"
       @confirmReturn="confirmReturn"
+      :uploadApi="upload"
     ></xy-img-cropping>
     <el-button @click="state.visible = true"></el-button>
     <el-button @click="dianji('zhangsassssssn')">点击</el-button>
@@ -18,15 +19,16 @@ const state = reactive({
 import {upload} from "@/api/index"
 
 const confirmReturn = async (file)=>{
-  const res = await upload(file)
-  console.log(res)
+  console.log(file);
+  // const res = await upload(file)
+  // console.log(res)
 }
 import {getLink} from "@/api/index"
 const test = async ()=>{
   const res = await getLink()
   console.log(res)
 }
-test();
+
 const dianji = Tools.debounce((name)=>{
   console.log(name)
 },1000);

@@ -1,12 +1,12 @@
 <template>
-  <img ref="baseImg" src="../../assets/defaultPicture.png" alt="Placeholder Image" style="display: none"/>
   <el-dialog
     v-model="state.diaVisible"
     :title="title"
     :width="previewSizeFixed?600:800"
     align-center
     :close-on-press-escape="false"
-    @close="closeAfter"
+    @closed="closeAfter"
+    :close-on-click-modal="closeOnClickModal"
   >
     <div class="croppingBox">
       <input type="file" @change="onFileChange" style="display: none" ref="fileInput"/>
@@ -49,6 +49,7 @@
 <script lang="ts">
 import {defineComponent,ref,reactive,watch,onMounted,computed} from 'vue'
 import{base64ToFile,fileToBase64}from"../../tools"
+import {initBaseImg} from "./initBaseImg"
 export default defineComponent({
   name: "xy-img-cropping",
   props:{
@@ -71,6 +72,10 @@ export default defineComponent({
     uploadParamIsFile:{
       type:Boolean,
       default:true
+    },
+    closeOnClickModal:{
+      type:Boolean,
+      default:true
     }
   },
   emits:['update:visible','confirmReturn'],
@@ -87,7 +92,6 @@ export default defineComponent({
       left: 100,
     });
     const ratio = ref(1)
-    const baseImg = ref<HTMLElement | null>(null)
     const imgCanvas = ref<HTMLCanvasElement | null>(null);
     const fileInput = ref<HTMLCanvasElement | null>(null);
     const previewImg = ref<HTMLCanvasElement | null>(null);
@@ -178,13 +182,13 @@ export default defineComponent({
 
     watch(()=>props.visible,(newVal)=>{
       state.diaVisible = newVal;
-      hole.width = 100;
-      hole.height = 100;
-      hole.top = 100;
-      hole.left = 100;
-      if (baseImg.value&&newVal){
+      if(newVal){
+        hole.width = 100;
+        hole.height = 100;
+        hole.top = 100;
+        hole.left = 100;
         setTimeout(()=>{
-          drawImage(baseImg.value.src);
+          drawImage(initBaseImg);
         },0)
       }
     })
@@ -208,6 +212,9 @@ export default defineComponent({
         const file = base64ToFile(state.previewUrl);
         if(props.uploadApi){
           const res = await props.uploadApi(file);
+          if(res.status === 200){
+
+          }
         }
         context.emit("confirmReturn",file);
         context.emit("update:visible",false);
@@ -283,7 +290,6 @@ export default defineComponent({
       confirm,
       uploadFile,
       ratio,
-      baseImg,
       imgCanvas,
       canvasWidth,
       canvasHeight,
