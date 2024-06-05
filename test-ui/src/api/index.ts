@@ -7,7 +7,7 @@ export const upload = (file:File) =>{
   console.log(file)
   return http.post("/api/upload",
     {
-      image: file,
+      file: file,
     },
     {
       headers: {

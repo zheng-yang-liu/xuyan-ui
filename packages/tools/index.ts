@@ -250,8 +250,35 @@ export const debounce = (fn:Function, delay:number):Function=>{
     },delay)
   }
 }
-
-
+/**
+ * base64转file
+ * @param urlData base64数据
+ * @param fileName 文件名
+ * @returns  返回一个file对象
+ * */
+export const base64ToFile = (urlData:string, fileName:string='test.png'):File => {
+  let arr:string[] = urlData.split(',');
+  let mime:string = arr[0].match(/:(.*?);/)[1];
+  let bytes:string = atob(arr[1]); // 解码base64
+  let n:number = bytes.length
+  let ia:Uint8Array = new Uint8Array(n);
+  while (n--) {
+    ia[n] = bytes.charCodeAt(n);
+  }
+  return new File([ia], fileName, { type: mime });
+};
+/**
+ * file转base64
+ * @param file file对象
+ * @param callBack 回调函数
+ * */
+export const fileToBase64 = (file:File,callBack):void=> {
+  const reader:FileReader = new FileReader();
+  reader.onload = (e:ProgressEvent<FileReader>):void => {
+    callBack(e.target.result)
+  };
+  reader.readAsDataURL(file);
+}
 
 
 

@@ -48,7 +48,7 @@
 
 <script lang="ts">
 import {defineComponent,ref,reactive,watch,onMounted,computed} from 'vue'
-
+import{base64ToFile,fileToBase64}from"../../tools"
 export default defineComponent({
   name: "xy-img-cropping",
   props:{
@@ -61,6 +61,14 @@ export default defineComponent({
       default:'图像编辑'
     },
     previewSizeFixed:{
+      type:Boolean,
+      default:true
+    },
+    uploadApi:{
+      type:Function,
+      default:null
+    },
+    uploadParamIsFile:{
       type:Boolean,
       default:true
     }
@@ -186,26 +194,30 @@ export default defineComponent({
         file&&convertToBase64(file);
     }
     const convertToBase64 = (file:File)=> {
-      console.log(file)
-      context.emit("confirmReturn",file);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        // console.log(e)
+      fileToBase64(file,(base64)=>{
         state.showCanvas = true;
-        drawImage(e.target.result)
-
-      };
-      reader.readAsDataURL(file);
+        drawImage(base64);
+      });
     }
     const closeAfter = ()=>{
       context.emit("update:visible",false);
     }
-    const confirm = ()=>{
+    const confirm = async()=>{
       // console.log('确定的逻辑')
-      context.emit("update:visible",false);
-      // 将state.previewUrl 的base64转成file对象
-      console.log(previewImg.value)
-      // context.emit("confirmReturn",state.previewUrl);
+      if(props.uploadParamIsFile){//上传的参数是文件file
+        const file = base64ToFile(state.previewUrl);
+        if(props.uploadApi){
+          const res = await props.uploadApi(file);
+        }
+        context.emit("confirmReturn",file);
+        context.emit("update:visible",false);
+      }else{//上传的参数是文件base64
+        if(props.uploadApi){
+          const res = await props.uploadApi(state.previewUrl);
+        }
+        context.emit("confirmReturn",state.previewUrl);
+        context.emit("update:visible",false);
+      }
     }
     const uploadFile = ()=>{
         fileInput.value&&fileInput.value.click();

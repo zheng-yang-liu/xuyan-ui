@@ -15,7 +15,7 @@ export declare const Tools: {
    * @param format 时间格式
    * @param date 时间  formatDate对象 | Date对象 | 时间戳
    * @returns 返回一个字符串，格式为对应的时间格式
-   * */
+   */
   convertTimeFormat :(format:string,date:formatDateNum|Date|number)=>string;
   /**
    * 数组分类函数
@@ -51,5 +51,17 @@ export declare const Tools: {
    * @param delay 防抖时间
    */
   debounce:(fn:Function, delay:number)=>Function;
-
+  /**
+   * base64转file
+   * @param urlData base64数据
+   * @param fileName 文件名
+   * @returns  返回一个file对象
+   */
+  base64ToFile:(urlData:string, fileName:string='test.png')=>File;
+  /**
+   * file转base64
+   * @param file file对象
+   * @param callBack 回调函数
+   */
+ fileToBase64:(file:File,callBack)=>void;
 };
