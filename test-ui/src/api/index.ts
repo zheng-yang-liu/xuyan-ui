@@ -4,7 +4,6 @@ export const getLink = () =>{
   return http.post("/api/selectLink");
 }
 export const upload = (file:File) =>{
-  console.log(file)
   return http.post("/api/upload",
     {
       file: file,

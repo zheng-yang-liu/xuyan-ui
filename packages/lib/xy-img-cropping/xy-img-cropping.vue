@@ -62,10 +62,6 @@ export default defineComponent({
       type:Boolean,
       default:true
     },
-    uploadApi:{
-      type:Function,
-      default:null
-    },
     uploadParamIsFile:{
       type:Boolean,
       default:true
@@ -128,6 +124,9 @@ export default defineComponent({
       if (newVal) {
         resetHole();
         wheelScale.value = 1;
+        canvasMoveX = 0; // 初始化canvas移动的当前位置
+        canvasMoveY = 0;
+        state.currentBase64 = initBaseImg;
         setTimeout(() => {
           drawImage(initBaseImg);
         }, 0);
@@ -160,14 +159,11 @@ export default defineComponent({
 
     const confirm = async () => {
       const file = base64ToFile(state.previewUrl);
-      if (props.uploadApi) {
-        const res = await props.uploadApi(props.uploadParamIsFile ? file : state.previewUrl);
-        if (res.status === 200) {
-          context.emit("confirmReturn", props.uploadParamIsFile ? file : state.previewUrl);
-          context.emit("update:visible", false);
-        }
-      } else {
-        context.emit("confirmReturn", props.uploadParamIsFile ? file : state.previewUrl);
+      if(props.uploadParamIsFile){
+        context.emit("confirmReturn", file);
+        context.emit("update:visible", false);
+      }else{
+        context.emit("confirmReturn", state.previewUrl);
         context.emit("update:visible", false);
       }
     };
