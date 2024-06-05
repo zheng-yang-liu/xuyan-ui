@@ -25,3 +25,4 @@ export type formatDateStr = {
   minute?: string,
   second?: string
 }
+export type MessageTypes = "success" | "warning" | "info" | "error"

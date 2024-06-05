@@ -3,7 +3,12 @@ import {
   dayContent,
   formatDateNum,
   formatDateStr,
+  MessageTypes
   } from "../types/tools";
+
+import {ElMessage, ElMessageBox, MessageBoxState} from "element-plus";
+import type {Action} from 'element-plus';
+import {VNode} from "vue"
 /*
   *获取某日期所在月份的日历天数
   *@param year 年份
@@ -279,7 +284,152 @@ export const fileToBase64 = (file:File,callBack):void=> {
   };
   reader.readAsDataURL(file);
 }
-
+/**
+ * 返回数据类型
+ * @param sourceData 源数据
+ * @returns 返回数据类型
+ */
+export const getType = <T>(sourceData: T): string => {
+  //toString会返回对应不同的标签的构造函数
+  let toString = Object.prototype.toString;
+  const map: any = {
+    "[object Boolean]": "boolean",
+    "[object Number]": "number",
+    "[object String]": "string",
+    "[object Function]": "function",
+    "[object Array]": "array",
+    "[object Date]": "date",
+    "[object RegExp]": "regExp",
+    "[object Undefined]": "undefined",
+    "[object Null]": "null",
+    "[object Object]": "object",
+    "[object Blob]": "blob",
+    "[object FormData]": "formData",
+    "[object Promise]": "promise"
+  }
+  return map[toString.call(sourceData)];
+}
+/**
+ * 显示消息框
+ * @param type      消息类型（success / info / warning / error）
+ * @param message   消息内容
+ * @param offset    消息框距离窗口顶部的偏移量
+ * @param duration  显示时间, 毫秒。设为 0 则不会自动关闭
+ * @param grouping  合并内容相同的消息，不支持 VNode 类型的消息
+ * @param dangerouslyUseHTMLString  是否将 message 属性作为 HTML 片段处理
+ */
+export const showMsg = (
+  type: MessageTypes,
+  message: string | VNode,
+  offset: number = 60,
+  duration: number = 3000,
+  grouping: boolean = true,
+  dangerouslyUseHTMLString?: boolean
+):void => {
+  ElMessage({
+    type,
+    message,
+    offset,
+    duration,
+    grouping,
+    dangerouslyUseHTMLString
+  })
+};
+/**
+ * 显示确认框
+ * @param message                    消息内容
+ * @param callback                   若不使用 Promise，可以使用此参数指定 MessageBox 关闭后的回调
+ * @param title                      消息标题
+ * @param type                       消息类型（success / info / warning / error）
+ * @param cancel                     在外部自定义捕获异常时的回调
+ * @param distinguishCancelAndClose  是否将取消（点击取消按钮）与关闭（点击关闭按钮或遮罩层、按下 Esc 键）进行区分
+ * @param showCancelButton           是否显示取消按钮
+ * @param showConfirmButton          是否显示确定按钮
+ * @param confirmButtonText          确定按钮的文本内容
+ * @param cancelButtonText           取消按钮的文本内容
+ */
+export const showConfirm = (
+  message: string,
+  callback: Function,
+  title?: string,
+  type?: MessageBoxState["type"],
+  cancel?: Function,
+  distinguishCancelAndClose: boolean = false,
+  showCancelButton: boolean = true,
+  showConfirmButton: boolean = true,
+  confirmButtonText: string = "确定",
+  cancelButtonText: string = "取消"
+):void => {
+  ElMessageBox.confirm(message, title ? title : "提示",
+    {
+      distinguishCancelAndClose: distinguishCancelAndClose,
+      showCancelButton: showCancelButton,
+      showConfirmButton: showConfirmButton,
+      confirmButtonText: confirmButtonText,
+      cancelButtonText: cancelButtonText,
+      type: type as MessageBoxState["type"] ? type as MessageBoxState["type"] : "warning"
+    },
+  ).then(() => {
+    callback();
+  }).catch((action: Action) => {
+    if (cancel) {
+      if (action === "cancel") {
+        cancel();
+        return;
+      }
+    }
+    showMsg("info", "取消操作");
+  });
+};
+/**
+ * 消息提示框
+ * @param message                    消息内容
+ * @param showClose                  MessageBox 是否显示右上角关闭按钮
+ * @param title                      消息标题
+ * @param type                       消息类型（success / info / warning / error）
+ * @param distinguishCancelAndClose  是否将取消（点击取消按钮）与关闭（点击关闭按钮或遮罩层、按下 Esc 键）进行区分
+ * @param showCancelButton           是否显示取消按钮
+ * @param showConfirmButton          是否显示确定按钮
+ * @param confirmButtonText          确定按钮的文本内容
+ * @param cancelButtonText           取消按钮的文本内容
+ * @param callback                   若不使用 Promise，可以使用此参数指定 MessageBox 关闭后的回调
+ * @param cancel                     在外部自定义捕获异常时的回调
+ */
+export const showAlert = (
+  message: string,
+  showClose: boolean = true,
+  title: string = "提示",
+  type: MessageBoxState["type"] = "error",
+  distinguishCancelAndClose: boolean = false,
+  showCancelButton: boolean = false,
+  showConfirmButton: boolean = false,
+  confirmButtonText: string = "确定",
+  cancelButtonText: string = "取消",
+  callback: Function,
+  cancel?: Function,
+):void => {
+  ElMessageBox.alert(message, title,
+    {
+      showClose: showClose,
+      distinguishCancelAndClose: distinguishCancelAndClose,
+      showCancelButton: showCancelButton,
+      showConfirmButton: showConfirmButton,
+      confirmButtonText: confirmButtonText,
+      cancelButtonText: cancelButtonText,
+      type: type
+    },
+  ).then(() => {
+    callback();
+  }).catch((action: Action) => {
+    if (cancel) {
+      if (action === "cancel") {
+        cancel();
+        return;
+      }
+    }
+    showMsg("info", "取消操作");
+  });
+};
 
 
 

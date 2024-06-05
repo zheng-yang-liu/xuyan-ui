@@ -29,9 +29,14 @@ const test = async ()=>{
   console.log(res)
 }
 
-const dianji = Tools.debounce((name)=>{
-  console.log(name)
-},1000);
+const dianji = ()=>{
+  // Tools.showConfirm("提示",()=>{
+  //   console.log("确定删除")
+  // })
+  Tools.showAlert("提示信息")
+}
+
+
 </script>
 
 <style lang="scss">
