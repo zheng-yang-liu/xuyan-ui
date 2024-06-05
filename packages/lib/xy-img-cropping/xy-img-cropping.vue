@@ -11,7 +11,7 @@
     <div class="croppingBox">
       <input type="file" @change="onFileChange" style="display: none" ref="fileInput"/>
       <div class="cropping-left" :style="previewSizeFixed ? { width: '400px' } : {width:'400px'}">
-        <div style="position:relative;overflow: hidden;width: 300px;height: 300px">
+        <div style="position:relative;overflow: hidden;width: 300px;height: 300px" @wheel.stop.prevent="sizeWheel">
           <canvas
             ref="imgCanvas"
             :width="canvasWidth" :height="canvasHeight"
@@ -83,7 +83,8 @@ export default defineComponent({
     const state = reactive({
       showCanvas: false,
       diaVisible: false,
-      previewUrl:null
+      previewUrl:null,
+      currentBase64:initBaseImg
     })
     const hole = reactive({
       width: 100,
@@ -187,6 +188,7 @@ export default defineComponent({
         hole.height = 100;
         hole.top = 100;
         hole.left = 100;
+        wheelScale.value = 1;
         setTimeout(()=>{
           drawImage(initBaseImg);
         },0)
@@ -200,6 +202,8 @@ export default defineComponent({
     const convertToBase64 = (file:File)=> {
       fileToBase64(file,(base64)=>{
         state.showCanvas = true;
+        state.currentBase64 = base64;
+        wheelScale.value = 1;
         drawImage(base64);
       });
     }
@@ -230,6 +234,7 @@ export default defineComponent({
         fileInput.value&&fileInput.value.click();
     }
     const drawImage = (imgUrl) => {
+      console.log(imgUrl,'imgUrl---')
       if (imgCanvas.value) {
         const ctx = imgCanvas.value.getContext('2d');
         if (ctx) {
@@ -238,27 +243,30 @@ export default defineComponent({
           img.onload = () => {
             const imgWidth = img.width;
             const imgHeight = img.height;
-
             // 计算适配 300x300 画布的比例
             const scale = Math.min(canvasWidth.value / imgWidth, canvasHeight.value / imgHeight);
+            // 计算适配 300x300 画布的比例
             const scaledWidth = imgWidth * scale;
             const scaledHeight = imgHeight * scale;
-
             // 计算图片绘制位置，使图片居中
             const x = (canvasWidth.value - scaledWidth) / 2;
             const y = (canvasHeight.value - scaledHeight) / 2;
-
             // 清除画布
             ctx.clearRect(0, 0, canvasWidth.value, canvasHeight.value);
-
             // 绘制缩放和居中的图片
+            ctx.save();
+            ctx.translate(300,300);
+            ctx.scale(wheelScale.value, wheelScale.value);
+            ctx.translate(-300,-300);
             ctx.drawImage(img, x, y, scaledWidth, scaledHeight);
-
+            ctx.restore();
             drawPreview();
           };
         }
       }
     };
+    let previewCenterX = 0;
+    let previewCenterY = 0;
     const canvas = document.createElement('canvas');
     const ctxPreview = canvas.getContext('2d');
     const drawPreview = ()=>{
@@ -280,6 +288,25 @@ export default defineComponent({
         state.previewUrl = canvas.toDataURL();
       }
     }
+    const wheelScale = ref<number>(1);
+    const sizeWheel = (event:WheelEvent)=>{
+     //滚动缩放canvas绘制的图形
+      console.log(event);
+      event.preventDefault();
+      // 计算缩放级别
+      const delta = Math.sign(event.deltaY) * -0.1; // 根据滚动方向调整缩放级别，这里假设deltaY为负值表示向上滚动（放大）
+      wheelScale.value += delta;
+      wheelScale.value = Math.max(0.1, Math.min(5, wheelScale.value)); // 限制缩放级别范围
+
+      // 计算新的中心点（可选，以保持鼠标位置在缩放时不变）
+      const centerX = event.clientX - canvas.offsetLeft;
+      const centerY = event.clientY - canvas.offsetTop;
+      console.log(centerX,centerY)
+      previewCenterX = centerX;
+      previewCenterY = centerY;
+      console.log(state.currentBase64,'00000')
+      drawImage(state.currentBase64);
+    }
     onMounted(()=>{
 
     })
@@ -298,7 +325,8 @@ export default defineComponent({
       holeStyle,
       onHoleMouseDown,
       onHandleMouseDown,
-      previewImg
+      previewImg,
+      sizeWheel
     }
   },
 })
@@ -322,6 +350,7 @@ $border: 1px solid #ebeef5;
     .hole{
       position: absolute;
       background: transparent;
+      cursor:move;
       .resize-handle {
         position: absolute;
         width: 10px;
