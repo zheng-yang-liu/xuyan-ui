@@ -30,7 +30,13 @@
       </div>
       <div class="cropping-right" :style="previewSizeFixed ? { width: '200px' } : { width: '400px' }">
         <div style="margin-bottom: 10px">预览</div>
-        <img :src="state.previewUrl" :class="previewSizeFixed ? 'itSAFixedSize' : ''" class="preview-img" ref="previewImg" />
+        <img
+          :src="state.previewUrl"
+          :class="previewSizeFixed ? 'itSAFixedSize' : ''"
+          class="preview-img" ref="previewImg"
+          ALT="预览图像"
+          @mousedown.stop.prevent
+        />
       </div>
     </div>
     <template #footer>
@@ -43,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, watch, onMounted, computed } from 'vue';
+import { defineComponent, ref, reactive, watch, computed } from 'vue';
 import { base64ToFile, fileToBase64 } from "../../tools";
 import { initBaseImg } from "./initBaseImg";
 
@@ -68,7 +74,7 @@ export default defineComponent({
     },
     closeOnClickModal:{
       type:Boolean,
-      default:true
+      default:false
     }
   },
   emits:['update:visible','confirmReturn'],
@@ -86,7 +92,6 @@ export default defineComponent({
       left: 100,
     });
 
-    const ratio = ref(1);
     const imgCanvas = ref<HTMLCanvasElement | null>(null);
     const fileInput = ref<HTMLInputElement | null>(null);
     const canvasWidth = ref<number>(600);
@@ -142,13 +147,11 @@ export default defineComponent({
 
     const onFileChange = (event: Event) => {
       const file = (event.target as HTMLInputElement).files?.[0];
-      if (file) convertToBase64(file);
-    };
-
-    const convertToBase64 = (file: File) => {
-      fileToBase64(file, (base64) => {
+      if (file) fileToBase64(file, (base64) => {
         state.currentBase64 = base64;
         wheelScale.value = 1;
+        canvasMoveX = 0;
+        canvasMoveY = 0;
         drawImage(base64);
       });
     };
