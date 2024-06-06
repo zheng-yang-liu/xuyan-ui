@@ -133,4 +133,21 @@ export declare const Tools: {
     callback: Function,
     cancel?: Function,
   )=>void;
+  /**
+   * svg动画
+   * @param time 动画时间
+   * @param lineClassName 类名
+   * @param color 颜色
+   * @param strokeWidth 线宽
+   * @param strokeLinecap 线头样式
+   * @param fill 填充
+   */
+  svgAnimation:(
+    time: number = 2,
+    lineClassName: string = ".svgLine",
+    color: string = "#000",
+    strokeWidth: string = "5",
+    strokeLinecap: string = "round",
+    fill: string = "none"
+  )=>void;
 };

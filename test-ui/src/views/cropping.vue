@@ -6,7 +6,7 @@
       :uploadApi="upload"
     ></xy-img-cropping>
     <el-button @click="state.visible = true"></el-button>
-    <el-button @click="dianji('zhangsassssssn')">点击</el-button>
+    <el-button @click="dianji()">点击</el-button>
   </div>
 </template>
 
