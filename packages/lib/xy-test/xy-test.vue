@@ -11,7 +11,7 @@
   import {defineComponent} from "vue"
 
   export default defineComponent({
-    name: "xyTest",
+    name: "xy-test",
     props:{
       msg:{
         type: String,

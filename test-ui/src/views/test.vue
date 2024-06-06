@@ -1,20 +1,30 @@
 <template>
   <div>
-    <el-button @click="test">hh</el-button>
+    <xy-classic-page v-model:direction="direction">
+      <template #header>
+        <el-button @click="dianji">header</el-button>
+        <el-button @click="dddddddd">header2</el-button>
+      </template>
+      <template #aside>
+        <div style="background-color: #3c9cff;width: 100%;height: 100%"></div>
+      </template>
+      <template #main>
+        <div style="background-color: green;width: 100%;height: 100%"></div>
+      </template>
+    </xy-classic-page>
   </div>
 </template>
 
-<script setup lang="ts">
-import{Tools}from "../../../packages"
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-// 使用示例
-const base64String = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAAXNSR0IArs4c6QAABO9JREFUeF7tnX9MlHUcx98PMA4IxBCxGWnTLdvctP6pbB25thZlekUkW6T9oa5NglaGrVb+0w+FlA0qk/sDOmLyQ+gWGLQRm9niptZ/usRCGnYIActL7pL7wbXvbccCDrzjGPfZnvfzN8/3+3rer3s/z/P9Pn+gbbjvIT94iElAoxAxLgIgFCLLB4UI80EhFCItAWE8fIZQiLAEhOGwIRQiLAFhOGwIhQhLQBgOG0IhwhIQhsOGUIiwBIThsCEUIiwBYThsCIUIS0AYDhtCIcISEIbDhlCIsASE4bAhFCIsAWE4bAiFCEtAGA4bQiHCEhCGw4ZQiLAEhOGwIRQiLAFhOGwIhQhLQBgOG0IhwhIQhsOGUIiwBIThsCEUIiwBYThsCIUIS0AYDhtCIcISEIbDhlCIsASE4bAhFCIsAWE4bAiFCEtAGA4bQiHCEhCGw4ZQiLAEhOGwIRQiLAFhOGwIhQhLQBgOG0IhwhIQhsOGUIiwBIThsCHShNy/4WG/38//6SLFi/bgA4/7Xa5/pfDonkN7Ie8V/8WLv+o+CCkBaBUVx/21NSfhdrulMOmaQ+vpOe//8INj6Ovr13UQUi5eGxv723/s6Gdoa+uEx+OVwqVbDs3n8/m7us6g7EgVBgev6zYIKReuqXfekZExHDp0GD+etcHrZUtiKScgRAF0d59F2ZFKXLtmB9clsVMyJcTpdOLoJ5/Daj2NW7cmYkek85mnhKhWXLrUi/ff+wiXL//GlsTohzElRM2vVuyWLxtw4kQtJia4LomFk2lCVEv6+wdw+OMK9PRcgM/niwWTbudMTk7GNCEqCbfbA5vtfOA1+OrVP3QbzlJfeGJiIrZte3K2EAUyPu5Ec7MV5uo63LjhWGo23c0XFxeHzZs34p133wgtRCUyMjIKc7UFra2n4XK5dBfSUl5wVtZKvFa8FybT03MLUUBqf0utTWy2n+HxeJaSUTdzpaWloqDgeezdtxvLly+bX4h6qJ879wvKy6pw5UofJicndRPUUlxoSkoKduzIxf6iPcjKygxMOeuhPhNEbct3dnbj0yoz7PZB8OPi4qgyGAzIzX0CxSX7kJ1999SgtxWi/tLpdKG9/Tt8cbwWw8N/LQ6RjkcxGBKRk/MoDrxVhLVr74GmaZEJCUgZd6K1tR1mcx1GR8d0HGd0l65kGI1bcPDtEqxZkz1rsLAaEjzL4fgHLS1tqLM0Ynh4JDoyHZ6tZGzd+hhKXn8V69ffGzKBiISoERwOB1pa2qE++7Ip4f+qgs1488B+rFsXWkZYD/VQU6qmnGr+BhZLA9S3FB7zJ5CUlASj8RGUHiwOeZv6/9kRNyR48s2b42hqsqKx4WvY7de5OzyHk/T0ZTCZnsHLu168rYwFNyQ4t3r7stkuoKqyGgMDf/I7ygwpGRl3YtfuncjPNyEzM2Pa29RcnVpwQ4IDer0+9Pb+jpqaevxw5qfAPpjej/j4eKxefRdeKsxHXt52pKenhR1J1ELUTGrbfnBwCE2N1sB6Rb2B6XVVr3ZtN23aiMLCfBhztiA19Y6wZUR9y5o5k9oZrv+qGfX1p3S7S7xiRQaKivZgZ8FzSEhIiEjGogtRA3Z824Xy8ioMDelzRb9q1UqUlhbj2e1PRSyDQhYU2fwnyRPS0RXYHWZDpDSk43uUl1VSiJhbFoUIe4ZQSFRC/gOur0q5QBOT6wAAAABJRU5ErkJggg=='; // 省略了实际的Base64数据
-const file = Tools.base64ToFile(base64String);
-import {upload} from "@/api/index"
-const test = async ()=>{
-  console.log(file)
-  const res = await upload(file)
-  console.log(res)
+
+const direction = ref('horizontal')
+const dianji = () => {
+  direction.value = 'vertical'
 }
-// console.log(file);
+const dddddddd = () => {
+  direction.value = 'horizontal'
+}
+
 </script>
