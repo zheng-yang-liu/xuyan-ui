@@ -431,7 +431,7 @@ export const showAlert = (
   });
 };
 /**
- * svg动画
+ * svg描边动画
  * @param time 动画时间
  * @param lineClassName 类名
  * @param color 颜色
@@ -456,8 +456,6 @@ export const svgAnimation = (
           }
       }
   `, styleSheet.cssRules.length);
-
-  // 定义类样式
   const paths = document.querySelectorAll(lineClassName);
   paths.forEach((p: Element, key: number, parent: NodeListOf<Element>) => {
     const path = p as SVGPathElement;
