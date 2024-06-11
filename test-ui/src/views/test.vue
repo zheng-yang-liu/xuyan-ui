@@ -8,7 +8,7 @@
       </template>
       <template #aside>
         <div style="background-color: #3c9cff;width: 100%;height: 100%">
-          <xy-menu :menuData="menuData"></xy-menu>
+          <xy-menu :menuItems="menuItems"></xy-menu>
         </div>
       </template>
       <template #main>
@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const menuData = [
+const menuItems = [
   {
     title: '系统管理1',
     path: '/system',

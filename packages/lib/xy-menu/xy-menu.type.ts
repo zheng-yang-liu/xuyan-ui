@@ -1,8 +1,7 @@
-export type menuData= {
+export type MenuItem= {
   title: string,
-  id: string,
   icon?: string,
-  children?: Array<menuData>,
+  children?: Array<MenuItem>,
   path?: string,
   disabled?: boolean,
   hidden?: boolean,
