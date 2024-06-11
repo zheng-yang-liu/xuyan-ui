@@ -5,6 +5,7 @@
     </div>
     <transition
       name="showChild"
+      v-if="useAnimation"
       @before-enter="beforeEnter"
       @enter="enter"
       @leave="leave"
@@ -28,6 +29,24 @@
         </template>
       </ul>
     </transition>
+    <ul v-else v-if="item.children && isOpen && index === currentIndex" class="submenu">
+      <template v-if="childIfSwitchClose">
+        <xy-menu-item
+          v-for="(child, index) in item.children"
+          :key="index"
+          :item="child"
+        />
+      </template>
+      <template v-else>
+        <xy-menu-item
+          v-for="(child, index) in item.children"
+          :key="index"
+          :item="child"
+          :index="index"
+          v-model:currentIndex="childCurrentIndex"
+        />
+      </template>
+    </ul>
   </li>
 </template>
 
@@ -54,6 +73,10 @@ export default defineComponent({
     childIfSwitchClose: {
       type: Boolean,
       default: true
+    },
+    useAnimation: {
+      type: Boolean,
+      default: true // 默认启用动画
     }
   },
   emits: ['update:currentIndex'],
