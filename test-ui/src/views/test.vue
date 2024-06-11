@@ -12,7 +12,10 @@
         </div>
       </template>
       <template #main>
-        <div style="background-color: green;width: 100%;height: 100%"></div>
+        <div style="background-color: green;width: 100%;height: 100%">
+
+
+        </div>
       </template>
     </xy-classic-page>
   </div>
