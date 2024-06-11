@@ -10,8 +10,8 @@ const router = createRouter({
     },
     {
       path: '/',
-      name: 'test',
-      component: () => import('@/views/test.vue')
+      name: 'testTemp',
+      component: () => import('@/views/testTemp.vue')
     },
     {
       path: '/svgAnimation',

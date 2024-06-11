@@ -1,0 +1,16 @@
+{
+  "id": "4577634",
+  "name": "xuyan-ui",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1795844",
+      "name": "51快递员-线性",
+      "font_class": "kuaidiyuan-xianxing",
+      "unicode": "e90f",
+      "unicode_decimal": 59663
+    }
+  ]
+}
