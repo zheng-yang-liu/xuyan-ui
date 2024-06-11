@@ -6,6 +6,8 @@
       :item="item"
       :index="index"
       v-model:currentIndex="currentIndex"
+      :height="height"
+      :submenuIndent="submenuIndent"
     />
   </ul>
 </template>
@@ -25,6 +27,14 @@ export default defineComponent({
     menuItems: {
       type: Array as PropType<MenuItemType[]>,
       required: true
+    },
+    height:{
+      type:Number,
+      default:40
+    },
+    submenuIndent:{
+      type:Number,
+      default:0
     }
   },
   setup(props,context) {
@@ -36,7 +46,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .menu {
   list-style-type: none;
   padding: 0;

@@ -7,8 +7,11 @@
         <i class="iconfont icon-kuaidiyuan-xianxing"></i>
       </template>
       <template #aside>
-        <div style="background-color: #3c9cff;width: 100%;height: 100%">
-          <xy-menu :menuItems="menuItems"></xy-menu>
+        <div style="background-color: #ffffff;width: 100%;height: 100%">
+          <xy-menu
+            :menuItems="menuItems"
+            submenuIndent="10"
+          ></xy-menu>
         </div>
       </template>
       <template #main>
@@ -26,9 +29,14 @@ import { ref } from 'vue'
 
 const menuItems = [
   {
-    title: '系统管理1',
-    path: '/system',
-    icon: 'iconfont icon-kuaidiyuan-xianxing',
+    title:'首页',
+    path:'/home',
+    icon:'iconfont icon-shouye',
+  },
+  {
+    title: 'svg描边动画',
+    path: '/svgAnimation',
+    icon: 'iconfont icon-donghua',
     children: [
       {
         title: '用户管理1-1',
@@ -38,8 +46,28 @@ const menuItems = [
           {
             title: '用户列表1-1-1',
             path: '/system/user/list',
-            icon: 'iconfont icon-kuaidiyuan-xianxing',
-            children: []
+            icon: '',
+            children: [
+              {
+                title: '用户列表1-1-1-1-1-1-1',
+                path: '/system/user/list',
+                icon: 'iconfont icon-kuaidiyuan-xianxing',
+                children: [
+                  {
+                    title: '用户列表1-1-1-1-1',
+                    path: '/system/user/list',
+                    icon: 'iconfont icon-kuaidiyuan-xianxing',
+                    children: []
+                  }
+                ]
+              },
+              {
+                title: '用户列表1-1-1-2',
+                path: '/system/user/list',
+                icon: 'iconfont icon-kuaidiyuan-xianxing',
+                children: []
+              }
+            ]
           },
           {
             title: '用户添加1-1-2',
@@ -125,3 +153,9 @@ const dddddddd = () => {
 }
 
 </script>
+
+<style scoped lang="scss">
+.ceshi{
+  background-color: red;
+}
+</style>

@@ -1,7 +1,16 @@
 <template>
   <li>
-    <div @click="toggle(index, item)" class="xyMenuItem">
-      {{ item.title }}
+    <div @click="toggle(index, item)" class="xy-menuItem" :style="{height:`${height}px`}">
+      <i :class="item.icon"></i>
+      <p>{{ item.title }}</p>
+      <div class="imgBox">
+        <img
+          :class="{ 'rotate': isOpen }"
+          src="../../assets/icon/leftTriangle.png"
+          alt=""
+          v-if="item.children?.length>0">
+      </div>
+
     </div>
     <transition
       name="showChild"
@@ -10,12 +19,17 @@
       @enter="enter"
       @leave="leave"
     >
-      <ul v-if="item.children && isOpen && index === currentIndex" class="submenu">
+      <ul v-if="item.children && isOpen && index === currentIndex"
+          class="xy-submenu"
+          :style="{paddingLeft:`${submenuIndent}px`}"
+      >
         <template v-if="childIfSwitchClose">
           <xy-menu-item
             v-for="(child, index) in item.children"
             :key="index"
             :item="child"
+            :height="height"
+            :submenuIndent="submenuIndent"
           />
         </template>
         <template v-else>
@@ -25,28 +39,40 @@
             :item="child"
             :index="index"
             v-model:currentIndex="childCurrentIndex"
+            :height="height"
+            :submenuIndent="submenuIndent"
           />
         </template>
       </ul>
     </transition>
-    <ul v-else v-if="item.children && isOpen && index === currentIndex" class="submenu">
-      <template v-if="childIfSwitchClose">
-        <xy-menu-item
-          v-for="(child, index) in item.children"
-          :key="index"
-          :item="child"
-        />
-      </template>
-      <template v-else>
-        <xy-menu-item
-          v-for="(child, index) in item.children"
-          :key="index"
-          :item="child"
-          :index="index"
-          v-model:currentIndex="childCurrentIndex"
-        />
-      </template>
-    </ul>
+    <template v-else>
+      <ul v-if="item.children && isOpen && index === currentIndex"
+          class="xy-submenu"
+          :style="indentOrNot?{paddingLeft:'10px'}:{paddingLeft:'0px'}"
+      >
+        <template v-if="childIfSwitchClose">
+          <xy-menu-item
+            v-for="(child, index) in item.children"
+            :key="index"
+            :item="child"
+            :height="height"
+            :submenuIndent="submenuIndent"
+          />
+        </template>
+        <template v-else>
+          <xy-menu-item
+            v-for="(child, index) in item.children"
+            :key="index"
+            :item="child"
+            :index="index"
+            v-model:currentIndex="childCurrentIndex"
+            :height="height"
+            :submenuIndent="submenuIndent"
+          />
+        </template>
+      </ul>
+    </template>
+
   </li>
 </template>
 
@@ -54,6 +80,7 @@
 import { defineComponent, ref, watch, PropType } from 'vue';
 import { MenuItem as MenuItemType } from './xy-menu.type';
 
+import {useRouter} from "vue-router";
 export default defineComponent({
   name: 'xy-menu-item',
   components: {
@@ -72,21 +99,34 @@ export default defineComponent({
     },
     childIfSwitchClose: {
       type: Boolean,
-      default: true
+      default: false
     },
     useAnimation: {
       type: Boolean,
       default: true // 默认启用动画
+    },
+    height:{
+      type:Number,
+      default:40
+    },
+    submenuIndent:{
+      type:Number,
+      default:0
     }
   },
   emits: ['update:currentIndex'],
   setup(props, context) {
+
+    const router = useRouter();
     const isOpen = ref(false);
     const childCurrentIndex = ref(0);
 
     const toggle = (clickIndex: number, item: MenuItemType) => {
       isOpen.value = !isOpen.value;
       context.emit('update:currentIndex', clickIndex);
+      console.log(item)
+      if(item.children?.length>0) return;
+      // router.push(item.path);
     };
 
     const init = () => {
@@ -125,13 +165,39 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.xyMenuItem {
+<style scoped lang="scss">
+.xy-menuItem {
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding:0 10px;
+  position: relative;
+  .imgBox{
+    position: absolute;
+    right: 10px;
+  }
+  img {
+    float: right;
+    width: 10px;
+    height: 10px;
+    transition: transform 0.5s;
+  }
+  p{
+    width: 80%;
+    padding-left: 2px;
+    //一行显示不下的文字显示省略号
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
-.submenu {
+
+.rotate {
+  transform: rotate(90deg);
+}
+
+.xy-submenu {
   list-style-type: none;
-  padding-left: 20px;
   overflow: hidden;
   transition: height 0.5s ease;
 }
