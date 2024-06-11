@@ -50,7 +50,20 @@ const menuItems = [
         title: '角色管理1-2',
         path: '/system/role',
         icon: 'iconfont icon-kuaidiyuan-xianxing',
-        children: []
+        children: [
+          {
+            title: '角色列表1-2-1',
+            path: '/system/role/list',
+            icon: 'iconfont icon-kuaidiyuan-xianxing',
+            children: []
+          },
+          {
+            title: '角色添加1-2-2',
+            path: '/system/role/add',
+            icon: 'iconfont icon-kuaidiyuan-xianxing',
+            children: []
+          }
+        ]
       },
       {
         title: '菜单管理1-3',
