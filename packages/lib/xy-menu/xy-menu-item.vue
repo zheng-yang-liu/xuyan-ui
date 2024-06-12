@@ -10,11 +10,9 @@
           alt=""
           v-if="item.children?.length>0">
       </div>
-
     </div>
     <transition
       name="showChild"
-      v-if="useAnimation"
       @before-enter="beforeEnter"
       @enter="enter"
       @leave="leave"
@@ -23,11 +21,13 @@
           class="xy-submenu"
           :style="{paddingLeft:`${submenuIndent}px`}"
       >
-        <template v-if="childIfSwitchClose">
+        <template v-if="showOnlyOneSubmenu">
           <xy-menu-item
             v-for="(child, index) in item.children"
             :key="index"
             :item="child"
+            :index="index"
+            v-model:currentIndex="childCurrentIndex"
             :height="height"
             :submenuIndent="submenuIndent"
           />
@@ -37,42 +37,12 @@
             v-for="(child, index) in item.children"
             :key="index"
             :item="child"
-            :index="index"
-            v-model:currentIndex="childCurrentIndex"
             :height="height"
             :submenuIndent="submenuIndent"
           />
         </template>
       </ul>
     </transition>
-    <template v-else>
-      <ul v-if="item.children && isOpen && index === currentIndex"
-          class="xy-submenu"
-          :style="indentOrNot?{paddingLeft:'10px'}:{paddingLeft:'0px'}"
-      >
-        <template v-if="childIfSwitchClose">
-          <xy-menu-item
-            v-for="(child, index) in item.children"
-            :key="index"
-            :item="child"
-            :height="height"
-            :submenuIndent="submenuIndent"
-          />
-        </template>
-        <template v-else>
-          <xy-menu-item
-            v-for="(child, index) in item.children"
-            :key="index"
-            :item="child"
-            :index="index"
-            v-model:currentIndex="childCurrentIndex"
-            :height="height"
-            :submenuIndent="submenuIndent"
-          />
-        </template>
-      </ul>
-    </template>
-
   </li>
 </template>
 
@@ -97,13 +67,9 @@ export default defineComponent({
     currentIndex: {
       type: Number,
     },
-    childIfSwitchClose: {
+    showOnlyOneSubmenu: {
       type: Boolean,
-      default: false
-    },
-    useAnimation: {
-      type: Boolean,
-      default: true // 默认启用动画
+      default: true
     },
     height:{
       type:Number,
