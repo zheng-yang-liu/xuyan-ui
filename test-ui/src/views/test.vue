@@ -8,11 +8,11 @@
       </template>
       <template #aside>
         <div style="background-color: #ffffff;width: 100%;height: 100%">
-          <xy-menu
+          <xy-menu-left
             :menuItems="menuItems"
             submenuIndent="10"
             :selectStyle="selectStyle"
-          ></xy-menu>
+          ></xy-menu-left>
         </div>
       </template>
       <template #main>

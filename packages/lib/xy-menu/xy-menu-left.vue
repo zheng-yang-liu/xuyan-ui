@@ -21,7 +21,7 @@ import type { MenuItem as MenuItemType } from './xy-menu.type';
 import xyMenuItem from './xy-menu-item.vue'
 
 export default defineComponent({
-  name: 'xy-menu',
+  name: 'xy-menu-left',
   components: {
     xyMenuItem
   },

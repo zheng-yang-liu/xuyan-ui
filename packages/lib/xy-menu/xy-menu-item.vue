@@ -2,9 +2,9 @@
   <li>
     <div @click="toggle(index, item)"
          class="xy-menuItem"
-         :style="[{height:`${height}px`},item.children?.length>0?item.id == currentID?selectStyle:{}:{}]">
+         :style="[{height:`${height}px`},item.children?.length>0?{}:item.id == currentID?selectStyle:{}]">
       <i :class="item.icon"></i>
-      <p>{{ item.id }},{{item.id == currentID}}{{item.children?.length>0}}</p>
+      <p>{{ item.title }}</p>
       <div class="imgBox">
         <img
           :class="{ 'rotate': isOpen }"
