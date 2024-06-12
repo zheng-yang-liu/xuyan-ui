@@ -1,8 +1,10 @@
 <template>
   <li>
-    <div @click="toggle(index, item)" class="xy-menuItem" :style="{height:`${height}px`}">
+    <div @click="toggle(index, item)"
+         class="xy-menuItem"
+         :style="[{height:`${height}px`},item.children?.length>0?item.id == currentID?selectStyle:{}:{}]">
       <i :class="item.icon"></i>
-      <p>{{ item.title }}</p>
+      <p>{{ item.id }},{{item.id == currentID}}{{item.children?.length>0}}</p>
       <div class="imgBox">
         <img
           :class="{ 'rotate': isOpen }"
@@ -28,8 +30,10 @@
             :item="child"
             :index="index"
             v-model:currentIndex="childCurrentIndex"
+            v-model:currentID="childCurrentID"
             :height="height"
             :submenuIndent="submenuIndent"
+            :selectStyle="selectStyle"
           />
         </template>
         <template v-else>
@@ -37,8 +41,10 @@
             v-for="(child, index) in item.children"
             :key="index"
             :item="child"
+            v-model:currentID="childCurrentID"
             :height="height"
             :submenuIndent="submenuIndent"
+            :selectStyle="selectStyle"
           />
         </template>
       </ul>
@@ -47,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, PropType } from 'vue';
+import { defineComponent, ref, watch, PropType ,computed} from 'vue';
 import { MenuItem as MenuItemType } from './xy-menu.type';
 
 import {useRouter} from "vue-router";
@@ -67,6 +73,9 @@ export default defineComponent({
     currentIndex: {
       type: Number,
     },
+    currentID: {
+      type: String,
+    },
     showOnlyOneSubmenu: {
       type: Boolean,
       default: true
@@ -78,18 +87,23 @@ export default defineComponent({
     submenuIndent:{
       type:Number,
       default:0
+    },
+    selectStyle:{
+      type:Object,
+      default:()=>({})
     }
   },
-  emits: ['update:currentIndex'],
+  emits: ['update:currentIndex', 'update:currentID'],
   setup(props, context) {
 
     const router = useRouter();
     const isOpen = ref(false);
     const childCurrentIndex = ref(0);
-
+    const childCurrentID = ref('');
     const toggle = (clickIndex: number, item: MenuItemType) => {
       isOpen.value = !isOpen.value;
       context.emit('update:currentIndex', clickIndex);
+      context.emit('update:currentID', item.id);
       console.log(item)
       if(item.children?.length>0) return;
       // router.push(item.path);
@@ -118,14 +132,15 @@ export default defineComponent({
         el.style.height = '0';
       });
     };
-
     return {
       isOpen,
       toggle,
       childCurrentIndex,
       beforeEnter,
       enter,
-      leave
+      leave,
+      childCurrentID
+
     };
   }
 });

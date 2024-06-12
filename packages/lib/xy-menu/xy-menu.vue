@@ -6,8 +6,10 @@
       :item="item"
       :index="index"
       v-model:currentIndex="currentIndex"
+      v-model:currentID="currentID"
       :height="height"
       :submenuIndent="submenuIndent"
+      :selectStyle="selectStyle"
     />
   </ul>
 </template>
@@ -35,12 +37,18 @@ export default defineComponent({
     submenuIndent:{
       type:Number,
       default:0
+    },
+    selectStyle:{
+      type:Object,
+      default:()=>({})
     }
   },
   setup(props,context) {
     const currentIndex = ref(0);
+    const currentID = ref('');
     return {
-      currentIndex
+      currentIndex,
+      currentID
     };
   }
 });
