@@ -6,7 +6,6 @@
       :item="item"
       :id="item.id"
       :index="index"
-      v-model:currentId="currentId"
       :height="height"
       :submenuIndent="submenuIndent"
       :mouseOverColor="mouseOverColor"
@@ -49,9 +48,7 @@ export default defineComponent({
     }
   },
   setup(props,context) {
-    const currentId = ref('');
     return {
-      currentId
     };
   }
 });

@@ -1,6 +1,6 @@
 <template>
   <li>
-    <div @click="toggle(id, item)"
+    <div @click="toggle(item)"
          class="xy-menuItem"
          :style="[{height:`${height}px`},mouseOverStyle]"
          @mouseover.stop.prevent="handleMouseOver"
@@ -10,7 +10,7 @@
       <p>{{ item.title }}</p>
       <div class="imgBox">
         <img
-          :class="{ 'rotate': isOpen }"
+          :class="{'rotate':isOpen}"
           src="../../assets/icon/leftTriangle.png"
           alt=""
           v-if="item.children?.length>0&&!expandAll">
@@ -22,35 +22,21 @@
       @enter="enter"
       @leave="leave"
     >
-      <ul v-if=" expandAll ||(item.children && isOpen && item.id === currentId)"
+      <ul v-if=" expandAll || (item.children && item.id === currentId && isOpen)"
           class="xy-submenu"
           :style="{paddingLeft:`${submenuIndent}px`}"
       >
-        <template v-if="showOnlyOneSubmenu">
-          <xy-menu-item
-            v-for="(child, index) in item.children"
-            :key="index"
-            :item="child"
-            :index="index"
-            :id="item.id"
-            v-model:currentId="childCurrentId"
-            :height="height"
-            :submenuIndent="submenuIndent"
-            :mouseOverColor="mouseOverColor"
-            :expandAll="expandAll"
-          />
-        </template>
-        <template v-else>
-          <xy-menu-item
-            v-for="(child, index) in item.children"
-            :key="index"
-            :item="child"
-            :height="height"
-            :submenuIndent="submenuIndent"
-            :mouseOverColor="mouseOverColor"
-            :expandAll="expandAll"
-          />
-        </template>
+        <xy-menu-item
+          v-for="(child, index) in item.children"
+          :key="index"
+          :item="child"
+          :index="index"
+          :id="item.id"
+          :height="height"
+          :submenuIndent="submenuIndent"
+          :mouseOverColor="mouseOverColor"
+          :expandAll="expandAll"
+        />
       </ul>
     </transition>
   </li>
@@ -77,13 +63,6 @@ export default defineComponent({
     id:{
       type:String
     },
-    currentId: {
-      type: String,
-    },
-    showOnlyOneSubmenu: {
-      type: Boolean,
-      default: true
-    },
     height:{
       type:Number,
       default:40
@@ -101,31 +80,20 @@ export default defineComponent({
       default:false
     }
   },
-  emits: ['update:currentId'],
+  emits: [],
   setup(props, context) {
 
     const router = useRouter();
-    const isOpen = ref(false);
-    const childCurrentId = ref('');
-
-    const toggle = (id: string, item: MenuItemType) => {
-      isOpen.value = !isOpen.value;
-      context.emit('update:currentId', id);
+    const isOpen = ref<boolean>(false);
+    const currentId = ref<string>('')
+    const toggle = (item: MenuItemType) => {
       console.log(item)
-      console.log(props.currentId)
+      isOpen.value = !isOpen.value;
+      currentId.value = item.id;
+      console.log('currentId',currentId.value)
       if(item.children?.length>0) return;
       // if (item.path) router.push(item.path);
     };
-
-    const init = () => {
-      isOpen.value = props.id === props.currentId;
-      console.log('init',props.id,props.currentId,isOpen.value)
-    };
-
-    watch(() => props.currentId,(newValue)=>{
-      console.log('newvalue',newValue)
-      init();
-    });
 
     const beforeEnter = (el: HTMLElement) => {
       el.style.height = '0';
@@ -157,16 +125,17 @@ export default defineComponent({
       mouseOverStyle.value = {}
     }
     return {
-      isOpen,
       toggle,
-      childCurrentId,
       beforeEnter,
       enter,
       leave,
       currentMenu,
       mouseOverStyle,
       handleMouseOver,
-      handleMouseOut
+      handleMouseOut,
+      currentId,
+      isOpen
+
     };
   }
 });
