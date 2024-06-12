@@ -1,3 +1,3 @@
-import xyMenu from "./xy-menu.vue"
+import xyMenuLeft from "./xy-menu-left.vue"
 import xyMenuItem from "./xy-menu-item.vue";
-export {xyMenu, xyMenuItem}
+export {xyMenuLeft, xyMenuItem}

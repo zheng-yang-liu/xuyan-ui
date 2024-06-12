@@ -8,10 +8,11 @@
       </template>
       <template #aside>
         <div style="background-color: #ffffff;width: 100%;height: 100%">
-          <xy-menu
+          <xy-menu-left
             :menuItems="menuItems"
             submenuIndent="10"
-          ></xy-menu>
+            :expandAll="false"
+          ></xy-menu-left>
         </div>
       </template>
       <template #main>
@@ -26,120 +27,132 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import xyMenuItem from "../../../packages/lib/xy-menu/xy-menu-item.vue";
 
 const menuItems = [
   {
     title:'首页',
+    id:'1',
     path:'/home',
     icon:'iconfont icon-shouye',
   },
   {
-    title: 'svg描边动画',
-    path: '/svgAnimation',
+    title: '工具函数',
+    id: '2',
     icon: 'iconfont icon-donghua',
     children: [
       {
-        title: '用户管理1-1',
+        title: '图标动画',
         path: '/system/user',
         icon: 'iconfont icon-kuaidiyuan-xianxing',
+        id: '2-1',
         children: [
           {
-            title: '用户列表1-1-1',
-            path: '/system/user/list',
-            icon: '',
+            title: 'svg动画',
+            id: '2-1-1',
+            icon: 'iconfont icon-dian',
             children: [
               {
-                title: '用户列表1-1-1-1-1-1-1',
-                path: '/system/user/list',
+                title: 'svg描边',
+                id: '2-1-1-1',
                 icon: 'iconfont icon-kuaidiyuan-xianxing',
                 children: [
                   {
-                    title: '用户列表1-1-1-1-1',
+                    title: 'svg白的描边',
                     path: '/system/user/list',
-                    icon: 'iconfont icon-kuaidiyuan-xianxing',
-                    children: []
+                    icon: 'iconfont icon-dian',
+                    id: '2-1-1-1-1',
+                  },
+                  {
+                    title: 'svg黑的描边',
+                    path: '/system/user/list',
+                    icon: 'iconfont icon-dian',
+                    id: '2-1-1-1-2',
                   }
                 ]
               },
               {
-                title: '用户列表1-1-1-2',
-                path: '/system/user/list',
+                title: 'svg填充',
                 icon: 'iconfont icon-kuaidiyuan-xianxing',
-                children: []
+                id: '2-1-1-2',
+                children: [
+                  {
+                    title: 'svg白的填充',
+                    id: '2-1-1-2-1',
+                    icon: 'iconfont icon-dian',
+                  },
+                  {
+                    title: 'svg黑的填充',
+                    id: '2-1-1-2-2',
+                    icon: 'iconfont icon-dian',
+                  }
+                ]
               }
             ]
           },
           {
-            title: '用户添加1-1-2',
+            title: 'canvas动画',
             path: '/system/user/add',
-            icon: 'iconfont icon-kuaidiyuan-xianxing',
-            children: []
+            icon: 'iconfont icon-dian',
+            id: '2-1-2',
           }
         ]
       },
       {
-        title: '角色管理1-2',
-        path: '/system/role',
+        title: '防抖函数',
         icon: 'iconfont icon-kuaidiyuan-xianxing',
+        id: '2-2',
         children: [
           {
-            title: '角色列表1-2-1',
+            title: '节流',
             path: '/system/role/list',
-            icon: 'iconfont icon-kuaidiyuan-xianxing',
-            children: []
+            icon: 'iconfont icon-dian',
+            id: '2-2-1',
           },
           {
-            title: '角色添加1-2-2',
+            title: '防抖',
             path: '/system/role/add',
-            icon: 'iconfont icon-kuaidiyuan-xianxing',
-            children: []
+            icon: 'iconfont icon-dian',
+            id: '2-2-2',
           }
         ]
       },
       {
-        title: '菜单管理1-3',
+        title: '深拷贝',
         path: '/system/menu',
+        id: '2-3',
         icon: 'iconfont icon-kuaidiyuan-xianxing',
-        children: []
       }
     ]
   },
   {
-    title: '系统管理2',
-    path: '/system',
+    title: '数据类型',
+    id:'3',
     icon: 'iconfont icon-kuaidiyuan-xianxing',
-    id: "2",
     children: [
       {
-        title: '用户管理2-1',
-        path: '/system/user',
+        title: '基本数据类型',
+        id: '3-1',
         icon: 'iconfont icon-kuaidiyuan-xianxing',
         children: [
           {
-            title: '用户列表2-1-1',
+            title: 'string',
+            id: '3-1-1',
             path: '/system/user/list',
-            icon: 'iconfont icon-kuaidiyuan-xianxing',
-            children: []
+            icon: 'iconfont icon-dian'
           },
           {
-            title: '用户添加2-1-2',
+            title: 'number',
             path: '/system/user/add',
-            icon: 'iconfont icon-kuaidiyuan-xianxing',
-            children: []
+            icon: 'iconfont icon-dian'
           }
         ]
       },
       {
-        title: '角色管理2-2',
-        path: '/system/role',
-        icon: 'iconfont icon-kuaidiyuan-xianxing',
-        children: []
-      },
-      {
-        title: '菜单管理2-3',
+        title: 'object',
         path: '/system/menu',
         icon: 'iconfont icon-kuaidiyuan-xianxing',
-        children: []
+        id: '3-2',
       }
     ]
   }
@@ -155,7 +168,5 @@ const dddddddd = () => {
 </script>
 
 <style scoped lang="scss">
-.ceshi{
-  background-color: red;
-}
+
 </style>

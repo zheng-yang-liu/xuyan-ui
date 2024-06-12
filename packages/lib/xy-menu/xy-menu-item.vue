@@ -1,6 +1,11 @@
 <template>
   <li>
-    <div @click="toggle(index, item)" class="xy-menuItem" :style="{height:`${height}px`}">
+    <div @click="toggle(id, item)"
+         class="xy-menuItem"
+         :style="[{height:`${height}px`},mouseOverStyle]"
+         @mouseover.stop.prevent="handleMouseOver"
+         @mouseout.stop.prevent="handleMouseOut"
+    >
       <i :class="item.icon"></i>
       <p>{{ item.title }}</p>
       <div class="imgBox">
@@ -8,7 +13,7 @@
           :class="{ 'rotate': isOpen }"
           src="../../assets/icon/leftTriangle.png"
           alt=""
-          v-if="item.children?.length>0">
+          v-if="item.children?.length>0&&!expandAll">
       </div>
     </div>
     <transition
@@ -17,7 +22,7 @@
       @enter="enter"
       @leave="leave"
     >
-      <ul v-if="item.children && isOpen && index === currentIndex"
+      <ul v-if=" expandAll ||(item.children && isOpen && item.id === currentId)"
           class="xy-submenu"
           :style="{paddingLeft:`${submenuIndent}px`}"
       >
@@ -27,9 +32,12 @@
             :key="index"
             :item="child"
             :index="index"
-            v-model:currentIndex="childCurrentIndex"
+            :id="item.id"
+            v-model:currentId="childCurrentId"
             :height="height"
             :submenuIndent="submenuIndent"
+            :mouseOverColor="mouseOverColor"
+            :expandAll="expandAll"
           />
         </template>
         <template v-else>
@@ -39,6 +47,8 @@
             :item="child"
             :height="height"
             :submenuIndent="submenuIndent"
+            :mouseOverColor="mouseOverColor"
+            :expandAll="expandAll"
           />
         </template>
       </ul>
@@ -47,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, PropType } from 'vue';
+import { defineComponent, ref, watch, PropType ,computed} from 'vue';
 import { MenuItem as MenuItemType } from './xy-menu.type';
 
 import {useRouter} from "vue-router";
@@ -64,8 +74,11 @@ export default defineComponent({
     index: {
       type: Number,
     },
-    currentIndex: {
-      type: Number,
+    id:{
+      type:String
+    },
+    currentId: {
+      type: String,
     },
     showOnlyOneSubmenu: {
       type: Boolean,
@@ -74,32 +87,45 @@ export default defineComponent({
     height:{
       type:Number,
       default:40
-    },
+    },//子菜单缩进量
     submenuIndent:{
       type:Number,
       default:0
+    },
+    mouseOverColor:{
+      type:String,
+      default:'#abcaec'
+    },
+    expandAll:{
+      type:Boolean,
+      default:false
     }
   },
-  emits: ['update:currentIndex'],
+  emits: ['update:currentId'],
   setup(props, context) {
 
     const router = useRouter();
     const isOpen = ref(false);
-    const childCurrentIndex = ref(0);
+    const childCurrentId = ref('');
 
-    const toggle = (clickIndex: number, item: MenuItemType) => {
+    const toggle = (id: string, item: MenuItemType) => {
       isOpen.value = !isOpen.value;
-      context.emit('update:currentIndex', clickIndex);
+      context.emit('update:currentId', id);
       console.log(item)
+      console.log(props.currentId)
       if(item.children?.length>0) return;
-      // router.push(item.path);
+      // if (item.path) router.push(item.path);
     };
 
     const init = () => {
-      isOpen.value = props.index === props.currentIndex;
+      isOpen.value = props.id === props.currentId;
+      console.log('init',props.id,props.currentId,isOpen.value)
     };
 
-    watch(() => props.currentIndex, init);
+    watch(() => props.currentId,(newValue)=>{
+      console.log('newvalue',newValue)
+      init();
+    });
 
     const beforeEnter = (el: HTMLElement) => {
       el.style.height = '0';
@@ -118,14 +144,29 @@ export default defineComponent({
         el.style.height = '0';
       });
     };
-
+    const currentMenu = ref<object>({
+      backgroundColor: 'red'
+    })
+    const mouseOverStyle = ref<object>({})
+    const handleMouseOver = () => {
+      mouseOverStyle.value = {
+        backgroundColor:props.mouseOverColor
+      }
+    }
+    const handleMouseOut = () => {
+      mouseOverStyle.value = {}
+    }
     return {
       isOpen,
       toggle,
-      childCurrentIndex,
+      childCurrentId,
       beforeEnter,
       enter,
-      leave
+      leave,
+      currentMenu,
+      mouseOverStyle,
+      handleMouseOver,
+      handleMouseOut
     };
   }
 });
