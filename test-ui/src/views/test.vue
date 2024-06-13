@@ -12,6 +12,8 @@
             :menuItems="menuItems"
             submenuIndent="10"
             :startID="menuItems[0].id"
+            :selectStyle="selectStyle"
+            :itemStyle="itemStyle"
           ></xy-menu-left>
         </div>
       </template>
@@ -164,7 +166,14 @@ const dianji = () => {
 const dddddddd = () => {
   direction.value = 'horizontal'
 }
-
+const selectStyle = {
+  backgroundColor: '#f0f0f0',
+  color: '#1890ff'
+}
+const itemStyle = {
+  backgroundColor: '#ffffff',
+  color: '#333333'
+}
 </script>
 
 <style scoped lang="scss">

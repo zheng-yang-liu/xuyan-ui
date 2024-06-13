@@ -8,6 +8,8 @@
       v-model:currentIndex="currentIndex"
       :height="height"
       :submenuIndent="submenuIndent"
+      :selectStyle="selectStyle"
+      :itemStyle="itemStyle"
     />
   </ul>
 </template>
@@ -39,6 +41,14 @@ export default defineComponent({
     startID:{
       type:String,
       default:''
+    },
+    selectStyle:{
+      type:Object,
+      default:()=>({})
+    },
+    itemStyle:{
+      type:Object,
+      default:()=>({})
     }
   },
   setup(props,context) {

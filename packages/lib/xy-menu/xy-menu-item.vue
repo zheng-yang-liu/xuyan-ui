@@ -1,8 +1,11 @@
 <template>
   <li>
-    <div @click="toggle(index, item)" class="xy-menuItem" :style="{height:`${height}px`}">
+    <div
+      @click="toggle(index, item)"
+      class="xy-menuItem"
+      :style="[{height:`${height}px`},currentID===item.id?selectStyle:itemStyle]">
       <i :class="item.icon"></i>
-      <p>{{ item.title }},{{currentID}}</p>
+      <p>{{ item.title }}</p>
       <div class="imgBox">
         <img
           :class="{ 'rotate': isOpen }"
@@ -29,6 +32,8 @@
             :item="child"
             :height="height"
             :submenuIndent="submenuIndent"
+            :selectStyle="selectStyle"
+            :itemStyle="itemStyle"
           />
         </template>
         <template v-else>
@@ -40,6 +45,8 @@
             v-model:currentIndex="childCurrentIndex"
             :height="height"
             :submenuIndent="submenuIndent"
+            :selectStyle="selectStyle"
+            :itemStyle="itemStyle"
           />
         </template>
       </ul>
@@ -79,6 +86,14 @@ export default defineComponent({
     submenuIndent:{
       type:Number,
       default:0
+    },
+    selectStyle:{
+      type:Object,
+      default:()=>({})
+    },
+    itemStyle:{
+      type:Object,
+      default:()=>({})
     }
   },
   emits: ['update:currentIndex'],
