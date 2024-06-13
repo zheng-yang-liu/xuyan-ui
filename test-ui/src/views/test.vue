@@ -29,7 +29,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import xyMenuItem from "../../../packages/lib/xy-menu/xy-menu-item.vue";
 
 const menuItems = [
   {
@@ -55,7 +54,7 @@ const menuItems = [
             icon: 'iconfont icon-dian',
             children: [
               {
-                title: 'svg描边',
+                title: 'svg描边svg描边svg描边',
                 id: '2-1-1-1',
                 icon: 'iconfont icon-kuaidiyuan-xianxing',
                 children: [
@@ -171,7 +170,7 @@ const selectStyle = {
   color: '#1890ff'
 }
 const itemStyle = {
-  backgroundColor: '#ffffff',
+  backgroundColor: 'red',
   color: '#333333'
 }
 </script>

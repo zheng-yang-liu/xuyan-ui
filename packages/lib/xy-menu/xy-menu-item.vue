@@ -23,7 +23,6 @@
     >
       <ul v-if="item.children && isOpen && index === currentIndex"
           class="xy-submenu"
-          :style="{paddingLeft:`${submenuIndent}px`}"
       >
         <template v-if="showOnlyOneSubmenu">
           <xy-menu-item
@@ -55,6 +54,7 @@
 </template>
 
 <script lang="ts">
+
 import { defineComponent, ref, watch, PropType ,inject} from 'vue';
 import { menuItem as MenuItemType } from './xy-menu.type';
 
@@ -175,6 +175,9 @@ export default defineComponent({
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  &:hover {
+    background-color: #abcaec !important;
   }
 }
 
