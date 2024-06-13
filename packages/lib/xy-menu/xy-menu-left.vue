@@ -1,20 +1,60 @@
 <template>
-  <div></div>
+  <ul class="menu">
+    <xy-menu-item
+      v-for="(item, index) in menuItems"
+      :key="index"
+      :item="item"
+      :index="index"
+      v-model:currentIndex="currentIndex"
+      :height="height"
+      :submenuIndent="submenuIndent"
+    />
+  </ul>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue'
+import { defineComponent ,ref,provide} from 'vue';
+import type {PropType}from 'vue'
+import type { menuItem as MenuItemType } from './xy-menu.type';
+import xyMenuItem from './xy-menu-item.vue'
 
 export default defineComponent({
-  name: "xy-menu-left",
-  props: {},
-  setup(props, content) {
-
-    return {}
+  name: 'xy-menu-left',
+  components: {
+    xyMenuItem
+  },
+  props: {
+    menuItems: {
+      type: Array as PropType<MenuItemType[]>,
+      required: true
+    },
+    height:{
+      type:Number,
+      default:40
+    },
+    submenuIndent:{
+      type:Number,
+      default:0
+    },
+    startID:{
+      type:String,
+      default:''
+    }
+  },
+  setup(props,context) {
+    const currentIndex = ref(0);
+    const currentID = ref(props.startID);
+    provide('currentID', currentID);
+    return {
+      currentIndex
+    };
   }
-})
+});
 </script>
 
 <style scoped lang="scss">
-
+.menu {
+  list-style-type: none;
+  padding: 0;
+}
 </style>

@@ -9,7 +9,9 @@
       <template #aside>
         <div style="background-color: #ffffff;width: 100%;height: 100%">
           <xy-menu-left
-
+            :menuItems="menuItems"
+            submenuIndent="10"
+            :startID="menuItems[0].id"
           ></xy-menu-left>
         </div>
       </template>
