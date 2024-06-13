@@ -9,7 +9,8 @@
     import xy from "xuyan-ui";
     app.use(xy);
 ```
-# 按需引入Tools工具函数
+# 按需引入Tools工具函数、图标
 ```
     import {Tools} from "xuyan-ui"
+    import"xuyan-ui/assets/iconFont/iconfont.css"
 ```

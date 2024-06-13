@@ -17,8 +17,7 @@
     "pinia": "^2.1.7",
     "sass": "^1.76.0",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0",
-    "yanyan-ui": "^2.0.20"
+    "vue-router": "^4.3.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
