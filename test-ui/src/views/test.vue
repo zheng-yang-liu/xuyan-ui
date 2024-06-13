@@ -10,7 +10,6 @@
         <div style="background-color: #ffffff;width: 100%;height: 100%">
           <xy-menu-left
             :menuItems="menuItems"
-            submenuIndent="10"
             :startID="menuItems[0].id"
             :selectStyle="selectStyle"
             :itemStyle="itemStyle"
@@ -55,13 +54,14 @@ const menuItems = [
             children: [
               {
                 title: 'svg描边svg描边svg描边',
+                submenuIndent: '10',
                 id: '2-1-1-1',
                 icon: 'iconfont icon-kuaidiyuan-xianxing',
                 children: [
                   {
                     title: 'svg白的描边',
                     path: '/system/user/list',
-                    icon: 'iconfont icon-dian',
+                    submenuIndent: '20',
                     id: '2-1-1-1-1',
                   },
                   {

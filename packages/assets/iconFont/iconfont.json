@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "10135299",
+      "name": "svg",
+      "font_class": "svg",
+      "unicode": "e8bf",
+      "unicode_decimal": 59583
+    },
+    {
+      "icon_id": "10194308",
+      "name": "小工具",
+      "font_class": "xiaogongju",
+      "unicode": "e65b",
+      "unicode_decimal": 58971
+    },
+    {
       "icon_id": "18175365",
       "name": "三角符,插入符,右",
       "font_class": "insert-right-full",

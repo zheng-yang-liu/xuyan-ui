@@ -7,7 +7,7 @@
       @mouseover.stop.prevent="mouseOver"
       @mouseleave.stop.prevent="mouseLeave"
     >
-      <i :class="item.icon"></i>
+      <i :class="item.icon?item.icon:'iconfont icon-dian'" :style="indent?{paddingLeft:`${item.submenuIndent}px`}:{}"></i>
       <p>{{ item.title }}</p>
       <div class="imgBox">
         <i
@@ -32,9 +32,9 @@
             :key="index"
             :item="child"
             :height="height"
-            :submenuIndent="submenuIndent"
             :selectStyle="selectStyle"
             :itemStyle="itemStyle"
+            :indent="indent"
           />
         </template>
         <template v-else>
@@ -45,9 +45,9 @@
             :index="index"
             v-model:currentIndex="childCurrentIndex"
             :height="height"
-            :submenuIndent="submenuIndent"
             :selectStyle="selectStyle"
             :itemStyle="itemStyle"
+            :indent="indent"
           />
         </template>
       </ul>
@@ -85,10 +85,6 @@ export default defineComponent({
       type:Number,
       default:40
     },
-    submenuIndent:{
-      type:String,
-      default:0
-    },
     selectStyle:{
       type:Object,
       default:()=>({})
@@ -100,6 +96,10 @@ export default defineComponent({
     mouseOverStyle:{
       type:Object,
       default:()=>({backgroundColor:'#f0f0f0'})
+    },
+    indent:{
+      type:Boolean,
+      default:true
     }
   },
   emits: ['update:currentIndex'],
