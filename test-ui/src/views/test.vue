@@ -171,7 +171,7 @@ const selectStyle = {
 }
 const itemStyle = {
   backgroundColor: 'red',
-  color: '#333333'
+  color: '#2c2c2c'
 }
 </script>
 

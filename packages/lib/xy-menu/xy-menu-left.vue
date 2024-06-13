@@ -35,7 +35,7 @@ export default defineComponent({
       default:40
     },
     submenuIndent:{
-      type:Number,
+      type:String,
       default:0
     },
     startID:{

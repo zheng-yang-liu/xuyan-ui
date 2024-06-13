@@ -3,15 +3,17 @@
     <div
       @click="toggle(index, item)"
       class="xy-menuItem"
-      :style="[{height:`${height}px`},currentID===item.id?selectStyle:itemStyle]">
+      :style="[{height:`${height}px`},currentID===item.id?selectStyle:itemStyle,mouseOverItemStyle]"
+      @mouseover.stop.prevent="mouseOver"
+      @mouseleave.stop.prevent="mouseLeave"
+    >
       <i :class="item.icon"></i>
       <p>{{ item.title }}</p>
       <div class="imgBox">
-        <img
-          :class="{ 'rotate': isOpen }"
-          src="../../assets/icon/leftTriangle.png"
-          alt=""
-          v-if="item.children?.length>0">
+        <i
+          :class="isOpen?'rotate':'rotateTwo'"
+          class="iconfont icon-insert-right-full"
+          v-if="item.children?.length>0"></i>
       </div>
 
     </div>
@@ -84,7 +86,7 @@ export default defineComponent({
       default:40
     },
     submenuIndent:{
-      type:Number,
+      type:String,
       default:0
     },
     selectStyle:{
@@ -94,6 +96,10 @@ export default defineComponent({
     itemStyle:{
       type:Object,
       default:()=>({})
+    },
+    mouseOverStyle:{
+      type:Object,
+      default:()=>({backgroundColor:'#f0f0f0'})
     }
   },
   emits: ['update:currentIndex'],
@@ -102,7 +108,7 @@ export default defineComponent({
     const isOpen = ref(false);
     const childCurrentIndex = ref(0);
     const currentID = inject('currentID');
-
+    const mouseOverItemStyle = ref({});
 
     const toggle = (clickIndex: number, item: MenuItemType) => {
       isOpen.value = !isOpen.value;
@@ -137,6 +143,12 @@ export default defineComponent({
         el.style.height = '0';
       });
     };
+    const mouseOver = () => {
+      mouseOverItemStyle.value = props.mouseOverStyle;
+    };
+    const mouseLeave = () => {
+      mouseOverItemStyle.value = {};
+    };
 
     return {
       isOpen,
@@ -145,7 +157,10 @@ export default defineComponent({
       beforeEnter,
       enter,
       leave,
-      currentID
+      currentID,
+      mouseOver,
+      mouseLeave,
+      mouseOverItemStyle
     };
   }
 });
@@ -176,13 +191,18 @@ export default defineComponent({
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  &:hover {
-    background-color: #abcaec !important;
-  }
 }
 
 .rotate {
+  display: inline-block; /* 保证transform效果生效 */
   transform: rotate(90deg);
+  transform-origin: center; /* 旋转中心点，默认为元素中心 */
+  transition: transform 0.5s ease-in-out; /* 2秒的过渡时间，缓入缓出效果 */
+}
+.rotateTwo{display: inline-block; /* 保证transform效果生效 */
+  transform: rotate(0deg);
+  transform-origin: center; /* 旋转中心点，默认为元素中心 */
+  transition: transform 0.5s ease-in-out; /* 2秒的过渡时间，缓入缓出效果 */
 }
 
 .xy-submenu {

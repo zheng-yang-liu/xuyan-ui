@@ -27,6 +27,13 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       }
+    },
+    fs: {
+      allow: [
+        // 允许访问的路径
+        '../packages/assets/iconFont',
+        './'
+      ]
     }
   }
 })

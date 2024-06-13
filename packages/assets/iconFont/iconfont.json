@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "18175365",
+      "name": "三角符,插入符,右",
+      "font_class": "insert-right-full",
+      "unicode": "ea5d",
+      "unicode_decimal": 59997
+    },
+    {
       "icon_id": "2471345",
       "name": "动画",
       "font_class": "donghua",
