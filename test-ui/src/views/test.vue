@@ -9,10 +9,10 @@
       <template #aside>
         <div style="background-color: #ffffff;width: 100%;height: 100%">
           <xy-menu-left
+            :expandAll="true"
+            :defaultStyle="false"
             :menuItems="menuItems"
-            :expandAll="false"
             @clickItem="clickItem"
-            :defaultStyle="true"
           >
           </xy-menu-left>
         </div>

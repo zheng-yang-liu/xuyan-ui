@@ -1,11 +1,11 @@
 <template>
   <el-dialog
-    v-model="state.diaVisible"
-    :title="title"
-    :width="previewSizeFixed ? 600 : 800"
     align-center
-    :close-on-press-escape="false"
+    :title="title"
     @closed="closeAfter"
+    v-model="state.diaVisible"
+    :close-on-press-escape="false"
+    :width="previewSizeFixed ? 600 : 800"
     :close-on-click-modal="closeOnClickModal"
   >
     <div class="croppingBox">
@@ -31,11 +31,11 @@
       <div class="cropping-right" :style="previewSizeFixed ? { width: '200px' } : { width: '400px' }">
         <div style="margin-bottom: 10px">预览</div>
         <img
-          :src="state.previewUrl"
-          :class="previewSizeFixed ? 'itSAFixedSize' : ''"
-          class="preview-img" ref="previewImg"
           ALT="预览图像"
+          :src="state.previewUrl"
           @mousedown.stop.prevent
+          class="preview-img" ref="previewImg"
+          :class="previewSizeFixed ? 'itSAFixedSize' : ''"
         />
       </div>
     </div>

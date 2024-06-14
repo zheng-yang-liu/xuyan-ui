@@ -1,65 +1,60 @@
 <template>
   <li>
-    <div
-      @click="toggle(index, item)"
-      class="xy-menuItem"
-      :class="expandAll&&item.path?'noJustTitle':expandAll?'justTitle':''"
-      :style="[{height:`${height}px`},
-        currentID===item.id?selectStyle:itemStyle,mouseOverItemStyle,
-       ]"
-      @mouseover.stop.prevent="mouseOver"
-      @mouseleave.stop.prevent="mouseLeave"
+    <div class="xy-menuItem"
+         @click="toggle(index, item)"
+         @mouseover.stop.prevent="mouseOver"
+         @mouseleave.stop.prevent="mouseLeave"
+         :style="[{height:`${height}px`},
+           currentID===item.id?selectStyle:itemStyle,mouseOverItemStyle,]"
+         :class="expandAll&&item.path?'noJustTitle':expandAll?'justTitle':''"
     >
       <i :class="item.icon?item.icon:'iconfont icon-dian'"
          :style="indent?{paddingLeft:`${item.submenuIndent}px`}:{}"
       ></i>
       <p>{{ item.title }}</p>
       <div class="imgBox">
-        <i
-          :class="[isOpen?'rotate':'rotateTwo','showIcon']"
-          class="iconfont icon-insert-right-full"
-          v-if="item.children?.length>0&&!expandAll"
+        <i class="iconfont icon-insert-right-full"
+           v-if="item.children?.length>0&&!expandAll"
+           :class="[isOpen?'rotate':'rotateTwo','showIcon']"
         ></i>
       </div>
-
     </div>
     <transition
-      name="showChild"
-      @before-enter="beforeEnter"
       @enter="enter"
       @leave="leave"
+      name="showChild"
+      @before-enter="beforeEnter"
     >
-      <ul v-if="expandAll||(item.children && isOpen && index === currentIndex)"
-          class="xy-submenu"
-      >
+      <ul class="xy-submenu"
+          v-if="expandAll||(item.children && isOpen && index === currentIndex)">
         <template v-if="showOnlyOneSubmenu">
           <xy-menu-item
-            v-for="(child, index) in item.children"
             :key="index"
             :item="child"
             :height="height"
-            :selectStyle="selectStyle"
-            :itemStyle="itemStyle"
             :indent="indent"
-            :expandAll="expandAll"
             :selfJump="selfJump"
+            :expandAll="expandAll"
+            :itemStyle="itemStyle"
+            :selectStyle="selectStyle"
             :mouseOverStyle="mouseOverStyle"
+            v-for="(child, index) in item.children"
           />
         </template>
         <template v-else>
           <xy-menu-item
-            v-for="(child, index) in item.children"
             :key="index"
             :item="child"
             :index="index"
-            v-model:currentIndex="childCurrentIndex"
             :height="height"
-            :selectStyle="selectStyle"
-            :itemStyle="itemStyle"
             :indent="indent"
-            :expandAll="expandAll"
             :selfJump="selfJump"
+            :itemStyle="itemStyle"
+            :expandAll="expandAll"
+            :selectStyle="selectStyle"
             :mouseOverStyle="mouseOverStyle"
+            v-for="(child, index) in item.children"
+            v-model:currentIndex="childCurrentIndex"
           />
         </template>
       </ul>
