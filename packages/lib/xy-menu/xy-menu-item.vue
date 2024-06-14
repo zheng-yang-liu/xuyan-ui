@@ -124,9 +124,6 @@ export default defineComponent({
     const childCurrentIndex = ref(0);
     const currentID = inject('currentID');
     const mouseOverItemStyle = ref({});
-    console.log(props.itemStyle,
-    props.selectStyle,
-    props.mouseOverStyle)
     const clickItem = inject('xyMenuClickItem');
     const toggle = (clickIndex: number, item: MenuItemType) => {
       // 切换状态
