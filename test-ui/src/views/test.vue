@@ -10,15 +10,15 @@
         <div style="background-color: #ffffff;width: 100%;height: 100%">
           <xy-menu-left
             :menuItems="menuItems"
-            :startID="menuItems[0].id"
             :selectStyle="selectStyle"
             :itemStyle="itemStyle"
-          ></xy-menu-left>
+            :expandAll="false"
+          >
+          </xy-menu-left>
         </div>
       </template>
       <template #main>
         <div style="background-color: green;width: 100%;height: 100%">
-
 
         </div>
       </template>
@@ -60,7 +60,7 @@ const menuItems = [
                 children: [
                   {
                     title: 'svg白的描边',
-                    path: '/system/user/list',
+                    path: '/svgAnimation',
                     submenuIndent: '20',
                     id: '2-1-1-1-1',
                   },
@@ -123,7 +123,8 @@ const menuItems = [
         path: '/system/menu',
         id: '2-3',
         icon: 'iconfont icon-kuaidiyuan-xianxing',
-      }
+      },
+
     ]
   },
   {
@@ -156,7 +157,7 @@ const menuItems = [
         id: '3-2',
       }
     ]
-  }
+  },
 ]
 const direction = ref('horizontal')
 const dianji = () => {
@@ -166,12 +167,13 @@ const dddddddd = () => {
   direction.value = 'horizontal'
 }
 const selectStyle = {
-  backgroundColor: '#f0f0f0',
-  color: '#1890ff'
+  backgroundColor: '#417ff2',
+  color: '#ffffff'
 }
 const itemStyle = {
-  backgroundColor: 'red',
-  color: '#2c2c2c'
+  backgroundColor: '#f9f9fc',
+  color: '#2c2c2c',
+  border: '1px solid #e8e8e8'
 }
 </script>
 

@@ -3,17 +3,21 @@
     <div
       @click="toggle(index, item)"
       class="xy-menuItem"
-      :style="[{height:`${height}px`},currentID===item.id?selectStyle:itemStyle,mouseOverItemStyle]"
+      :style="[{height:`${height}px`},
+        currentID===item.id?selectStyle:itemStyle,mouseOverItemStyle,
+       ]"
       @mouseover.stop.prevent="mouseOver"
       @mouseleave.stop.prevent="mouseLeave"
     >
-      <i :class="item.icon?item.icon:'iconfont icon-dian'" :style="indent?{paddingLeft:`${item.submenuIndent}px`}:{}"></i>
+      <i :class="item.icon?item.icon:'iconfont icon-dian'"
+         :style="indent?{paddingLeft:`${item.submenuIndent}px`}:{}"
+      ></i>
       <p>{{ item.title }}</p>
       <div class="imgBox">
         <i
           :class="isOpen?'rotate':'rotateTwo'"
           class="iconfont icon-insert-right-full"
-          v-if="item.children?.length>0"></i>
+          v-if="item.children?.length>0&&!expandAll"></i>
       </div>
 
     </div>
@@ -23,7 +27,7 @@
       @enter="enter"
       @leave="leave"
     >
-      <ul v-if="item.children && isOpen && index === currentIndex"
+      <ul v-if="expandAll||(item.children && isOpen && index === currentIndex)"
           class="xy-submenu"
       >
         <template v-if="showOnlyOneSubmenu">
@@ -35,6 +39,7 @@
             :selectStyle="selectStyle"
             :itemStyle="itemStyle"
             :indent="indent"
+            :expandAll="expandAll"
           />
         </template>
         <template v-else>
@@ -48,6 +53,7 @@
             :selectStyle="selectStyle"
             :itemStyle="itemStyle"
             :indent="indent"
+            :expandAll="expandAll"
           />
         </template>
       </ul>
@@ -59,7 +65,7 @@
 
 import { defineComponent, ref, watch, PropType ,inject} from 'vue';
 import { menuItem as MenuItemType } from './xy-menu.type';
-
+import{Tools}from "../../index"
 import {useRouter} from "vue-router";
 export default defineComponent({
   name: 'xy-menu-item',
@@ -95,11 +101,15 @@ export default defineComponent({
     },
     mouseOverStyle:{
       type:Object,
-      default:()=>({backgroundColor:'#f0f0f0'})
+      default:()=>({backgroundColor:'#ecf5ff'})
     },
     indent:{
       type:Boolean,
       default:true
+    },
+    expandAll:{
+      type:Boolean,
+      default:false
     }
   },
   emits: ['update:currentIndex'],
@@ -112,11 +122,11 @@ export default defineComponent({
 
     const toggle = (clickIndex: number, item: MenuItemType) => {
       isOpen.value = !isOpen.value;
+      mouseOverItemStyle.value = {};
       context.emit('update:currentIndex', clickIndex);
       if(!item.children?.length){
         currentID.value = item.id;
       }
-      console.log(item)
       if(item.children?.length>0) return;
       // router.push(item.path);
     };
@@ -144,6 +154,7 @@ export default defineComponent({
       });
     };
     const mouseOver = () => {
+      if (props.item.id === currentID.value) return;
       mouseOverItemStyle.value = props.mouseOverStyle;
     };
     const mouseLeave = () => {
@@ -171,7 +182,7 @@ export default defineComponent({
   cursor: pointer;
   display: flex;
   align-items: center;
-  padding:0 10px;
+  padding: 0 15px 0 10px;
   position: relative;
   .imgBox{
     position: absolute;

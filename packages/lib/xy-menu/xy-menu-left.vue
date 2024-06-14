@@ -1,4 +1,7 @@
 <template>
+  <div :style="{maxHeight:`${height}px`}">
+    <slot name="logo"></slot>
+  </div>
   <ul class="menu">
     <xy-menu-item
       v-for="(item, index) in afterConversionMenu"
@@ -10,7 +13,7 @@
       :selectStyle="selectStyle"
       :itemStyle="itemStyle"
       :indent="submenuIndentConfig.autoIndent"
-
+      :expandAll="expandAll"
     />
   </ul>
 </template>
@@ -37,7 +40,7 @@ export default defineComponent({
     },
     submenuIndentConfig:{
       type: Object as PropType<{autoIndent:boolean,indentValue:number,currentIndent:number}>,
-      default:()=>({autoIndent:false,indentValue:10,currentIndent:0})
+      default:()=>({autoIndent:true,indentValue:10,currentIndent:0})
     },
     startID:{
       type:String,
@@ -50,6 +53,10 @@ export default defineComponent({
     itemStyle:{
       type:Object,
       default:()=>({})
+    },
+    expandAll:{
+      type:Boolean,
+      default:false
     }
   },
   setup(props,context) {
@@ -69,7 +76,6 @@ export default defineComponent({
     const convertData = ()=>{
       if(!props.submenuIndentConfig.autoIndent) return;
       afterConversionMenu.value = addSubmenuIndent(props.menuItems, props.submenuIndentConfig.indentValue, props.submenuIndentConfig.currentIndent);
-      console.log(afterConversionMenu.value);
     }
     convertData();
     return {
@@ -81,8 +87,13 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import "../../assets/style/mixin.scss";
 .menu {
   list-style-type: none;
   padding: 0;
+  height: 100%;
+  overflow-y: auto;
 }
+@include scrollbar;
+
 </style>
