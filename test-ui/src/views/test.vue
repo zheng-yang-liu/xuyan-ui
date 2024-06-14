@@ -13,7 +13,11 @@
             :selectStyle="selectStyle"
             :itemStyle="itemStyle"
             :expandAll="false"
+            @clickItem="clickItem"
           >
+<!--            <template #logo>-->
+<!--              <div style="height: 50px;background-color: red"></div>-->
+<!--            </template>-->
           </xy-menu-left>
         </div>
       </template>
@@ -40,6 +44,7 @@ const menuItems = [
     title: '工具函数',
     id: '2',
     icon: 'iconfont icon-donghua',
+    path:'/home',
     children: [
       {
         title: '图标动画',
@@ -174,6 +179,9 @@ const itemStyle = {
   backgroundColor: '#f9f9fc',
   color: '#2c2c2c',
   border: '1px solid #e8e8e8'
+}
+const clickItem = (item)=>{
+  console.log(item)
 }
 </script>
 

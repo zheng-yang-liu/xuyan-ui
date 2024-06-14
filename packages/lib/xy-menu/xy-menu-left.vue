@@ -1,8 +1,8 @@
 <template>
-  <div :style="{maxHeight:`${height}px`}">
+  <div :style="{maxHeight:`${height}px`}" class="xyMenuLeftLogo" ref="xyMenuLeftLogo">
     <slot name="logo"></slot>
   </div>
-  <ul class="menu">
+  <ul class="menu-left" :style="{backgroundColor:itemStyle.backgroundColor}" ref="menuLeft">
     <xy-menu-item
       v-for="(item, index) in afterConversionMenu"
       :key="index"
@@ -14,12 +14,13 @@
       :itemStyle="itemStyle"
       :indent="submenuIndentConfig.autoIndent"
       :expandAll="expandAll"
+      :selfJump="selfJump"
     />
   </ul>
 </template>
 
 <script lang="ts">
-import { defineComponent ,ref,provide} from 'vue';
+import { defineComponent ,ref,provide,onMounted} from 'vue';
 import type {PropType}from 'vue'
 import type { menuItem as MenuItemType } from './xy-menu.type';
 import xyMenuItem from './xy-menu-item.vue'
@@ -39,8 +40,16 @@ export default defineComponent({
       default:40
     },
     submenuIndentConfig:{
-      type: Object as PropType<{autoIndent:boolean,indentValue:number,currentIndent:number}>,
-      default:()=>({autoIndent:true,indentValue:10,currentIndent:0})
+      type: Object as PropType<{
+        autoIndent:boolean,
+        indentValue:number,
+        currentIndent:number
+      }>,
+      default:()=>({
+        autoIndent:true,
+        indentValue:10,
+        currentIndent:0
+      })
     },
     startID:{
       type:String,
@@ -51,18 +60,35 @@ export default defineComponent({
       default:()=>({})
     },
     itemStyle:{
-      type:Object,
-      default:()=>({})
+      type:Object as PropTYpe<{
+        backgroundColor?:string,
+        color?:string,
+        border?:string
+      }>,
+      default:()=>({
+        backgroundColor: '#f9f9fc',
+        color: '#2c2c2c',
+        border: '1px solid #e8e8e8'
+      })
     },
     expandAll:{
       type:Boolean,
       default:false
+    },
+    selfJump:{
+      type:Boolean,
+      default:true
     }
   },
+  emits:['clickItem'],
   setup(props,context) {
     const currentIndex = ref(0);
     const currentID = ref(props.startID);
     provide('currentID', currentID);
+    const xyMenuLeftLogo = ref<HTMLElement | null>(null);
+    const menuLeft = ref<HTMLElement | null>(null);
+
+
     const addSubmenuIndent = (menuItems:MenuItemType[], indentValue = 10, currentIndent = 0):MenuItemType[]=> {
       return menuItems.map(item => {
         let newItem = { ...item, submenuIndent: currentIndent };
@@ -75,12 +101,30 @@ export default defineComponent({
     const afterConversionMenu = ref<MenuItemType>(props.menuItems);
     const convertData = ()=>{
       if(!props.submenuIndentConfig.autoIndent) return;
-      afterConversionMenu.value = addSubmenuIndent(props.menuItems, props.submenuIndentConfig.indentValue, props.submenuIndentConfig.currentIndent);
+      afterConversionMenu.value = addSubmenuIndent(
+        props.menuItems,
+        props.submenuIndentConfig.indentValue,
+        props.submenuIndentConfig.currentIndent
+      );
     }
     convertData();
+    const xyMenuClickItem = (item:MenuItemType)=>{
+      context.emit('clickItem',item)
+    }
+    provide('xyMenuClickItem',xyMenuClickItem)
+    const setMenuHeight = ()=>{
+      const logoHeight = xyMenuLeftLogo.value.offsetHeight;
+      const tempMenuHeight = menuLeft.value.offsetHeight
+      menuLeft.value.style.height = tempMenuHeight - logoHeight + 'px';
+    }
+    onMounted(()=>{
+      setMenuHeight();
+    })
     return {
       currentIndex,
-      afterConversionMenu
+      afterConversionMenu,
+      xyMenuLeftLogo,
+      menuLeft
     };
   }
 });
@@ -88,7 +132,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 @import "../../assets/style/mixin.scss";
-.menu {
+.menu-left {
   list-style-type: none;
   padding: 0;
   height: 100%;

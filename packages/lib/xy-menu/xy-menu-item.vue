@@ -15,9 +15,10 @@
       <p>{{ item.title }}</p>
       <div class="imgBox">
         <i
-          :class="isOpen?'rotate':'rotateTwo'"
+          :class="[isOpen?'rotate':'rotateTwo','showIcon']"
           class="iconfont icon-insert-right-full"
-          v-if="item.children?.length>0&&!expandAll"></i>
+          v-if="item.children?.length>0&&!expandAll"
+        ></i>
       </div>
 
     </div>
@@ -40,6 +41,7 @@
             :itemStyle="itemStyle"
             :indent="indent"
             :expandAll="expandAll"
+            :selfJump="selfJump"
           />
         </template>
         <template v-else>
@@ -54,6 +56,7 @@
             :itemStyle="itemStyle"
             :indent="indent"
             :expandAll="expandAll"
+            :selfJump="selfJump"
           />
         </template>
       </ul>
@@ -110,6 +113,10 @@ export default defineComponent({
     expandAll:{
       type:Boolean,
       default:false
+    },
+    selfJump:{
+      type:Boolean,
+      default:true
     }
   },
   emits: ['update:currentIndex'],
@@ -120,15 +127,20 @@ export default defineComponent({
     const currentID = inject('currentID');
     const mouseOverItemStyle = ref({});
 
+    const clickItem = inject('xyMenuClickItem');
     const toggle = (clickIndex: number, item: MenuItemType) => {
       isOpen.value = !isOpen.value;
       mouseOverItemStyle.value = {};
       context.emit('update:currentIndex', clickIndex);
+      if(typeof(clickItem)=='function') clickItem(item);
+
       if(!item.children?.length){
         currentID.value = item.id;
       }
-      if(item.children?.length>0) return;
-      // router.push(item.path);
+
+      if (!props.selfJump || (item.children && item.children.length > 0)) return;
+      // 跳转到指定路径
+      router.push(item.path);
     };
     const init = () => {
       isOpen.value = props.index === props.currentIndex;
@@ -188,11 +200,8 @@ export default defineComponent({
     position: absolute;
     right: 10px;
   }
-  img {
-    float: right;
-    width: 10px;
-    height: 10px;
-    transition: transform 0.5s;
+  .showIcon {
+    font-size: 12px;
   }
   p{
     width: 80%;
@@ -205,15 +214,15 @@ export default defineComponent({
 }
 
 .rotate {
-  display: inline-block; /* 保证transform效果生效 */
+  display: inline-block;
   transform: rotate(90deg);
-  transform-origin: center; /* 旋转中心点，默认为元素中心 */
-  transition: transform 0.5s ease-in-out; /* 2秒的过渡时间，缓入缓出效果 */
+  transform-origin: center;
+  transition: transform 0.3s ease-in-out;
 }
-.rotateTwo{display: inline-block; /* 保证transform效果生效 */
+.rotateTwo{display: inline-block;
   transform: rotate(0deg);
-  transform-origin: center; /* 旋转中心点，默认为元素中心 */
-  transition: transform 0.5s ease-in-out; /* 2秒的过渡时间，缓入缓出效果 */
+  transform-origin: center;
+  transition: transform 0.3s ease-in-out;
 }
 
 .xy-submenu {
