@@ -13,8 +13,8 @@
       v-model:currentIndex="currentIndex"
       :indent="submenuIndentConfig.autoIndent"
       v-for="(item, index) in afterConversionMenu"
-      :selectStyle="defaultStyle?defaultSelectStyle:selectStyle"
       :itemStyle="defaultStyle?defaultItemStyle:itemStyle"
+      :selectStyle="defaultStyle?defaultSelectStyle:selectStyle"
       :mouseOverStyle="defaultStyle?defaultMouseOverStyle:mouseOverStyle"
     />
   </ul>
