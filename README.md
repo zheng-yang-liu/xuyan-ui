@@ -71,13 +71,13 @@ export declare const install: (app: import("vue").App<any>) => void;
 
 ```
 {
-  "name": "yanyan-ui",  //组件库名
+  "name": "../../packages",  //组件库名
   "version": "2.0.8", //版本号
   "private": false, //是否公共
   "description": "适用于vue3的前端xy组件库", //说明
   "main": "index.js", //入口文件
   "typings": "index.d.ts", //类型声明文件
-  "keywords": ["yanyan-ui", "vue3", "xy", "组件库","ui"], //关键字
+  "keywords": ["../../packages", "vue3", "xy", "组件库","ui"], //关键字
   "dependencies": {  //依赖
     "vue": "^3.4.26"
   }

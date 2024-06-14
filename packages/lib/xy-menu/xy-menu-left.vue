@@ -4,6 +4,7 @@
   </div>
   <ul class="menu-left" :style="{backgroundColor:itemStyle.backgroundColor}" ref="menuLeft">
     <xy-menu-item
+      v-for="(item, index) in afterConversionMenu"
       :key="index"
       :item="item"
       :index="index"
@@ -12,7 +13,6 @@
       :expandAll="expandAll"
       v-model:currentIndex="currentIndex"
       :indent="submenuIndentConfig.autoIndent"
-      v-for="(item, index) in afterConversionMenu"
       :selectStyle="defaultStyle?defaultSelectStyle:selectStyle"
       :itemStyle="defaultStyle?defaultItemStyle:itemStyle"
       :mouseOverStyle="defaultStyle?defaultMouseOverStyle:mouseOverStyle"
