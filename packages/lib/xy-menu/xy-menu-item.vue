@@ -3,7 +3,7 @@
     <div
       @click="toggle(index, item)"
       class="xy-menuItem"
-      :class="expandAll&&item.path?'noJustTitle':'justTitle'"
+      :class="expandAll&&item.path?'noJustTitle':expandAll?'justTitle':''"
       :style="[{height:`${height}px`},
         currentID===item.id?selectStyle:itemStyle,mouseOverItemStyle,
        ]"
