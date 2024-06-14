@@ -8,13 +8,14 @@
       :key="index"
       :item="item"
       :index="index"
-      v-model:currentIndex="currentIndex"
       :height="height"
-      :selectStyle="selectStyle"
-      :itemStyle="itemStyle"
-      :indent="submenuIndentConfig.autoIndent"
-      :expandAll="expandAll"
       :selfJump="selfJump"
+      :expandAll="expandAll"
+      v-model:currentIndex="currentIndex"
+      :indent="submenuIndentConfig.autoIndent"
+      :selectStyle="defaultStyle?defaultSelectStyle:selectStyle"
+      :itemStyle="defaultStyle?defaultItemStyle:itemStyle"
+      :mouseOverStyle="defaultStyle?defaultMouseOverStyle:mouseOverStyle"
     />
   </ul>
 </template>
@@ -60,16 +61,8 @@ export default defineComponent({
       default:()=>({})
     },
     itemStyle:{
-      type:Object as PropTYpe<{
-        backgroundColor?:string,
-        color?:string,
-        border?:string
-      }>,
-      default:()=>({
-        backgroundColor: '#f9f9fc',
-        color: '#2c2c2c',
-        border: '1px solid #e8e8e8'
-      })
+      type:Object,
+      default:()=>({})
     },
     expandAll:{
       type:Boolean,
@@ -78,6 +71,14 @@ export default defineComponent({
     selfJump:{
       type:Boolean,
       default:true
+    },
+    mouseOverStyle:{
+      type:Object,
+      default:()=>({})
+    },
+    defaultStyle:{
+      type:Boolean,
+      default:true,
     }
   },
   emits:['clickItem'],
@@ -87,8 +88,19 @@ export default defineComponent({
     provide('currentID', currentID);
     const xyMenuLeftLogo = ref<HTMLElement | null>(null);
     const menuLeft = ref<HTMLElement | null>(null);
-
-
+    const defaultSelectStyle = {
+      backgroundColor: '#417ff2',
+      color: '#ffffff',
+      border: '1px solid #e8e8e8'
+    }
+    const defaultItemStyle = {
+      backgroundColor: '#f9f9fc',
+      color: '#2c2c2c',
+      border: '1px solid #EDEDEDFF'
+    }
+    const defaultMouseOverStyle = {
+      backgroundColor: '#ecf5ff'
+    }
     const addSubmenuIndent = (menuItems:MenuItemType[], indentValue = 10, currentIndent = 0):MenuItemType[]=> {
       return menuItems.map(item => {
         let newItem = { ...item, submenuIndent: currentIndent };
@@ -124,7 +136,10 @@ export default defineComponent({
       currentIndex,
       afterConversionMenu,
       xyMenuLeftLogo,
-      menuLeft
+      menuLeft,
+      defaultSelectStyle,
+      defaultItemStyle,
+      defaultMouseOverStyle,
     };
   }
 });

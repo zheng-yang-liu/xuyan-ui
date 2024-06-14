@@ -3,6 +3,7 @@
     <div
       @click="toggle(index, item)"
       class="xy-menuItem"
+      :class="expandAll&&item.path?'noJustTitle':'justTitle'"
       :style="[{height:`${height}px`},
         currentID===item.id?selectStyle:itemStyle,mouseOverItemStyle,
        ]"
@@ -42,6 +43,7 @@
             :indent="indent"
             :expandAll="expandAll"
             :selfJump="selfJump"
+            :mouseOverStyle="mouseOverStyle"
           />
         </template>
         <template v-else>
@@ -57,6 +59,7 @@
             :indent="indent"
             :expandAll="expandAll"
             :selfJump="selfJump"
+            :mouseOverStyle="mouseOverStyle"
           />
         </template>
       </ul>
@@ -104,7 +107,7 @@ export default defineComponent({
     },
     mouseOverStyle:{
       type:Object,
-      default:()=>({backgroundColor:'#ecf5ff'})
+      default:()=>({})
     },
     indent:{
       type:Boolean,
@@ -126,22 +129,39 @@ export default defineComponent({
     const childCurrentIndex = ref(0);
     const currentID = inject('currentID');
     const mouseOverItemStyle = ref({});
-
+    console.log(props.itemStyle,
+    props.selectStyle,
+    props.mouseOverStyle)
     const clickItem = inject('xyMenuClickItem');
     const toggle = (clickIndex: number, item: MenuItemType) => {
+      // 切换状态
       isOpen.value = !isOpen.value;
       mouseOverItemStyle.value = {};
-      context.emit('update:currentIndex', clickIndex);
-      if(typeof(clickItem)=='function') clickItem(item);
 
-      if(!item.children?.length){
-        currentID.value = item.id;
+      // 发送事件
+      context.emit('update:currentIndex', clickIndex);
+
+      // 点击事件处理
+      if (typeof clickItem === 'function') {
+        clickItem(item);
       }
 
-      if (!props.selfJump || (item.children && item.children.length > 0)) return;
-      // 跳转到指定路径
-      router.push(item.path);
+      // 检查是否自动跳转或有子项
+      if (props.selfJump && (!item.children || item.children.length === 0)) {
+        // 跳转到指定路径
+        if (!item.path) {
+          Tools.showMsg('error', '路径不存在');
+        } else {
+          // router.push(item.path);
+        }
+
+        // 更新当前ID
+        if(!item.children?.length){
+          currentID.value = item.id;
+        }
+      }
     };
+
     const init = () => {
       isOpen.value = props.index === props.currentIndex;
     };
@@ -167,6 +187,7 @@ export default defineComponent({
     };
     const mouseOver = () => {
       if (props.item.id === currentID.value) return;
+      if(props.expandAll&&!props.item.path) return;
       mouseOverItemStyle.value = props.mouseOverStyle;
     };
     const mouseLeave = () => {
@@ -191,7 +212,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .xy-menuItem {
-  cursor: pointer;
   display: flex;
   align-items: center;
   padding: 0 15px 0 10px;
@@ -210,6 +230,16 @@ export default defineComponent({
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    font-size: 14px;
+  }
+}
+.noJustTitle{
+  cursor: pointer;
+}
+.justTitle{
+  p{
+    font-weight: 600;
   }
 }
 

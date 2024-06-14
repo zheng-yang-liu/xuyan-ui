@@ -10,19 +10,15 @@
         <div style="background-color: #ffffff;width: 100%;height: 100%">
           <xy-menu-left
             :menuItems="menuItems"
-            :selectStyle="selectStyle"
-            :itemStyle="itemStyle"
             :expandAll="false"
             @clickItem="clickItem"
+            :defaultStyle="true"
           >
-<!--            <template #logo>-->
-<!--              <div style="height: 50px;background-color: red"></div>-->
-<!--            </template>-->
           </xy-menu-left>
         </div>
       </template>
       <template #main>
-        <div style="background-color: green;width: 100%;height: 100%">
+        <div style="background-color: #f6f6f6;width: 100%;height: 100%">
 
         </div>
       </template>
@@ -35,20 +31,12 @@ import { ref } from 'vue'
 
 const menuItems = [
   {
-    title:'首页',
-    id:'1',
-    path:'/home',
-    icon:'iconfont icon-shouye',
-  },
-  {
     title: '工具函数',
     id: '2',
     icon: 'iconfont icon-donghua',
-    path:'/home',
     children: [
       {
         title: '图标动画',
-        path: '/system/user',
         icon: 'iconfont icon-kuaidiyuan-xianxing',
         id: '2-1',
         children: [
@@ -58,15 +46,13 @@ const menuItems = [
             icon: 'iconfont icon-dian',
             children: [
               {
-                title: 'svg描边svg描边svg描边',
-                submenuIndent: '10',
+                title: 'svg描边',
                 id: '2-1-1-1',
                 icon: 'iconfont icon-kuaidiyuan-xianxing',
                 children: [
                   {
                     title: 'svg白的描边',
                     path: '/svgAnimation',
-                    submenuIndent: '20',
                     id: '2-1-1-1-1',
                   },
                   {
@@ -86,11 +72,13 @@ const menuItems = [
                     title: 'svg白的填充',
                     id: '2-1-1-2-1',
                     icon: 'iconfont icon-dian',
+                    path: '/system/user/list',
                   },
                   {
                     title: 'svg黑的填充',
                     id: '2-1-1-2-2',
                     icon: 'iconfont icon-dian',
+                    path: '/system/user/add',
                   }
                 ]
               }
