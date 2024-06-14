@@ -71,7 +71,7 @@
 
 import { defineComponent, ref, watch, PropType ,inject} from 'vue';
 import { menuItem as MenuItemType } from './xy-menu.type';
-import{Tools}from "../../index"
+import{showMsg}from "../../tools"
 import {useRouter} from "vue-router";
 export default defineComponent({
   name: 'xy-menu-item',
@@ -150,7 +150,7 @@ export default defineComponent({
       if (props.selfJump && (!item.children || item.children.length === 0)) {
         // 跳转到指定路径
         if (!item.path) {
-          Tools.showMsg('error', '路径不存在');
+          showMsg('error', '路径不存在');
         } else {
           // router.push(item.path);
         }
