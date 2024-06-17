@@ -9,6 +9,7 @@
   "dependencies": {
     "element-plus": "2.7.4",
     "vue": "^3.4.26",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "highlight.js": "^11.9.0"
   }
 }

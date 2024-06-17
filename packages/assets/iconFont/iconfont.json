@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "5262894",
+      "name": "彩色-盒子",
+      "font_class": "cs-hz-1",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
       "icon_id": "10135299",
       "name": "svg",
       "font_class": "svg",

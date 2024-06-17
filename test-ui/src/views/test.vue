@@ -19,7 +19,6 @@
       </template>
       <template #main>
         <div style="background-color: #f6f6f6;width: 100%;height: 100%">
-
         </div>
       </template>
     </xy-classic-page>
@@ -28,7 +27,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
 const menuItems = [
   {
     title: '工具函数',
@@ -168,6 +166,8 @@ const itemStyle = {
   color: '#2c2c2c',
   border: '1px solid #e8e8e8'
 }
+const codeTest = `<p></p>`
+
 const clickItem = (item)=>{
   console.log(item)
 }
