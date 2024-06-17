@@ -18,7 +18,14 @@
         </div>
       </template>
       <template #main>
-        <div style="background-color: #f6f6f6;width: 100%;height: 100%">
+        <div style="background-color: #f6f6f6;width: 100%;height: 100%;padding: 0 10px">
+          <xy-effect-preview :code="codeTest">
+            <template #effect>
+              <div style="width: 100%;height: 100%;background-color: #ffffff">
+                <el-button>按钮</el-button>
+              </div>
+            </template>
+          </xy-effect-preview>
         </div>
       </template>
     </xy-classic-page>

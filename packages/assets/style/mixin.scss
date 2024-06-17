@@ -25,3 +25,13 @@
     background: #555; /* 悬停时的滑块颜色 */
   }
 }
+@mixin display-flex($align:center,$justify:flex-start){
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+@mixin initBox(){
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
