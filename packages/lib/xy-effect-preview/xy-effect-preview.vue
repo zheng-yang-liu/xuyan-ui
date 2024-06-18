@@ -67,13 +67,31 @@ export default defineComponent({
       });
     };
     const copyCode = () => {
-      navigator.clipboard.writeText(props.code)
-        .then(() => {
+      console.log(navigator.clipboard,'navigator.clipboard')
+      if(navigator.clipboard){
+        navigator.clipboard.writeText(props.code)
+          .then(() => {
+            showMsg('success', '代码已复制')
+          })
+          .catch(err => {
+            showMsg('error', '复制失败'+err)
+          });
+      }else{
+        //Document.execCommand() 方法实现
+        const input = document.createElement('input');
+        input.setAttribute('readonly', 'readonly');
+        input.setAttribute('value', 'props.code');
+        document.body.appendChild(input);
+        input.select();
+        if (document.execCommand('copy')) {
+          document.execCommand('copy');
           showMsg('success', '代码已复制')
-        })
-        .catch(err => {
-          showMsg('error', '复制失败'+err)
-        });
+        } else {
+          showMsg('error', '复制失败')
+        }
+        document.body.removeChild(input);
+      }
+
     }
     return {
       showCode,

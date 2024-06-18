@@ -1,15 +1,17 @@
 {
   "name": "yanyan-ui",
-  "version": "2.0.38",
+  "version": "2.0.39",
   "private": false,
   "description": "适用于vue3的前端xy组件库",
   "main": "index.js",
   "typings": "index.d.ts",
-  "keywords": ["../../packages", "vue3", "xy", "组件库","ui"],
-  "dependencies": {
+  "keywords": ["xuyan-ui", "vue3", "xy", "组件库","ui"],
+  "peerDependencies": {
     "element-plus": "2.7.4",
     "vue": "^3.4.26",
-    "vue-router": "^4.3.0",
+    "vue-router": "^4.3.0"
+  },
+  "dependencies": {
     "highlight.js": "^11.9.0"
   }
 }
