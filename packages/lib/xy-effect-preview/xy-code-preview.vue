@@ -22,9 +22,9 @@ export default defineComponent({
   },
   setup(props, context) {
     const languageClass = computed(() => `language-${props.language}`);
-    console.log(languageClass.value, 'languageClass')
+
     return {
-      languageClass
+      languageClass,
     };
   }
 });
