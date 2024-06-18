@@ -19,7 +19,7 @@
       </template>
       <template #main>
         <div class="mainBox" style="background-color: #f6f6f6;width: 100%;height: 100%;padding: 0 10px;overflow: hidden;overflow-y: auto">
-          <xy-effect-preview :code="codeTest">
+          <xy-effect-preview :code="vueComponentString">
             <template #effect>
               <div style="width: 100%;height: 100%;background-color: #ffffff">
                 <el-button>按钮</el-button>
@@ -36,7 +36,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import vueComponentString from "@/views/codeTest";
-
 const menuItems = [
   {
     title: '工具函数',
@@ -188,6 +187,7 @@ const clickItem = (item)=>{
 
 <style scoped lang="scss">
 .mainBox{
-  @include scrollbar()
+  background-color: red;
 }
+@include scrollbar()
 </style>

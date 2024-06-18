@@ -1,4 +1,5 @@
 import { App, DirectiveBinding } from 'vue';
+import 'highlight.js/styles/atom-one-dark.css';
 import hljs from 'highlight.js';
 
 const vueHighlightJS = {

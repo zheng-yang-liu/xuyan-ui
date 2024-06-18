@@ -1,12 +1,11 @@
 <template>
-  <pre v-highlightjs="code">
-    <code :class="languageClass"></code>
+  <pre v-highlightjs="code" ref="preBox">
+    <code :class="languageClass" ref="codeBox"></code>
   </pre>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch, computed } from 'vue';
-import 'highlight.js/styles/atom-one-dark.css';
 
 export default defineComponent({
   name: 'xy-code-preview',
@@ -22,9 +21,22 @@ export default defineComponent({
   },
   setup(props, context) {
     const languageClass = computed(() => `language-${props.language}`);
-
+    const codeBox = ref<HTMLElement | null>(null);
+    const preBox = ref<HTMLElement | null>(null);
+    onMounted(() => {
+      if (codeBox.value) {
+        console.log(codeBox.value.scrollHeight);
+        //获取高度
+        preBox.value.style.height = `${codeBox.value.scrollHeight}px`;
+        preBox.value.style.position = 'relative';
+        codeBox.value.style.position = 'absolute';
+        codeBox.value.style.inset = 0;
+      }
+    });
     return {
       languageClass,
+      codeBox,
+      preBox
     };
   }
 });
