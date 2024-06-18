@@ -3,13 +3,13 @@
 
 //导入组件
 import * as Tools from "./tools"
+import vueHighlightJS from"./directives/vueHighlightJS";
 import {xyTest} from "./lib/xy-test";
 import {xyCalendar} from "./lib/xy-calendar";
 import {xyImgCropping} from "./lib/xy-img-cropping"
 import {xyClassicPage} from "./lib/xy-classic-page"
 import {xyMenuLeft,xyMenuItem} from "./lib/xy-menu";
 import {xyCodePreview,xyEffectPreview}from "./lib/xy-effect-preview"
-
 
 //挂载组件
 
@@ -28,6 +28,8 @@ const install = (app) =>{
         const name = item.name || item.__name;
         app.component(name,item);
     })
+    // 安装自定义指令
+    app.use(vueHighlightJS);
 }
 
 export {

@@ -1,5 +1,5 @@
 <template>
-  <div :style="{width:width}" class="effect-preview">
+  <div :style="{ width: width }" class="effect-preview">
     <div class="effect-box"><slot name="effect"></slot></div>
     <div class="effect-tools">
       <i class="iconfont icon-fuzhi" title="复制" @click="copyCode"></i>
@@ -19,20 +19,20 @@
         </div>
       </div>
     </transition>
-
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent,ref} from 'vue'
+import { defineComponent, ref } from 'vue';
 import xyCodePreview from "./xy-code-preview.vue";
-import{showMsg}from "../../tools"
+import { showMsg } from "../../tools";
+
 export default defineComponent({
   name: "xy-effect-preview",
   props: {
-    width:{
-      type:String,
-      default:'100%'
+    width: {
+      type: String,
+      default: '100%'
     },
     code: {
       type: String,
@@ -46,8 +46,8 @@ export default defineComponent({
   components: {
     xyCodePreview
   },
-  setup(props, context) {
-    const showCode = ref<Boolean>(false)
+  setup(props) {
+    const showCode = ref(false);
 
     const beforeEnter = (el: HTMLElement) => {
       el.style.height = '0';
@@ -66,86 +66,95 @@ export default defineComponent({
         el.style.height = '0';
       });
     };
+
     const copyCode = () => {
-      console.log(navigator.clipboard,'navigator.clipboard')
-      if(navigator.clipboard){
-        navigator.clipboard.writeText(props.code)
-          .then(() => {
-            showMsg('success', '代码已复制')
-          })
-          .catch(err => {
-            showMsg('error', '复制失败'+err)
-          });
-      }else{
-        //Document.execCommand() 方法实现
-        const input = document.createElement('input');
-        input.setAttribute('readonly', 'readonly');
-        input.setAttribute('value', 'props.code');
-        document.body.appendChild(input);
-        input.select();
-        if (document.execCommand('copy')) {
-          document.execCommand('copy');
-          showMsg('success', '代码已复制')
+      const codeElement = document.createElement('pre');
+      codeElement.style.position = 'absolute';
+      codeElement.style.left = '-9999px';
+      codeElement.textContent = props.code;
+      document.body.appendChild(codeElement);
+
+      const range = document.createRange();
+      range.selectNodeContents(codeElement);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          showMsg('success', '代码已复制');
         } else {
-          showMsg('error', '复制失败')
+          showMsg('error', '复制失败');
         }
-        document.body.removeChild(input);
+      } catch (err) {
+        showMsg('error', '复制失败: ' + err);
       }
 
-    }
+      document.body.removeChild(codeElement);
+      selection.removeAllRanges();
+    };
+
     return {
       showCode,
       beforeEnter,
       enter,
       leave,
       copyCode
-    }
+    };
   }
-})
+});
 </script>
 
 <style scoped lang="scss">
-@import"../../assets/style/mixin.scss";
+@import "../../assets/style/mixin.scss";
 $bgColor: #ffffff;
 $borderSolid: 1px solid #cdcdcd;
-$animationLaunch:height 0.5s ease;
-.effect-preview{
+$animationLaunch: height 0.5s ease;
+
+.effect-preview {
   background-color: $bgColor;
   border: $borderSolid;
   border-radius: 5px;
   overflow: hidden;
-  .effect-box{
+
+  .effect-box {
     padding: 24px;
     border-bottom: $borderSolid;
   }
-  .effect-tools{
+
+  .effect-tools {
     padding: 8px;
-    @include display-flex(center,flex-end);
-    i{
+    @include display-flex(center, flex-end);
+
+    i {
       font-size: 17px;
       padding: 0 5px;
       cursor: pointer;
     }
   }
-  .effect-code{
-    .effect-code-close{
+
+  .effect-code {
+    .effect-code-close {
       width: 100%;
       height: 40px;
       cursor: pointer;
-      //background-color: $bgColor;
 
       transition: $animationLaunch;
 
-      @include display-flex(center,center);
-      i{
+      @include display-flex(center, center);
+
+      i {
         display: inline-block;
         transform: rotate(-90deg);
       }
-      &:hover{
+
+      &:hover {
         color: #3c9cff;
       }
     }
   }
+
   .showCode-enter-active,
   .showCode-leave-active {
     transition: $animationLaunch;

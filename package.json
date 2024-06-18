@@ -9,12 +9,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "peerDependencies": {
+  "dependencies": {
+    "highlight.js": "^11.9.0",
     "element-plus": "2.7.4",
     "vue": "^3.4.26",
     "vue-router": "^4.3.0"
-  },
-  "dependencies": {
-    "highlight.js": "^11.9.0"
   }
 }

@@ -1,10 +1,11 @@
 <template>
-  <pre><code ref="codeBlock" :class="languageClass"></code></pre>
+  <pre v-highlightjs="code">
+    <code :class="languageClass"></code>
+  </pre>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch, computed } from 'vue';
-import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
 
 export default defineComponent({
@@ -20,23 +21,9 @@ export default defineComponent({
     }
   },
   setup(props, context) {
-    const codeBlock = ref<HTMLElement | null>(null);
-
     const languageClass = computed(() => `language-${props.language}`);
-
-    const highlightCode = () => {
-      if (codeBlock.value) {
-        // 使用 textContent 来设置代码内容，确保特殊字符被转义
-        codeBlock.value.textContent = props.code;
-        hljs.highlightElement(codeBlock.value);
-      }
-    };
-
-    onMounted(highlightCode);
-    watch(() => props.code, highlightCode);
-
+    console.log(languageClass.value, 'languageClass')
     return {
-      codeBlock,
       languageClass
     };
   }
@@ -48,6 +35,7 @@ export default defineComponent({
 /* 自定义样式以确保标点符号为英文状态 */
 .hljs {
   font-family: "Courier New", Courier, monospace;
+  font-size: 13px;
 }
 /* 可以根据需要添加更多的自定义样式 */
 </style>

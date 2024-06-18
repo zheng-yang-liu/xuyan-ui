@@ -18,7 +18,7 @@
         </div>
       </template>
       <template #main>
-        <div style="background-color: #f6f6f6;width: 100%;height: 100%;padding: 0 10px">
+        <div class="mainBox" style="background-color: #f6f6f6;width: 100%;height: 100%;padding: 0 10px;overflow: hidden;overflow-y: auto">
           <xy-effect-preview :code="codeTest">
             <template #effect>
               <div style="width: 100%;height: 100%;background-color: #ffffff">
@@ -26,6 +26,7 @@
               </div>
             </template>
           </xy-effect-preview>
+          <xy-code-preview :code="codeTest" language="JavaScript"></xy-code-preview>
         </div>
       </template>
     </xy-classic-page>
@@ -34,6 +35,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import vueComponentString from "@/views/codeTest";
+
 const menuItems = [
   {
     title: '工具函数',
@@ -173,7 +176,10 @@ const itemStyle = {
   color: '#2c2c2c',
   border: '1px solid #e8e8e8'
 }
-const codeTest = `<p></p>`
+const codeTest =
+`console.log("hello world");
+let name = '张三';
+`
 
 const clickItem = (item)=>{
   console.log(item)
@@ -181,5 +187,7 @@ const clickItem = (item)=>{
 </script>
 
 <style scoped lang="scss">
-
+.mainBox{
+  @include scrollbar()
+}
 </style>
