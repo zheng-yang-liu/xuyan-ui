@@ -1,5 +1,5 @@
 <template>
-  <div class="attribute-box">
+  <div class="attribute-box" ref="attributeBox">
     <template v-for="(item,index) in columns" :key="index">
       <div class="attribute-columns cells">{{item.name}}</div>
     </template>
@@ -69,18 +69,22 @@ export default defineComponent({
         {
           name: '属性名',
           key: 'name',
+          width: '1fr'
         },
         {
           name: '说明',
           key: 'explain',
+          width: '2fr'
         },
         {
           name: '类型',
           key: 'type',
+          width: '1fr'
         },
         {
           name: 'Default',
           key: 'default',
+          width: '1fr'
         }
       ]
     },
@@ -106,9 +110,23 @@ export default defineComponent({
     const showComplexType = (type:string):boolean=>{
       return !basicType.includes(type)
     }
+    const attributeBox = ref<HTMLElement | null>(null);
+    const initGridColumns = ()=>{
+      let gridColumns = '';
+      props.columns.forEach((item)=>{
+        gridColumns += `${item.width} `
+      })
+      if(attributeBox.value) {
 
+        attributeBox.value.style.gridTemplateColumns = gridColumns
+      }
+    }
+    onMounted(()=>{
+      initGridColumns();
+    })
     return {
-      showComplexType
+      showComplexType,
+      attributeBox
     }
   }
 })
@@ -119,7 +137,6 @@ export default defineComponent({
 .attribute-box{
   background-color: #fff;
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1fr;
   .cells{
     border-bottom: 1px solid #d8d8d8;
     min-height: 40px;
