@@ -8,7 +8,7 @@
            currentID===item.id?selectStyle:itemStyle,mouseOverItemStyle,]"
          :class="expandAll&&item.path?'noJustTitle':expandAll?'justTitle':''"
     >
-      <i :class="item.icon?item.icon:'iconfont icon-dian'"
+      <i :class="item.icon?item.icon:fillingDefaultIcon?'iconfont icon-dian':''"
          :style="indent?{paddingLeft:`${item.submenuIndent}px`}:{}"
       ></i>
       <p>{{ item.title }}</p>
@@ -39,6 +39,7 @@
             :selectStyle="selectStyle"
             :mouseOverStyle="mouseOverStyle"
             v-for="(child, index) in item.children"
+            :fillingDefaultIcon="fillingDefaultIcon"
           />
         </template>
         <template v-else>
@@ -55,6 +56,7 @@
             :mouseOverStyle="mouseOverStyle"
             v-for="(child, index) in item.children"
             v-model:currentIndex="childCurrentIndex"
+            :fillingDefaultIcon="fillingDefaultIcon"
           />
         </template>
       </ul>
@@ -113,6 +115,10 @@ export default defineComponent({
       default:false
     },
     selfJump:{
+      type:Boolean,
+      default:true
+    },
+    fillingDefaultIcon:{
       type:Boolean,
       default:true
     }

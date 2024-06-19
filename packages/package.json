@@ -1,6 +1,6 @@
 {
   "name": "yanyan-ui",
-  "version": "2.0.42",
+  "version": "2.0.44",
   "private": false,
   "description": "适用于vue3的前端xy组件库",
   "main": "index.js",
@@ -12,6 +12,7 @@
     "vue-router": "^4.3.0"
   },
   "dependencies": {
-    "highlight.js": "^11.9.0"
+    "highlight.js": "^11.9.0",
+    "mitt": "^3.0.1"
   }
 }

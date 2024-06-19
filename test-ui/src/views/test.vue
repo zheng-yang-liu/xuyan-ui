@@ -23,21 +23,11 @@
             <template #effect>
               <div style="width: 100%;height: 100%;background-color: #ffffff">
                 <el-button>按钮</el-button>
-
               </div>
             </template>
           </xy-effect-preview>
           <xy-attribute-table :data="data"></xy-attribute-table>
-          <div style="width: 400px;height: 400px;display: flex;align-items: center;justify-content: center">
-            <xy-tooltip :hoverShow="false" >
-              <template #display>
-                <button>Hover me</button>
-              </template>
-              <template #prompt>
-                <button>Hover me</button>
-              </template>
-            </xy-tooltip>
-          </div>
+
         </div>
       </template>
     </xy-classic-page>
@@ -105,7 +95,6 @@ const menuItems = [
           {
             title: 'canvas动画',
             path: '/system/user/add',
-            icon: 'iconfont icon-dian',
             id: '2-1-2',
           }
         ]

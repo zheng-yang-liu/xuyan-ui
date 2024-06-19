@@ -12,6 +12,7 @@
       :expandAll="expandAll"
       v-model:currentIndex="currentIndex"
       :indent="submenuIndentConfig.autoIndent"
+      :fillingDefaultIcon="fillingDefaultIcon"
       v-for="(item, index) in afterConversionMenu"
       :itemStyle="defaultStyle?defaultItemStyle:itemStyle"
       :selectStyle="defaultStyle?defaultSelectStyle:selectStyle"
@@ -79,6 +80,10 @@ export default defineComponent({
     defaultStyle:{
       type:Boolean,
       default:true,
+    },
+    fillingDefaultIcon:{
+      type:Boolean,
+      default:true
     }
   },
   emits:['clickItem'],

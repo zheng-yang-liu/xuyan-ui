@@ -11,3 +11,7 @@ export type data = {
   typeValue?:string,
   default?:string
 }
+export type catalogue = {
+  name:string,
+  key:string,
+}
