@@ -9,7 +9,8 @@ import {xyCalendar} from "./lib/xy-calendar";
 import {xyImgCropping} from "./lib/xy-img-cropping"
 import {xyClassicPage} from "./lib/xy-classic-page"
 import {xyMenuLeft,xyMenuItem} from "./lib/xy-menu";
-import {xyCodePreview,xyEffectPreview}from "./lib/xy-effect-preview"
+import {xyCodePreview,xyEffectPreview,xyAttributeTable}from "./lib/xy-effect-preview"
+import {xyTooltip} from "./lib/xy-tooltip";
 
 //挂载组件
 
@@ -22,7 +23,9 @@ const install = (app) =>{
         xyMenuLeft,
         xyMenuItem,
         xyCodePreview,
-        xyEffectPreview
+        xyEffectPreview,
+        xyAttributeTable,
+        xyTooltip
     ];
     components.forEach(item=>{
         const name = item.name || item.__name;

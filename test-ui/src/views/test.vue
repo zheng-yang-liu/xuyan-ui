@@ -23,10 +23,21 @@
             <template #effect>
               <div style="width: 100%;height: 100%;background-color: #ffffff">
                 <el-button>按钮</el-button>
+
               </div>
             </template>
           </xy-effect-preview>
-          <xy-code-preview :code="codeTest" language="JavaScript"></xy-code-preview>
+          <xy-attribute-table :data="data"></xy-attribute-table>
+          <div style="width: 400px;height: 400px;display: flex;align-items: center;justify-content: center">
+            <xy-tooltip :hoverShow="false" >
+              <template #display>
+                <button>Hover me</button>
+              </template>
+              <template #prompt>
+                <button>Hover me</button>
+              </template>
+            </xy-tooltip>
+          </div>
         </div>
       </template>
     </xy-classic-page>
@@ -183,6 +194,24 @@ let name = '张三';
 const clickItem = (item)=>{
   console.log(item)
 }
+const data = [
+  {
+    name: 'name',
+    explain: '名称',
+    type: 'string'
+  },
+  {
+    name: 'age',
+    explain: '年龄',
+    type: [{value:'number'}, {value:'array',complexType:'object[]'}]
+  },
+  {
+    name: 'address',
+    explain: '地址',
+    type: 'object',
+    typeValue:"object[]"
+  }
+]
 </script>
 
 <style scoped lang="scss">

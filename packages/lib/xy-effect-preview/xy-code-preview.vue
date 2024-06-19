@@ -25,8 +25,6 @@ export default defineComponent({
     const preBox = ref<HTMLElement | null>(null);
     onMounted(() => {
       if (codeBox.value) {
-        console.log(codeBox.value.scrollHeight);
-        //获取高度
         preBox.value.style.height = `${codeBox.value.scrollHeight}px`;
         preBox.value.style.position = 'relative';
         codeBox.value.style.position = 'absolute';
@@ -44,10 +42,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* 自定义样式以确保标点符号为英文状态 */
 .hljs {
   font-family: "Courier New", Courier, monospace;
   font-size: 13px;
 }
-/* 可以根据需要添加更多的自定义样式 */
 </style>

@@ -150,4 +150,9 @@ export declare const Tools: {
     strokeLinecap: string = "round",
     fill: string = "none"
   )=>void;
+  /**
+   * 返回数据类型
+   * @param sourceData 源数据
+   */
+  getType:<T>(sourceData: T)=>string;
 };
