@@ -13,5 +13,6 @@ export type data = {
 }
 export type catalogue = {
   name:string,
-  key:string,
+  explain:string,
+  key?:string,
 }

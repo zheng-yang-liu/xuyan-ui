@@ -8,12 +8,17 @@
         <div class="attribute-line cells" v-if="itemColumns.key!=='type'">
           {{item[itemColumns.key]?item[itemColumns.key]:'-'}}
         </div>
-        <div class="attribute-line cells" v-else-if="typeof(item[itemColumns.key])!=='string'">
+        <div
+          class="attribute-line cells"
+          v-else-if="typeof(item[itemColumns.key])!=='string'"
+          style="display: inline-block"
+        >
           <tamplate
             v-for="(itemType,indexType) in item[itemColumns.key]"
             v-if="itemColumns"
             :key="indexType"
-            style="display: flex;align-items: center"
+            :class="`attribute-type${indexType}`"
+            :style="{display: 'inline-block',marginBottom:'5px'}"
           >
             <span v-if="indexType!==0" style="margin: 0 5px">/</span>
             <code>{{itemType.value}}</code>
@@ -28,7 +33,6 @@
                 <div class="complexType">{{itemType.complexType}}</div>
               </template>
             </xyTooltip>
-
           </tamplate>
         </div>
         <div class="attribute-line cells" v-else style="display: flex;align-items: center">
@@ -52,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent,PropType} from 'vue'
+import {defineComponent,PropType,ref,onMounted} from 'vue'
 import {columns,data} from "./effect.type"
 import xyTooltip from "../xy-tooltip/xy-tooltip.vue";
 import xyCodePreview from "./xy-code-preview.vue";
@@ -102,6 +106,7 @@ export default defineComponent({
     const showComplexType = (type:string):boolean=>{
       return !basicType.includes(type)
     }
+
     return {
       showComplexType
     }

@@ -152,6 +152,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .tooltipBox {
+  display: inline-block;
   position: relative;
   .tooltipContent {
     padding: 10px;

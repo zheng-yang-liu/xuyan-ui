@@ -9,8 +9,8 @@
       <template #aside>
         <div style="background-color: #ffffff;width: 100%;height: 100%">
           <xy-menu-left
-            :expandAll="false"
             :defaultStyle="true"
+            :expandAll="false"
             :menuItems="menuItems"
             @clickItem="clickItem"
           >
@@ -18,7 +18,8 @@
         </div>
       </template>
       <template #main>
-        <div class="mainBox" style="background-color: #f6f6f6;width: 100%;height: 100%;padding: 0 10px;overflow: hidden;overflow-y: auto">
+        <div class="mainBox"
+             style="background-color: #f6f6f6;width: 100%;height: 100%;padding: 0 10px;overflow: hidden;overflow-y: auto">
           <xy-effect-preview :code="vueComponentString">
             <template #effect>
               <div style="width: 100%;height: 100%;background-color: #ffffff">
@@ -27,7 +28,12 @@
             </template>
           </xy-effect-preview>
           <xy-attribute-table :data="data"></xy-attribute-table>
-
+          <xy-showcase-page
+            :catalogue="catalogue"
+            introduction="Divider分割线"
+            pageTitle="区隔内容的分割线"
+          >
+          </xy-showcase-page>
         </div>
       </template>
     </xy-classic-page>
@@ -35,8 +41,31 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import {ref} from 'vue'
 import vueComponentString from "@/views/codeTest";
+const catalogue = [
+  {
+    name:'基础用法',
+    explain:'基础用法',
+  },
+  {
+    name:"设置文案",
+    explain:"可以在分割线上自定义文本内容",
+  },
+  {
+    name:"API",
+    children:[
+      {
+        name:"Props",
+        explain:"Divider 分割线的属性",
+      },
+      {
+        name:"Slots",
+        explain:"Divider 分割线的插槽",
+      }
+    ]
+  }
+]
 const menuItems = [
   {
     title: '工具函数',
@@ -129,7 +158,7 @@ const menuItems = [
   },
   {
     title: '数据类型',
-    id:'3',
+    id: '3',
     icon: 'iconfont icon-kuaidiyuan-xianxing',
     children: [
       {
@@ -176,11 +205,11 @@ const itemStyle = {
   border: '1px solid #e8e8e8'
 }
 const codeTest =
-`console.log("hello world");
+  `console.log("hello world");
 let name = '张三';
 `
 
-const clickItem = (item)=>{
+const clickItem = (item) => {
   console.log(item)
 }
 const data = [
@@ -192,19 +221,20 @@ const data = [
   {
     name: 'age',
     explain: '年龄',
-    type: [{value:'number'}, {value:'array',complexType:'object[]'}]
+    type: [{value: "number"},{value: 'array', complexType: 'object[]'},{value: 'array', complexType: 'object[]'},{value: 'array', complexType: 'object[]'}]
   },
   {
     name: 'address',
     explain: '地址',
-    type: [{value:'address',complexType:"'beijing' | 'shanghai' | 'sichuan' | 'beijing' | 'shanghai' | 'sichuan'"}],
+    type: [{value: 'address', complexType: "'beijing' | 'shanghai' | 'sichuan' | 'beijing' | 'shanghai' | 'sichuan'"}],
   }
 ]
 </script>
 
-<style scoped lang="scss">
-.mainBox{
+<style lang="scss" scoped>
+.mainBox {
   background-color: red;
 }
+
 @include scrollbar()
 </style>
