@@ -208,8 +208,7 @@ const data = [
   {
     name: 'address',
     explain: '地址',
-    type: 'object',
-    typeValue:"object[]"
+    type: [{value:'address',complexType:"'beijing' | 'shanghai' | 'sichuan' | 'beijing' | 'shanghai' | 'sichuan'"}],
   }
 ]
 </script>

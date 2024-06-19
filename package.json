@@ -10,8 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "highlight.js": "^11.9.0",
     "element-plus": "2.7.4",
+    "highlight.js": "^11.9.0",
+    "mitt": "^3.0.1",
     "vue": "^3.4.26",
     "vue-router": "^4.3.0"
   }

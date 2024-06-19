@@ -1,30 +1,49 @@
 <template>
   <div class="attribute-box">
     <template v-for="(item,index) in columns" :key="index">
-      <div class="attribute-columns">{{item.name}}</div>
+      <div class="attribute-columns cells">{{item.name}}</div>
     </template>
     <template v-for="(item,index) in data" :key="index">
       <template v-for="(itemColumns,index) in columns" :key="itemColumns.key">
-        <div class="attribute-line" v-if="itemColumns.key!=='type'">
+        <div class="attribute-line cells" v-if="itemColumns.key!=='type'">
           {{item[itemColumns.key]?item[itemColumns.key]:'-'}}
         </div>
-        <div class="attribute-line" v-else-if="typeof(item[itemColumns.key])!=='string'">
-          <tamplate v-for="(itemType,indexType) in item[itemColumns.key]" v-if="itemColumns" :key="indexType">
+        <div class="attribute-line cells" v-else-if="typeof(item[itemColumns.key])!=='string'">
+          <tamplate
+            v-for="(itemType,indexType) in item[itemColumns.key]"
+            v-if="itemColumns"
+            :key="indexType"
+            style="display: flex;align-items: center"
+          >
             <span v-if="indexType!==0" style="margin: 0 5px">/</span>
             <code>{{itemType.value}}</code>
-            <i class="iconfont icon-zhuyi"
-               v-if="showComplexType(itemType.value)"
-               :title="itemType.complexType"
-            >
-            </i>
+            <xyTooltip v-if="showComplexType(itemType.value)"
+                       :hoverShow="false"
+                       :XOffset="promptXOffset"
+                       :topOffset="promptTopOffset">
+              <template #display>
+                <i class="iconfont icon-zhuyi"></i>
+              </template>
+              <template #prompt>
+                <div class="complexType">{{itemType.complexType}}</div>
+              </template>
+            </xyTooltip>
+
           </tamplate>
         </div>
-        <div class="attribute-line" v-else>
+        <div class="attribute-line cells" v-else style="display: flex;align-items: center">
           <code>{{item[itemColumns.key]}}</code>
-          <i class="iconfont icon-zhuyi"
-             v-if="showComplexType(item[itemColumns.key])"
-             :title="item.typeValue">
-          </i>
+          <xyTooltip v-if="showComplexType(item[itemColumns.key])"
+                     :hoverShow="false"
+                     :XOffset="promptXOffset"
+                     :topOffset="promptTopOffset">
+            <template #display>
+              <i class="iconfont icon-zhuyi"></i>
+            </template>
+            <template #prompt>
+              <div class="complexType">{{item[itemColumns.key]}}</div>
+            </template>
+          </xyTooltip>
         </div>
       </template>
     </template>
@@ -35,7 +54,8 @@
 <script lang="ts">
 import {defineComponent,PropType} from 'vue'
 import {columns,data} from "./effect.type"
-import {getType} from"../../tools"
+import xyTooltip from "../xy-tooltip/xy-tooltip.vue";
+import xyCodePreview from "./xy-code-preview.vue";
 export default defineComponent({
   name: "xy-attribute-table",
   props: {
@@ -63,9 +83,20 @@ export default defineComponent({
     data: {
       type: Array as PropType<data[]>,
       default: () => []
+    },
+    promptTopOffset: {
+      type: Number,
+      default: 5
+    },
+    promptXOffset: {
+      type: Number,
+      default: 0
     }
   },
-  components: {},
+  components: {
+    xyCodePreview,
+    xyTooltip
+  },
   setup(props, context) {
     const basicType = ['string','number','boolean','undefined','null','symbol','bigint']
     const showComplexType = (type:string):boolean=>{
@@ -84,7 +115,7 @@ export default defineComponent({
   background-color: #fff;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr 1fr;
-  div{
+  .cells{
     border-bottom: 1px solid #d8d8d8;
     min-height: 40px;
     @include display-flex(center);
@@ -109,6 +140,13 @@ export default defineComponent({
         color: #3c9cff;
         cursor: pointer;
       }
+    }
+    .complexType{
+    padding: 0 10px;
+    background-color: #f5f7fa;
+    border-radius: 5px;
+    color: #0c61c9;
+      font-size: 14px;
     }
   }
 }

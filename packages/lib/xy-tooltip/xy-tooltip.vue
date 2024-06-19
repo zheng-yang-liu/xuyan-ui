@@ -1,7 +1,5 @@
 <template>
-  <div class="tooltipBox"
-       ref="tooltipBox"
-  >
+  <div class="tooltipBox" ref="tooltipBox">
     <div
       @click.stop.prevent="clickShow"
       @mouseover.stop.prevent="mouseOver"
@@ -10,16 +8,17 @@
       <slot name="display"></slot>
     </div>
     <div class="tooltipContent" ref="tooltipContent">
-      <p v-if="content" class="contentText">{{content}}</p>
+      <div v-if="content" class="contentText" ref="contentText">{{ content }}</div>
       <template v-if="!content">
-        <slot name="prompt"></slot>
+        <slot name="prompt" style="width: 100px"></slot>
       </template>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, onUnmounted, nextTick } from 'vue';
+import emitter from '../../tools/mitt';
 
 export default defineComponent({
   name: "xy-tooltip",
@@ -32,76 +31,111 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
-    inTime:{
+    inTime: {
       type: Number,
       default: 0.3
     },
-    outTime:{
+    outTime: {
       type: Number,
       default: 0.3
+    },
+    topOffset: {
+      type: Number,
+      default: 10
+    },
+    XOffset: {
+      type: Number,
+      default: 0
     }
   },
   setup(props) {
     const tooltipBox = ref<HTMLElement | null>(null);
     const tooltipContent = ref<HTMLElement | null>(null);
+    const contentText = ref<HTMLElement | null>(null);
+    const isVisible = ref(false);
 
-    const intiTooltipContent = () => {
-      if (tooltipContent.value) {
-        const tooltipBoxRect = tooltipBox.value?.getBoundingClientRect();
+    const initTooltipContent = async () => {
+      await nextTick(); // 确保 DOM 已更新
+      if (tooltipContent.value && tooltipBox.value) {
+        const tooltipBoxRect = tooltipBox.value.getBoundingClientRect();
+        const tooltipBoxX = tooltipBoxRect.left;
+
+        const maxWidth = Math.min(tooltipBoxX, window.innerWidth - tooltipBoxX);
+        tooltipContent.value.style.maxWidth = `${maxWidth}px`;
+
+        tooltipContent.value.style.whiteSpace = 'normal';
+        tooltipContent.value.style.wordBreak = 'break-all';
+
         const vertexX = tooltipBoxRect.left + tooltipBoxRect.width / 2;
-        const vertexY = tooltipBoxRect.top + tooltipBoxRect.height + 5;
+        const vertexY = tooltipBoxRect.top + tooltipBoxRect.height;
         const contentRect = tooltipContent.value.getBoundingClientRect();
-        tooltipContent.value.style.left = (vertexX - contentRect.width / 2) + 'px';
-        tooltipContent.value.style.top = vertexY + 'px';
+        tooltipContent.value.style.left = (vertexX - contentRect.width / 2) + props.XOffset + 'px';
+        tooltipContent.value.style.top = vertexY + props.topOffset + 'px';
       }
     };
 
     const animateIN = () => {
       if (tooltipContent.value) {
         tooltipContent.value.style.transition = `opacity ${props.inTime}s`;
-        tooltipContent.value.style.opacity = 1;
+        tooltipContent.value.style.opacity = '1';
       }
     };
+
     const animateOUT = () => {
       if (tooltipContent.value) {
         tooltipContent.value.style.transition = `opacity ${props.outTime}s`;
-        tooltipContent.value.style.opacity = 0;
+        tooltipContent.value.style.opacity = '0';
       }
     };
+
     const mouseOver = () => {
-      if(!props.hoverShow) return;
+      if (!props.hoverShow) return;
       animateIN();
     };
+
     const mouseLeave = () => {
-      if(!props.hoverShow) return;
-     animateOUT();
-    };
-    let tempClickShow = true;
-    const clickShow = () => {
-      if(props.hoverShow) return;
-      if(tempClickShow){
-        animateIN();
-        tempClickShow = false;
-      }else{
-        animateOUT();
-        tempClickShow = true;
-      }
-      // 点击其他地方隐藏
-      document.addEventListener('click', (e) => {
-        //阻止事件冒泡
-        e.stopPropagation();
-        if(e.target !== tooltipContent.value){
-         if(!tooltipContent.value?.contains(e.target as Node)){
-           animateOUT();
-           tempClickShow = true;
-         }
-        }
-      });
+      if (!props.hoverShow) return;
+      animateOUT();
     };
 
+    const clickShow = () => {
+      if (props.hoverShow) return;
+
+      if (!isVisible.value) {
+        emitter.emit('closeAll');
+        animateIN();
+        document.addEventListener('click', handleClickOutside);
+      } else {
+        animateOUT();
+        document.removeEventListener('click', handleClickOutside);
+      }
+
+      isVisible.value = !isVisible.value;
+      nextTick(initTooltipContent); // 确保位置计算在 DOM 更新完成后进行
+    };
+
+    const closeTooltip = () => {
+      if (isVisible.value) {
+        animateOUT();
+        isVisible.value = false;
+        document.removeEventListener('click', handleClickOutside);
+      }
+    };
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (tooltipContent.value && !tooltipContent.value.contains(e.target as Node)) {
+        closeTooltip();
+      }
+    };
 
     onMounted(() => {
-      intiTooltipContent();
+      initTooltipContent();
+      emitter.on('closeAll', closeTooltip);
+    });
+
+    onUnmounted(() => {
+      emitter.off('closeAll', closeTooltip);
+      document.removeEventListener('click', handleClickOutside);
     });
 
     return {
@@ -109,7 +143,8 @@ export default defineComponent({
       tooltipContent,
       mouseOver,
       mouseLeave,
-      clickShow
+      clickShow,
+      contentText
     };
   }
 });
@@ -126,15 +161,25 @@ export default defineComponent({
     z-index: 9999;
     position: fixed;
     opacity: 0;
-    //transition: opacity 0.3s; // 设置过渡效果
+    border: 1px solid #dcdfe6;
     &:before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-bottom-color: #dcdfe6;
+      z-index: 9999;
+    }
+    &:after {
       content: '';
       position: absolute;
       top: -9px;
       left: 50%;
       transform: translateX(-50%);
       border: 5px solid transparent;
-      border-bottom-color: #fff;
+      border-bottom-color: #ffffff;
       z-index: 9999;
     }
   }
