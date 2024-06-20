@@ -15,7 +15,6 @@
             @clickItem="clickItem"
             :menuLeftStyle="menuLeftStyle"
             :selectStyle="selectStyle"
-            startID="2-1-1-1-1"
           >
           </xy-menu-left>
         </div>
@@ -110,6 +109,18 @@ const catalogue = [
   }
 ]
 const menuItems = [
+  {
+    title: 'xuyan-ui组件预览',
+    id: 'b3eda810068053e4189e00c61b000b72',
+    icon: 'iconfont icon-donghua',
+    children: [
+      {
+        title: 'xuyan-ui组件预览',
+        id: 'b3eda810068053e4189e00c61b000b72',
+        path: '/component/componentPreview',
+      }
+    ]
+  },
   {
     title: '工具函数',
     id: '2',

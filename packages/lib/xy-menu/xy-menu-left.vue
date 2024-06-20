@@ -96,8 +96,8 @@ export default defineComponent({
     const currentIndex = ref(0);
     const router = useRouter();
     if(props.startID){
-      const lookupResult = deepLookup(props.menuItems,item=>item.id===props.startID)
-      router.push(lookupResult[0].path)
+      const lookupResult = deepLookup(props.menuItems,item=>item.id===props.startID);
+      lookupResult.length&&router.push(lookupResult[0].path);
     }
     const currentID = ref(props.startID);
     provide('currentID', currentID);
