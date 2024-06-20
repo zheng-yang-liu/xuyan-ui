@@ -150,7 +150,7 @@ export default defineComponent({
         if (!item.path) {
           showMsg('error', '路径不存在');
         } else {
-          router.push(item.path.trim());
+          // router.push(item.path.trim());
         }
 
         // 更新当前ID

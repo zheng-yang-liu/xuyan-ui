@@ -3,7 +3,8 @@ import {
   dayContent,
   formatDateNum,
   formatDateStr,
-  MessageTypes
+  MessageTypes,
+  targetListItem
   } from "../types/tools";
 
 import {ElMessage, ElMessageBox, MessageBoxState} from "element-plus";
@@ -470,12 +471,9 @@ export const svgAnimation = (
   });
 }
 
-type targetListItem = {
-  [key: string]: any;
-  children?: Array<targetListItem>
-}
+
 /**
- * 列表各项计算深度
+ * 列表各项添加深度
  * @param targetList 目标列表
  * @param indentStep 缩进步进值
  * @param initialIndentValue 初始缩进值
@@ -493,7 +491,29 @@ export const calculateItemDepth = (
     return newItem;
   });
 }
+/**
+ * 深度搜索
+ * @param dataList 目标数组
+ * @param findRules 查找规则
+ * @returns 返回一个数组，包含查找到的元素
+ */
+export const deepLookup = (dataList:Array<any>,findRules:Function)=>{
+  let result: Array<any> = [];
 
+  const search = (items: Array<any>) => {
+    for (const item of items) {
+      if (findRules(item)) {
+        result.push(item);
+      }
+      if (item.children && item.children.length > 0) {
+        search(item.children);
+      }
+    }
+  };
+
+  search(dataList);
+  return result;
+}
 
 
 

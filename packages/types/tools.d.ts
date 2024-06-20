@@ -26,3 +26,7 @@ export type formatDateStr = {
   second?: string
 }
 export type MessageTypes = "success" | "warning" | "info" | "error"
+type targetListItem = {
+  [key: string]: any;
+  children?: Array<targetListItem>
+}

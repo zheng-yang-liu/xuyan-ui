@@ -14,6 +14,8 @@
             :menuItems="menuItems"
             @clickItem="clickItem"
             :menuLeftStyle="menuLeftStyle"
+            :selectStyle="selectStyle"
+            startID="2-1-1-1-1"
           >
           </xy-menu-left>
         </div>
@@ -229,6 +231,7 @@ const menuItems = [
     ]
   },
 ]
+
 const direction = ref('horizontal')
 const menuLeftStyle = {
   borderRight: '1px solid #e8e8e8'

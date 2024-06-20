@@ -26,8 +26,8 @@ import { defineComponent ,ref,provide,onMounted} from 'vue';
 import type {PropType}from 'vue'
 import type { menuItem as MenuItemType } from './xy-menu.type';
 import xyMenuItem from './xy-menu-item.vue'
-import{calculateItemDepth}from'../../tools'
-
+import{calculateItemDepth,deepLookup}from'../../tools'
+import{useRouter}from'vue-router'
 export default defineComponent({
   name: 'xy-menu-left',
   components: {
@@ -53,7 +53,7 @@ export default defineComponent({
         indentValue:10,
         currentIndent:0
       })
-    },
+    },//初始Id
     startID:{
       type:String,
       default:''
@@ -94,6 +94,11 @@ export default defineComponent({
   emits:['clickItem'],
   setup(props,context) {
     const currentIndex = ref(0);
+    const router = useRouter();
+    if(props.startID){
+      const lookupResult = deepLookup(props.menuItems,item=>item.id===props.startID)
+      router.push(lookupResult[0].path)
+    }
     const currentID = ref(props.startID);
     provide('currentID', currentID);
     const xyMenuLeftLogo = ref<HTMLElement | null>(null);
