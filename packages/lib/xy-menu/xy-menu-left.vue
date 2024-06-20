@@ -2,7 +2,7 @@
   <div :style="{maxHeight:`${height}px`}" class="xyMenuLeftLogo" ref="xyMenuLeftLogo">
     <slot name="logo"></slot>
   </div>
-  <ul class="menu-left" :style="{backgroundColor:itemStyle.backgroundColor}" ref="menuLeft">
+  <ul class="menu-left" :style="[{backgroundColor:itemStyle.backgroundColor},menuLeftStyle]" ref="menuLeft">
     <xy-menu-item
       :key="index"
       :item="item"
@@ -85,6 +85,10 @@ export default defineComponent({
     fillingDefaultIcon:{
       type:Boolean,
       default:true
+    },
+    menuLeftStyle:{
+      type:Object,
+      default:()=>({})
     }
   },
   emits:['clickItem'],

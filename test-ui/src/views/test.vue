@@ -9,10 +9,11 @@
       <template #aside>
         <div style="background-color: #ffffff;width: 100%;height: 100%">
           <xy-menu-left
-            :defaultStyle="true"
-            :expandAll="false"
+            :defaultStyle="false"
+            :expandAll="true"
             :menuItems="menuItems"
             @clickItem="clickItem"
+            :menuLeftStyle="menuLeftStyle"
           >
           </xy-menu-left>
         </div>
@@ -229,6 +230,9 @@ const menuItems = [
   },
 ]
 const direction = ref('horizontal')
+const menuLeftStyle = {
+  borderRight: '1px solid #e8e8e8'
+}
 const dianji = () => {
   direction.value = 'vertical'
 }
