@@ -1,8 +1,6 @@
 <script lang="ts">
 import {defineComponent,PropType,h} from 'vue'
 import {catalogue} from"./effect.type"
-import type {menuItem as MenuItemType} from "../xy-menu/xy-menu.type";
-import{calculateItemDepth}from "../../tools";
 export default defineComponent({
   name: "xy-showcase-page",
   props: {
@@ -28,23 +26,38 @@ export default defineComponent({
     return {}
   },
   render() {
-    function renderCatalogue(catalogue:catalogue[]){
-      return catalogue.map((item:catalogue) => {
-        return h('div', { class: 'catalogue-item' }, [
-          h('h2', {}, item.name),
-          h('p', {}, item.explain),
-        ])
-      })
+    const that = this;
+    function createSlot(slotName:string){
+      return that.$slots[slotName] ? that.$slots[slotName]():'';
+    }
+    function renderCatalogue(catalogue, depth = 1) {
+      return catalogue.map(item => {
+        if (item.children) {
+          // 如果有子元素，递归渲染子元素
+          return h('div', {}, [
+            h('h' + (depth + 1), {}, item.name),
+            createSlot(item.slot),
+            renderCatalogue(item.children, depth + 1)
+          ]);
+        } else {
+          // 没有子元素，直接渲染标题和解释
+          return h('div', {}, [
+            h('h' + (depth + 1), {}, item.name),
+            h('p', {}, item.explain),
+            createSlot(item.slot),
+          ]);
+        }
+      });
     }
 
+    let pageElement = [
+      h('h1', {}, this.pageTitle),
+      h('p',{},this.introduction),
+      createSlot('pageExplain')
+    ]
 
-    const improveCatalogue = calculateItemDepth(this.catalogue, 1, 2);
-
-    console.log(improveCatalogue);
-
-    // console.log(renderCatalogue(this.catalogue))
-    let pageElement = [h('h1', {}, this.pageTitle),this.$slots[`customSlot`] ? this.$slots[`customSlot`]():'',]
     pageElement = pageElement.concat(renderCatalogue(this.catalogue))
+
     return h('div', { class: 'my-component' },pageElement);
   }
 })

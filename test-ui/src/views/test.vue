@@ -30,11 +30,23 @@
           <xy-attribute-table :data="data"></xy-attribute-table>
           <xy-showcase-page
             :catalogue="catalogue"
-            introduction="Divider分割线1"
+            introduction="Divider分割线"
             pageTitle="区隔内容的分割线"
           >
-            <template #customSlot>
-              <div class="nnnnnnn">自定义插槽内容</div>
+            <template #pageExplain>
+              <div class="nnnnnnnSlot">自定义插槽内容</div>
+            </template>
+            <template #basicUsage>
+              <div class="nnnnnnnSlot">基础用法</div>
+            </template>
+            <template #setWords>
+              <div class="nnnnnnnSlot">设置文案</div>
+            </template>
+            <template #props>
+              <div class="nnnnnnnSlot">props</div>
+            </template>
+            <template #slots>
+              <div class="nnnnnnnSlot">slots</div>
             </template>
           </xy-showcase-page>
         </div>
@@ -50,10 +62,12 @@ const catalogue = [
   {
     name:'基础用法',
     explain:'基础用法',
+    slot: 'basicUsage',
   },
   {
     name:"设置文案",
     explain:"可以在分割线上自定义文本内容",
+    slot: 'setWords',
   },
   {
     name:"API",
@@ -61,10 +75,12 @@ const catalogue = [
       {
         name:"Props",
         explain:"Divider 分割线的属性",
+        slot:'props'
       },
       {
         name:"Slots",
         explain:"Divider 分割线的插槽",
+        slot:'slots'
       }
     ]
   }

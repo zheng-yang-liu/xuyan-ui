@@ -486,7 +486,7 @@ export const calculateItemDepth = (
   initialIndentValue:number= 2
 ):targetListItem[]=> {
   return targetList.map(item => {
-    let newItem = { ...item, indentValue: initialIndentValue };
+    let newItem = { ...item, indentValue: item.indentValue?item.indentValue:initialIndentValue };
     if (newItem.children) {
       newItem.children = calculateItemDepth(newItem.children, indentStep, initialIndentValue + indentStep);
     }
