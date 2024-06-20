@@ -9,7 +9,7 @@
          :class="expandAll&&item.path?'noJustTitle':expandAll?'justTitle':''"
     >
       <i :class="item.icon?item.icon:fillingDefaultIcon?'iconfont icon-dian':''"
-         :style="indent?{paddingLeft:`${item.submenuIndent}px`}:{}"
+         :style="indent?{paddingLeft:`${item.indentValue}px`}:{}"
       ></i>
       <p>{{ item.title }}</p>
       <div class="imgBox">

@@ -1,7 +1,7 @@
 export type menuItem= {
   title: string,
   id: string,
-  submenuIndent?: number,
+  indentValue?: number,
   icon?: string,
   children?: Array<menuItem>,
   path?: string,

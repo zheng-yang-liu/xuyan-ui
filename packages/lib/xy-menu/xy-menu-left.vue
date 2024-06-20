@@ -26,6 +26,7 @@ import { defineComponent ,ref,provide,onMounted} from 'vue';
 import type {PropType}from 'vue'
 import type { menuItem as MenuItemType } from './xy-menu.type';
 import xyMenuItem from './xy-menu-item.vue'
+import{calculateItemDepth}from'../../tools'
 
 export default defineComponent({
   name: 'xy-menu-left',
@@ -106,19 +107,11 @@ export default defineComponent({
     const defaultMouseOverStyle = {
       backgroundColor: '#ecf5ff'
     }
-    const addSubmenuIndent = (menuItems:MenuItemType[], indentValue = 10, currentIndent = 0):MenuItemType[]=> {
-      return menuItems.map(item => {
-        let newItem = { ...item, submenuIndent: currentIndent };
-        if (newItem.children) {
-          newItem.children = addSubmenuIndent(newItem.children, indentValue, currentIndent + indentValue);
-        }
-        return newItem;
-      });
-    }
+    
     const afterConversionMenu = ref<MenuItemType>(props.menuItems);
     const convertData = ()=>{
       if(!props.submenuIndentConfig.autoIndent) return;
-      afterConversionMenu.value = addSubmenuIndent(
+      afterConversionMenu.value = calculateItemDepth(
         props.menuItems,
         props.submenuIndentConfig.indentValue,
         props.submenuIndentConfig.currentIndent

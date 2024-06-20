@@ -470,6 +470,30 @@ export const svgAnimation = (
   });
 }
 
+type targetListItem = {
+  [key: string]: any;
+  children?: Array<targetListItem>
+}
+/**
+ * 列表各项计算深度
+ * @param targetList 目标列表
+ * @param indentStep 缩进步进值
+ * @param initialIndentValue 初始缩进值
+ * */
+export const calculateItemDepth = (
+  targetList:targetListItem[],
+  indentStep:number = 1,
+  initialIndentValue:number= 2
+):targetListItem[]=> {
+  return targetList.map(item => {
+    let newItem = { ...item, indentValue: initialIndentValue };
+    if (newItem.children) {
+      newItem.children = calculateItemDepth(newItem.children, indentStep, initialIndentValue + indentStep);
+    }
+    return newItem;
+  });
+}
+
 
 
 

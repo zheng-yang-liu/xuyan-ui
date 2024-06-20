@@ -1,6 +1,8 @@
 <script lang="ts">
 import {defineComponent,PropType,h} from 'vue'
 import {catalogue} from"./effect.type"
+import type {menuItem as MenuItemType} from "../xy-menu/xy-menu.type";
+import{calculateItemDepth}from "../../tools";
 export default defineComponent({
   name: "xy-showcase-page",
   props: {
@@ -26,13 +28,24 @@ export default defineComponent({
     return {}
   },
   render() {
+    function renderCatalogue(catalogue:catalogue[]){
+      return catalogue.map((item:catalogue) => {
+        return h('div', { class: 'catalogue-item' }, [
+          h('h2', {}, item.name),
+          h('p', {}, item.explain),
+        ])
+      })
+    }
 
 
-    return h('div', { class: 'my-component' }, [
-      h('h1', {}, this.pageTitle), // 显示组件的标题
-      // 插入具名插槽内容
-      this.$slots[`customSlot`] ? this.$slots[`customSlot`]():'',
-    ]);
+    const improveCatalogue = calculateItemDepth(this.catalogue, 1, 2);
+
+    console.log(improveCatalogue);
+
+    // console.log(renderCatalogue(this.catalogue))
+    let pageElement = [h('h1', {}, this.pageTitle),this.$slots[`customSlot`] ? this.$slots[`customSlot`]():'',]
+    pageElement = pageElement.concat(renderCatalogue(this.catalogue))
+    return h('div', { class: 'my-component' },pageElement);
   }
 })
 </script>
