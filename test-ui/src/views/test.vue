@@ -48,6 +48,9 @@
             <template #slots>
               <div class="nnnnnnnSlot">slots</div>
             </template>
+            <template #slotsname>
+              <div class="nnnnnnnSlot">slotsname</div>
+            </template>
           </xy-showcase-page>
         </div>
       </template>
@@ -66,7 +69,7 @@ const catalogue = [
   },
   {
     name:"设置文案",
-    explain:"可以在分割线上自定义文本内容",
+    explain:["可以在分割线上自定义文本内容","测试多个P元素"],
     slot: 'setWords',
   },
   {
@@ -75,7 +78,25 @@ const catalogue = [
       {
         name:"Props",
         explain:"Divider 分割线的属性",
-        slot:'props'
+        slot:'props',
+        children:[
+          {
+            name:"name",
+            explain:"名称",
+            type:"string",
+            slot:'slotsname'
+          },
+          {
+            name:"age",
+            explain:"年龄",
+            type:["number","array","array","array"]
+          },
+          {
+            name:"address",
+            explain:"地址",
+            type:["address"]
+          }
+        ]
       },
       {
         name:"Slots",
