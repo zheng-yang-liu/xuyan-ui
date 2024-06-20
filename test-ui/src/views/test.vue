@@ -30,9 +30,12 @@
           <xy-attribute-table :data="data"></xy-attribute-table>
           <xy-showcase-page
             :catalogue="catalogue"
-            introduction="Divider分割线"
+            introduction="Divider分割线1"
             pageTitle="区隔内容的分割线"
           >
+            <template #customSlot>
+              <div class="nnnnnnn">自定义插槽内容</div>
+            </template>
           </xy-showcase-page>
         </div>
       </template>

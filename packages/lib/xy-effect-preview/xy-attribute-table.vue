@@ -13,27 +13,31 @@
           v-else-if="typeof(item[itemColumns.key])!=='string'"
           style="display: inline-block"
         >
-          <tamplate
+          <template
             v-for="(itemType,indexType) in item[itemColumns.key]"
-            v-if="itemColumns"
             :key="indexType"
-            :class="`attribute-type${indexType}`"
-            :style="{display: 'inline-block',marginBottom:'5px'}"
           >
-            <span v-if="indexType!==0" style="margin: 0 5px">/</span>
-            <code>{{itemType.value}}</code>
-            <xyTooltip v-if="showComplexType(itemType.value)"
-                       :hoverShow="false"
-                       :XOffset="promptXOffset"
-                       :topOffset="promptTopOffset">
-              <template #display>
-                <i class="iconfont icon-zhuyi"></i>
-              </template>
-              <template #prompt>
-                <div class="complexType">{{itemType.complexType}}</div>
-              </template>
-            </xyTooltip>
-          </tamplate>
+            <div
+              v-if="itemColumns"
+              :key="indexType"
+              :class="`attribute-type${indexType}`"
+              :style="{display: 'inline-block',marginBottom:'5px'}"
+            >
+              <span v-if="indexType!==0" style="margin: 0 5px">/</span>
+              <code>{{itemType.value}}</code>
+              <xyTooltip v-if="showComplexType(itemType.value)"
+                         :hoverShow="false"
+                         :XOffset="promptXOffset"
+                         :topOffset="promptTopOffset">
+                <template #display>
+                  <i class="iconfont icon-zhuyi"></i>
+                </template>
+                <template #prompt>
+                  <div class="complexType">{{itemType.complexType}}</div>
+                </template>
+              </xyTooltip>
+            </div>
+          </template>
         </div>
         <div class="attribute-line cells" v-else style="display: flex;align-items: center">
           <code>{{item[itemColumns.key]}}</code>

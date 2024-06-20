@@ -1,12 +1,5 @@
-<template>
-  <div>
-    <h1>{{pageTitle}}</h1>
-    <p>{{ introduction }}</p>
-  </div>
-</template>
-
 <script lang="ts">
-import {defineComponent,PropType} from 'vue'
+import {defineComponent,PropType,h} from 'vue'
 import {catalogue} from"./effect.type"
 export default defineComponent({
   name: "xy-showcase-page",
@@ -31,6 +24,15 @@ export default defineComponent({
   setup(props, context) {
 
     return {}
+  },
+  render() {
+
+
+    return h('div', { class: 'my-component' }, [
+      h('h1', {}, this.pageTitle), // 显示组件的标题
+      // 插入具名插槽内容
+      this.$slots[`customSlot`] ? this.$slots[`customSlot`]():'',
+    ]);
   }
 })
 </script>
