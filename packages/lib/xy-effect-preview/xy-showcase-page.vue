@@ -28,7 +28,8 @@ export default defineComponent({
     const clickItemToTitle = (item) => {
       console.log(item);
       const tempATag = document.createElement('a');
-      tempATag.href = item.id;
+      console.log('#' + item.id)
+      tempATag.href = '#' + item.id;
       tempATag.click();
     }
     return {
@@ -58,11 +59,20 @@ export default defineComponent({
           // 如果有子元素，递归渲染子元素
           return h('div', {}, [
             h('h' + (depth>=6?6:depth), {
+              class:'hTag',
               style:{
                 margin:`${marginTop-(8*(depth>=3?depth-2:0))}px 0 ${marginBottom-(5*(depth>=3?depth-2:0))}px`
               },
-              name:item.id
-            }, item.title),
+              onMouseover:(e)=>{
+                e.target.children[0].style.opacity = 1;
+              },
+              onMouseleave:(e)=>{
+                e.target.children[0].style.opacity = 0
+              },
+            }, [
+              item.title,
+              h('a',{name:item.id,},'#')
+            ]),
             createSlot(item.slot),
             renderCatalogue(item.children, depth + 1,true)
           ]);
@@ -70,11 +80,20 @@ export default defineComponent({
           // 没有子元素，直接渲染标题和解释
           return h('div', {}, [
             h('h' + (depth>=6?6:depth), {
+              class:'hTag',
               style:{
                 margin:subelement?'24px 0 0':`${marginTop-(8*(depth>=3?depth-2:0))}px 0 ${marginBottom-(5*(depth>=3?depth-2:0))}px`
               },
-              name:item.id
-            }, item.title),
+              onMouseover:(e)=>{
+                e.target.children[0].style.opacity = 1;
+              },
+              onMouseleave:(e)=>{
+                e.target.children[0].style.opacity = 0
+              },
+            }, [
+              item.title,
+              h('a',{name:item.id,},'#')
+            ]),
             createP(item.explain),
             createSlot(item.slot),
           ]);
@@ -105,7 +124,7 @@ export default defineComponent({
         onClickItem:this.clickItemToTitle,
         areAllClickable:true,
         menuLeftStyle:{position:"sticky",top:'50px'}
-      })
+      }),
     ]);
   }
 })
@@ -119,6 +138,17 @@ export default defineComponent({
   }
   .xy-showcase-left{
     width: 100%;
+  }
+  .hTag{
+    position: relative;
+    a{
+      position: absolute;
+      left: -15px;
+      color: #409eff;
+      opacity: 0;
+      //下划线
+      text-decoration: none;
+    }
   }
 }
 </style>
