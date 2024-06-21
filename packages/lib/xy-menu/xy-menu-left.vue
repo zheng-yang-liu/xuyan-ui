@@ -153,8 +153,7 @@ export default defineComponent({
           return ;
         }
         router.push(lookupResult[0].path)
-      }
-      if(props.selectFirstItem){
+      }else if(props.selectFirstItem){
         currentID.value = firstItem.value.id;
         router.push(firstItem.value.path)
       }
