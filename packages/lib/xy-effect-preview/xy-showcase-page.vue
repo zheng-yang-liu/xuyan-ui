@@ -32,8 +32,7 @@ export default defineComponent({
     const clickItemToTitle = (item) => {
       console.log(item);
       const tempATag = document.createElement('a');
-      console.log('#' + item.id)
-      tempATag.href = '#' + item.id;
+      tempATag.href = '#' + item.id?item.id:item.title;
       tempATag.click();
     }
     return {
@@ -75,7 +74,7 @@ export default defineComponent({
               },
             }, [
               item.title,
-              h('a',{name:item.id,},'#')
+              h('a',{name:item.id?item.id:item.title,},'#')
             ]),
             createSlot(item.slot),
             renderCatalogue(item.children, depth + 1,true)
@@ -96,7 +95,7 @@ export default defineComponent({
               },
             }, [
               item.title,
-              h('a',{name:item.id,},'#')
+              h('a',{name:item.id?item.id:item.title,},'#')
             ]),
             createP(item.explain),
             createSlot(item.slot),
