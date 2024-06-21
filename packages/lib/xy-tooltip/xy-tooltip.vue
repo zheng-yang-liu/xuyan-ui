@@ -76,6 +76,7 @@ export default defineComponent({
 
     const animateIN = () => {
       if (tooltipContent.value) {
+        tooltipContent.value.style.zIndex = '9999';
         tooltipContent.value.style.transition = `opacity ${props.inTime}s`;
         tooltipContent.value.style.opacity = '1';
       }
@@ -85,6 +86,9 @@ export default defineComponent({
       if (tooltipContent.value) {
         tooltipContent.value.style.transition = `opacity ${props.outTime}s`;
         tooltipContent.value.style.opacity = '0';
+        setTimeout(() => {
+          tooltipContent.value && (tooltipContent.value.style.zIndex = '-9999');
+        }, props.outTime*1000);
       }
     };
 
@@ -159,7 +163,7 @@ export default defineComponent({
     border-radius: 5px;
     display: inline-block;
     background-color: #fff;
-    z-index: 9999;
+    z-index: -9999;
     position: fixed;
     opacity: 0;
     border: 1px solid #dcdfe6;

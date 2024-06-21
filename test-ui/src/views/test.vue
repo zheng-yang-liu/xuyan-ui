@@ -36,7 +36,7 @@
             pageTitle="区隔内容的分割线"
           >
             <template #pageExplain>
-              <div class="nnnnnnnSlot">自定义插槽内容</div>
+              <div class="nnnnnnnSlot" >自定义插槽内容</div>
             </template>
             <template #basicUsage>
               <div class="nnnnnnnSlot">基础用法</div>
@@ -65,45 +65,53 @@ import {ref} from 'vue'
 import vueComponentString from "@/views/codeTest";
 const catalogue = [
   {
-    name:'基础用法',
+    title:'基础用法',
     explain:'基础用法',
     slot: 'basicUsage',
+    id:"4af1215ffa45b8245f055eb676fd6970"
   },
   {
-    name:"设置文案",
+    title:"设置文案",
     explain:["可以在分割线上自定义文本内容","测试多个P元素"],
     slot: 'setWords',
+    id:'ffb11a4fb28c94c976acf9cf672be273'
   },
   {
-    name:"API",
+    title:"API",
+    id:'db974238714ca8de634a7ce1d083a14f',
     children:[
       {
-        name:"Props",
+        title:"Props",
         explain:"Divider 分割线的属性",
         slot:'props',
+        id:'9ad963167cc06bd9873a2821497492cd',
         children:[
           {
-            name:"name",
+            title:"name",
             explain:"名称",
             type:"string",
-            slot:'slotsname'
+            slot:'slotsname',
+            id:'b068931cc450442b63f5b3d276ea4297',
           },
           {
-            name:"age",
+            title:"age",
             explain:"年龄",
-            type:["number","array","array","array"]
+            type:["number","array","array","array"],
+            id:"7d637d275668ed6d41a9b97e6ad3a556"
           },
           {
-            name:"address",
+            title:"address",
             explain:"地址",
-            type:["address"]
+            type:["address"],
+            id:"884d9804999fc47a3c2694e49ad2536a"
           }
         ]
       },
       {
-        name:"Slots",
+        title:"Slots",
         explain:"Divider 分割线的插槽",
-        slot:'slots'
+        slot:'slots',
+        id:'f573ad6f99732daf89b2f9dd79ba77e0'
       }
     ]
   }

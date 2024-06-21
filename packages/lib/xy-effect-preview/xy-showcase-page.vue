@@ -1,6 +1,7 @@
 <script lang="ts">
-import {defineComponent,PropType,h} from 'vue'
+import {defineComponent,PropType,h,provide} from 'vue'
 import {catalogue} from"./effect.type"
+import xyMenuLeft from "../xy-menu/xy-menu-left.vue";
 export default defineComponent({
   name: "xy-showcase-page",
   props: {
@@ -20,10 +21,19 @@ export default defineComponent({
       required: true
     }
   },
-  components: {},
+  components: {
+    xyMenuLeft
+  },
   setup(props, context) {
-
-    return {}
+    const clickItemToTitle = (item) => {
+      console.log(item);
+      const tempATag = document.createElement('a');
+      tempATag.href = item.id;
+      tempATag.click();
+    }
+    return {
+      clickItemToTitle
+    }
   },
   render() {
     const that = this;
@@ -50,8 +60,9 @@ export default defineComponent({
             h('h' + (depth>=6?6:depth), {
               style:{
                 margin:`${marginTop-(8*(depth>=3?depth-2:0))}px 0 ${marginBottom-(5*(depth>=3?depth-2:0))}px`
-              }
-            }, item.name),
+              },
+              name:item.id
+            }, item.title),
             createSlot(item.slot),
             renderCatalogue(item.children, depth + 1,true)
           ]);
@@ -61,8 +72,9 @@ export default defineComponent({
             h('h' + (depth>=6?6:depth), {
               style:{
                 margin:subelement?'24px 0 0':`${marginTop-(8*(depth>=3?depth-2:0))}px 0 ${marginBottom-(5*(depth>=3?depth-2:0))}px`
-              }
-            }, item.name),
+              },
+              name:item.id
+            }, item.title),
             createP(item.explain),
             createSlot(item.slot),
           ]);
@@ -78,15 +90,35 @@ export default defineComponent({
 
     pageElement = pageElement.concat(renderCatalogue(this.catalogue))
 
-    return h('div', { class: 'xy-showcase' },pageElement);
+    return h('div', { class: 'xy-showcase' },[
+      h('div',{class:'xy-showcase-left'},[pageElement]),
+      h(xyMenuLeft,{
+        menuItems:this.catalogue,
+        isTheHeightSet:false,
+        expandAll:true,
+        selfJump:false,
+        fillingDefaultIcon:false,
+        defaultStyle:false,
+        needPath:false,
+        mouseOverStyle:{color:'#409eff',cursor:'pointer'},
+        selectStyle:{color:'#409eff'},
+        onClickItem:this.clickItemToTitle,
+        areAllClickable:true,
+        menuLeftStyle:{position:"sticky",top:'50px'}
+      })
+    ]);
   }
 })
 </script>
 
 <style scoped lang="scss">
 .xy-showcase{
+  display: flex;
   p{
     margin: 16px 0;
+  }
+  .xy-showcase-left{
+    width: 100%;
   }
 }
 </style>

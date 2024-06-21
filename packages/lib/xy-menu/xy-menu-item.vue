@@ -34,10 +34,13 @@
             :height="height"
             :indent="indent"
             :selfJump="selfJump"
+            :needPath="needPath"
+            :clickName="clickName"
             :expandAll="expandAll"
             :itemStyle="itemStyle"
             :selectStyle="selectStyle"
             :mouseOverStyle="mouseOverStyle"
+            :areAllClickable="areAllClickable"
             v-for="(child, index) in item.children"
             :fillingDefaultIcon="fillingDefaultIcon"
           />
@@ -50,10 +53,13 @@
             :height="height"
             :indent="indent"
             :selfJump="selfJump"
+            :needPath="needPath"
+            :clickName="clickName"
             :itemStyle="itemStyle"
             :expandAll="expandAll"
             :selectStyle="selectStyle"
             :mouseOverStyle="mouseOverStyle"
+            :areAllClickable="areAllClickable"
             v-for="(child, index) in item.children"
             v-model:currentIndex="childCurrentIndex"
             :fillingDefaultIcon="fillingDefaultIcon"
@@ -85,7 +91,7 @@ export default defineComponent({
     },
     currentIndex: {
       type: Number,
-    },
+    },//是否不只存在一个战开打子菜单项
     showOnlyOneSubmenu: {
       type: Boolean,
       default: false
@@ -105,7 +111,7 @@ export default defineComponent({
     mouseOverStyle:{
       type:Object,
       default:()=>({})
-    },
+    },//子菜单是否缩进
     indent:{
       type:Boolean,
       default:true
@@ -113,7 +119,7 @@ export default defineComponent({
     expandAll:{
       type:Boolean,
       default:false
-    },
+    },//是否采用自身的跳转方式(router.push),false时父组件必须provide(clickItem)
     selfJump:{
       type:Boolean,
       default:true
@@ -121,6 +127,18 @@ export default defineComponent({
     fillingDefaultIcon:{
       type:Boolean,
       default:true
+    },//是否需要path
+    needPath:{
+      type:Boolean,
+      default:true
+    },//点击事件名,多个xy-menu-item/xy-menu-left时需设置不同的值
+    clickName:{
+      type:String,
+      default:'xyMenuClickItem'
+    },//是否全部可选
+    areAllClickable:{
+      type:Boolean,
+      default:false
     }
   },
   emits: ['update:currentIndex'],
@@ -142,6 +160,10 @@ export default defineComponent({
       // 点击事件处理
       if (typeof clickItem === 'function') {
         clickItem(item);
+        // 更新当前ID
+        if(!props.selfJump&&props.areAllClickable){
+          currentID.value = item.id;
+        }
       }
 
       // 检查是否自动跳转或有子项
@@ -150,7 +172,7 @@ export default defineComponent({
         if (!item.path) {
           showMsg('error', '路径不存在');
         } else {
-          // router.push(item.path.trim());
+          router.push(item.path.trim());
         }
 
         // 更新当前ID
@@ -184,9 +206,14 @@ export default defineComponent({
       });
     };
     const mouseOver = () => {
-      if (props.item.id === currentID.value) return;
-      if(props.expandAll&&!props.item.path) return;
-      mouseOverItemStyle.value = props.mouseOverStyle;
+      if(props.needPath){
+        if (props.item.id === currentID.value) return;
+        if(props.expandAll&&!props.item.path) return;
+        mouseOverItemStyle.value = props.mouseOverStyle;
+      }else{
+        mouseOverItemStyle.value = props.mouseOverStyle;
+      }
+
     };
     const mouseLeave = () => {
       mouseOverItemStyle.value = {};

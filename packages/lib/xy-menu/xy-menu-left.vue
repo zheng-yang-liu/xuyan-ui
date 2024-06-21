@@ -2,14 +2,20 @@
   <div :style="{maxHeight:`${height}px`}" class="xyMenuLeftLogo" ref="xyMenuLeftLogo">
     <slot name="logo"></slot>
   </div>
-  <ul class="menu-left" :style="[{backgroundColor:itemStyle.backgroundColor},menuLeftStyle]" ref="menuLeft">
+  <ul class="menu-left"
+      :style="[{backgroundColor:itemStyle.backgroundColor,minWidth:`${width}px`},menuLeftStyle]"
+      ref="menuLeft"
+  >
     <xy-menu-item
       :key="index"
       :item="item"
       :index="index"
       :height="height"
       :selfJump="selfJump"
+      :needPath="needPath"
+      :clickName="clickName"
       :expandAll="expandAll"
+      :areAllClickable="areAllClickable"
       v-model:currentIndex="currentIndex"
       :indent="submenuIndentConfig.autoIndent"
       :fillingDefaultIcon="fillingDefaultIcon"
@@ -26,7 +32,7 @@ import { defineComponent ,ref,provide,onMounted} from 'vue';
 import type {PropType}from 'vue'
 import type { menuItem as MenuItemType } from './xy-menu.type';
 import xyMenuItem from './xy-menu-item.vue'
-import{calculateItemDepth,deepLookup}from'../../tools'
+import{calculateItemDepth,deepLookup,showMsg}from'../../tools'
 import{useRouter}from'vue-router'
 export default defineComponent({
   name: 'xy-menu-left',
@@ -42,6 +48,10 @@ export default defineComponent({
       type:Number,
       default:40
     },
+    width:{
+      type:Number,
+      default:200
+    },//子菜单缩进配置
     submenuIndentConfig:{
       type: Object as PropType<{
         autoIndent:boolean,
@@ -57,38 +67,54 @@ export default defineComponent({
     startID:{
       type:String,
       default:''
-    },
+    },//选中item样式
     selectStyle:{
       type:Object,
       default:()=>({})
-    },
+    },//item的样式
     itemStyle:{
       type:Object,
       default:()=>({})
-    },
+    },//是否全部展开
     expandAll:{
       type:Boolean,
       default:false
-    },
+    },//是否采用自身的跳转方式(router.push),false时父组件需@click
     selfJump:{
       type:Boolean,
       default:true
-    },
+    },//鼠标悬浮item的样式
     mouseOverStyle:{
       type:Object,
       default:()=>({})
-    },
+    },//是否使用自带的默认样式
     defaultStyle:{
       type:Boolean,
       default:true,
-    },
+    },//是否填充默认图标
     fillingDefaultIcon:{
       type:Boolean,
       default:true
-    },
+    },//menuLeft的样式
     menuLeftStyle:{
       type:Object,
       default:()=>({})
+    },//是否设置高度
+    isTheHeightSet:{
+      type:Boolean,
+      default:true
+    },//是否需要path
+    needPath:{
+      type:Boolean,
+      default:true
+    },//点击事件名,多个xy-menu-item/xy-menu-left时需设置不同的值
+    clickName:{
+      type:String,
+      default:'xyMenuClickItem'
+    },//是否全部可选
+    areAllClickable:{
+      type:Boolean,
+      default:false
     }
   },
   emits:['clickItem'],
@@ -97,7 +123,11 @@ export default defineComponent({
     const router = useRouter();
     if(props.startID){
       const lookupResult = deepLookup(props.menuItems,item=>item.id===props.startID);
-      lookupResult.length&&router.push(lookupResult[0].path);
+      if(!lookupResult.length){
+        showMsg('error','初始path不存在')
+        return ;
+      }
+      router.push(lookupResult[0].path)
     }
     const currentID = ref(props.startID);
     provide('currentID', currentID);
@@ -137,7 +167,9 @@ export default defineComponent({
       menuLeft.value.style.height = tempMenuHeight - logoHeight + 'px';
     }
     onMounted(()=>{
-      setMenuHeight();
+      if(props.isTheHeightSet){
+        setMenuHeight();
+      }
     })
     return {
       currentIndex,
