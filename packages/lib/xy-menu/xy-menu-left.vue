@@ -115,24 +115,52 @@ export default defineComponent({
     areAllClickable:{
       type:Boolean,
       default:false
+    },//默认选中第一个可选item
+    selectFirstItem:{
+      type:Boolean,
+      default:false
     }
   },
   emits:['clickItem'],
   setup(props,context) {
     const currentIndex = ref(0);
     const router = useRouter();
-    if(props.startID){
-      const lookupResult = deepLookup(props.menuItems,item=>item.id===props.startID);
-      if(!lookupResult.length){
-        showMsg('error','初始path不存在')
-        return ;
-      }
-      router.push(lookupResult[0].path)
-    }
+    const firstItem = ref<object>({})
     const currentID = ref(props.startID);
     provide('currentID', currentID);
     const xyMenuLeftLogo = ref<HTMLElement | null>(null);
     const menuLeft = ref<HTMLElement | null>(null);
+
+    const selectFirstItem = (item: any) => {
+      let resultID = {};
+      if (item.children) {
+        resultID = item.children[0];
+        if (item.children[0].children) {
+          resultID = selectFirstItem(item.children[0]);
+        }
+      } else {
+        resultID = item;
+      }
+      return resultID;
+    }
+    firstItem.value = selectFirstItem(props.menuItems[0])
+
+    const init = ()=>{
+      if(props.startID){
+        const lookupResult = deepLookup(props.menuItems,item=>item.id===props.startID);
+        if(!lookupResult.length){
+          showMsg('error','初始path不存在')
+          return ;
+        }
+        router.push(lookupResult[0].path)
+      }
+      if(props.selectFirstItem){
+        currentID.value = firstItem.value.id;
+        router.push(firstItem.value.path)
+      }
+    }
+    init();
+
     const defaultSelectStyle = {
       backgroundColor: '#417ff2',
       color: '#ffffff',

@@ -15,6 +15,7 @@
             @clickItem="clickItem"
             :menuLeftStyle="menuLeftStyle"
             :selectStyle="selectStyle"
+            :selectFirstItem="false"
           >
           </xy-menu-left>
         </div>
@@ -34,6 +35,7 @@
             :catalogue="catalogue"
             introduction="Divider分割线"
             pageTitle="区隔内容的分割线"
+            :showCatalogue="false"
           >
             <template #pageExplain>
               <div class="nnnnnnnSlot" >自定义插槽内容</div>
@@ -119,14 +121,33 @@ const catalogue = [
 const menuItems = [
   {
     title: 'xuyan-ui组件预览',
-    id: 'b3eda810068053e4189e00c61b000b72',
+    id: 'b3eda810068053e4189e00c61b000b55',
     icon: 'iconfont icon-donghua',
     children: [
       {
         title: 'xuyan-ui组件预览',
         id: 'b3eda810068053e4189e00c61b000b72',
         path: '/component/componentPreview',
+        children: [
+          {
+            title: 'xuyan-ui组件预览',
+            id: 'gfdsfdhfsaghjkhgf4444',
+            path: '/component/componentPreview',
+          },
+          {
+            title: 'xuyan-ui组件预览',
+            id: 'sdfgxgjhghgfdfgkjhgfd66666',
+            path: '/component/componentPreview',
+          }
+
+        ]
+      },
+      {
+        title: 'xuyan-ui组件预览',
+        id: 'b3eda810068053e4189e00c61b000888',
+        path: '/component/componentPreview',
       }
+
     ]
   },
   {
