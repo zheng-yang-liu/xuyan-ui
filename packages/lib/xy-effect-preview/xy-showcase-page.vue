@@ -19,6 +19,10 @@ export default defineComponent({
       type: String,
       default: '',
       required: true
+    },
+    showCatalogue:{
+      type: Boolean,
+      default: true
     }
   },
   components: {
@@ -100,6 +104,28 @@ export default defineComponent({
         }
       });
     }
+    const createAssembly = () =>{
+      let result = []
+      if(this.showCatalogue){
+        result.push(
+          h(xyMenuLeft,{
+            menuItems:this.catalogue,
+            isTheHeightSet:false,
+            expandAll:true,
+            selfJump:false,
+            fillingDefaultIcon:false,
+            defaultStyle:false,
+            needPath:false,
+            mouseOverStyle:{color:'#409eff',cursor:'pointer'},
+            selectStyle:{color:'#409eff'},
+            onClickItem:this.clickItemToTitle,
+            areAllClickable:true,
+            menuLeftStyle:{position:"sticky",top:'50px'}
+          }),
+        )
+      }
+      return result
+    }
 
     let pageElement = [
       h('h1', {style:{margin:'0 0 32px'}}, this.pageTitle),
@@ -109,22 +135,11 @@ export default defineComponent({
 
     pageElement = pageElement.concat(renderCatalogue(this.catalogue))
 
+    const assemblyList = createAssembly()
+
     return h('div', { class: 'xy-showcase' },[
       h('div',{class:'xy-showcase-left'},[pageElement]),
-      h(xyMenuLeft,{
-        menuItems:this.catalogue,
-        isTheHeightSet:false,
-        expandAll:true,
-        selfJump:false,
-        fillingDefaultIcon:false,
-        defaultStyle:false,
-        needPath:false,
-        mouseOverStyle:{color:'#409eff',cursor:'pointer'},
-        selectStyle:{color:'#409eff'},
-        onClickItem:this.clickItemToTitle,
-        areAllClickable:true,
-        menuLeftStyle:{position:"sticky",top:'50px'}
-      }),
+      ...assemblyList
     ]);
   }
 })
