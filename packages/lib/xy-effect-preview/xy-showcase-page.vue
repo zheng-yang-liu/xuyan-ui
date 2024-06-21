@@ -30,9 +30,8 @@ export default defineComponent({
   },
   setup(props, context) {
     const clickItemToTitle = (item) => {
-      console.log(item);
       const tempATag = document.createElement('a');
-      tempATag.href = '#' + item.id?item.id:item.title;
+      tempATag.href = `#${item.id?item.id:item.title}`;
       tempATag.click();
     }
     return {
