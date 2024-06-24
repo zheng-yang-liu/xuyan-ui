@@ -11,7 +11,7 @@
       <i :class="item.icon?item.icon:fillingDefaultIcon?'iconfont icon-dian':''"
          :style="indent?{paddingLeft:`${item.indentValue}px`}:{}"
       ></i>
-      <p>{{ item.title }}</p>
+      <p :style="itemTitleStyle">{{ item.title }}</p>
       <div class="imgBox">
         <i class="iconfont icon-insert-right-full"
            v-if="item.children?.length>0&&!expandAll"
@@ -39,6 +39,7 @@
             :expandAll="expandAll"
             :itemStyle="itemStyle"
             :selectStyle="selectStyle"
+            :itemTitleStyle="itemTitleStyle"
             :mouseOverStyle="mouseOverStyle"
             :areAllClickable="areAllClickable"
             v-for="(child, index) in item.children"
@@ -58,6 +59,7 @@
             :itemStyle="itemStyle"
             :expandAll="expandAll"
             :selectStyle="selectStyle"
+            :itemTitleStyle="itemTitleStyle"
             :mouseOverStyle="mouseOverStyle"
             :areAllClickable="areAllClickable"
             v-for="(child, index) in item.children"
@@ -139,6 +141,10 @@ export default defineComponent({
     areAllClickable:{
       type:Boolean,
       default:false
+    },//itemTitle文字样式
+    itemTitleStyle:{
+      type:Object,
+      default:()=>({})
     }
   },
   emits: ['update:currentIndex'],

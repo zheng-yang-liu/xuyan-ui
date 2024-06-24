@@ -1,7 +1,8 @@
 <script lang="ts">
-import {defineComponent,PropType,h,provide} from 'vue'
+import {defineComponent,PropType,h,ref,onMounted} from 'vue'
 import {catalogue} from"./effect.type"
 import xyMenuLeft from "../xy-menu/xy-menu-left.vue";
+import{calculateItemDepth,deepLookup}from"../../tools"
 export default defineComponent({
   name: "xy-showcase-page",
   props: {
@@ -23,19 +24,71 @@ export default defineComponent({
     showCatalogue:{
       type: Boolean,
       default: true
+    },//标题触发范围height
+    titleTriggerRange:{
+      type: Number,
+      default: 200
     }
   },
   components: {
     xyMenuLeft
   },
   setup(props, context) {
+    const promptBlockTop = ref(0);
+    const menuItemHeight = 19;
+    const showPromptBlock = ref<Boolean>(false);
+    const {updatedList,listTotal} = calculateItemDepth(
+      props.catalogue,
+      10,
+      0
+    );
+    const startID = ref<string>('');
+
     const clickItemToTitle = (item) => {
       const tempATag = document.createElement('a');
       tempATag.href = `#${item.id?item.id:item.title}`;
       tempATag.click();
+      promptBlockTop.value = menuItemHeight * item.listPosition
     }
+
+    onMounted(()=>{
+      //获取可视区域的高度
+      const viewHeight = document.documentElement.clientHeight;
+      console.log()
+      const hTagList = document.getElementsByClassName('hTag');
+      let options = {
+        root: null,
+        rootMargin: `0px 0px -${viewHeight/2 + props.titleTriggerRange}px 0px`,
+        threshold: 1.0,
+      };
+      const titleTriggerCallback = (e) =>{
+        e.forEach(item=>{
+          if(item.isIntersecting){
+            showPromptBlock.value=true;
+            //获取target的name属性
+            const targetName = item.target.getAttribute('name');
+            const resultLook = deepLookup(updatedList,(item)=>item.id===targetName);
+            promptBlockTop.value = menuItemHeight * resultLook[0].listPosition
+            startID.value = targetName;
+
+          }else{
+            showPromptBlock.value=false;
+            startID.value= '';
+          }
+        })
+      };
+      const observer = new IntersectionObserver(titleTriggerCallback, options);
+      for(let item of hTagList){
+        observer.observe(item)
+      }
+    })
     return {
-      clickItemToTitle
+      clickItemToTitle,
+      promptBlockTop,
+      menuItemHeight,
+      updatedList,
+      startID,
+      showPromptBlock
     }
   },
   render() {
@@ -62,6 +115,7 @@ export default defineComponent({
           return h('div', {}, [
             h('h' + (depth>=6?6:depth), {
               class:'hTag',
+              name:item.id,
               style:{
                 margin:`${marginTop-(8*(depth>=3?depth-2:0))}px 0 ${marginBottom-(5*(depth>=3?depth-2:0))}px`
               },
@@ -83,14 +137,19 @@ export default defineComponent({
           return h('div', {}, [
             h('h' + (depth>=6?6:depth), {
               class:'hTag',
+              name:item.id,
               style:{
                 margin:subelement?'24px 0 0':`${marginTop-(8*(depth>=3?depth-2:0))}px 0 ${marginBottom-(5*(depth>=3?depth-2:0))}px`
               },
-              onMouseover:(e)=>{
-                e.target.children[0].style.opacity = 1;
+              onMouseover: (e) => {
+                if (e.target.children.length > 0) {
+                  e.target.children[0].style.opacity = 1;
+                }
               },
-              onMouseleave:(e)=>{
-                e.target.children[0].style.opacity = 0
+              onMouseleave: (e) => {
+                if (e.target.children.length > 0) {
+                  e.target.children[0].style.opacity = 0;
+                }
               },
             }, [
               item.title,
@@ -107,18 +166,43 @@ export default defineComponent({
       if(this.showCatalogue){
         result.push(
           h(xyMenuLeft,{
-            menuItems:this.catalogue,
-            isTheHeightSet:false,
+            startID:this.startID,
             expandAll:true,
             selfJump:false,
-            fillingDefaultIcon:false,
-            defaultStyle:false,
             needPath:false,
-            mouseOverStyle:{color:'#409eff',cursor:'pointer'},
-            selectStyle:{color:'#409eff'},
-            onClickItem:this.clickItemToTitle,
+            defaultStyle:false,
+            isTheHeightSet:false,
             areAllClickable:true,
-            menuLeftStyle:{position:"sticky",top:'50px'}
+            menuItems:this.updatedList,
+            fillingDefaultIcon:false,
+            height:this.menuItemHeight,
+            selectStyle:{color:'#409eff'},
+            itemTitleStyle:{fontWeight:500},
+            onClickItem:this.clickItemToTitle,
+            menuLeftStyle:{position:"sticky",top:'50px'},
+            mouseOverStyle:{color:'#409eff',cursor:'pointer'},
+            submenuIndentConfig:{autoIndent:false,indentValue:10,currentIndent:0},
+            logoSlotStyle:{position:"sticky",top:'50px',display:"flex",alignItems:"center"}
+          },{
+            logo:()=>h('div',{
+              style:{
+                position:'relative',
+                width:'4px',
+                height:'15px',
+              }
+            },[
+              this.showPromptBlock?h("div",{
+                style:{
+                  position:'absolute',
+                  width:'4px',
+                  height:'15px',
+                  backgroundColor:'#409eff',
+                  borderRadius:'3px',
+                  top:`${this.promptBlockTop}px`,
+                  left:0,
+                }
+              },''):''
+            ])
           }),
         )
       }

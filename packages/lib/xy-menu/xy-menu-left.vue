@@ -1,5 +1,5 @@
 <template>
-  <div :style="{maxHeight:`${height}px`}" class="xyMenuLeftLogo" ref="xyMenuLeftLogo">
+  <div :style="[{maxHeight:`${height}px`},logoSlotStyle]" class="xyMenuLeftLogo" ref="xyMenuLeftLogo">
     <slot name="logo"></slot>
   </div>
   <ul class="menu-left"
@@ -15,9 +15,10 @@
       :needPath="needPath"
       :clickName="clickName"
       :expandAll="expandAll"
+      :itemTitleStyle="itemTitleStyle"
       :areAllClickable="areAllClickable"
       v-model:currentIndex="currentIndex"
-      :indent="submenuIndentConfig.autoIndent"
+      :indent="indent"
       :fillingDefaultIcon="fillingDefaultIcon"
       v-for="(item, index) in afterConversionMenu"
       :itemStyle="defaultStyle?defaultItemStyle:itemStyle"
@@ -28,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent ,ref,provide,onMounted} from 'vue';
+import { defineComponent ,ref,provide,onMounted,watch} from 'vue';
 import type {PropType}from 'vue'
 import type { menuItem as MenuItemType } from './xy-menu.type';
 import xyMenuItem from './xy-menu-item.vue'
@@ -119,6 +120,18 @@ export default defineComponent({
     selectFirstItem:{
       type:Boolean,
       default:false
+    },//logo插槽样式
+    logoSlotStyle:{
+      type:Object,
+      default:()=>({})
+    },//itemTitle文字样式
+    itemTitleStyle:{
+      type:Object,
+      default:()=>({})
+    },//是否缩进
+    indent:{
+      type:Boolean,
+      default:true
     }
   },
   emits:['clickItem'],
@@ -131,6 +144,9 @@ export default defineComponent({
     const xyMenuLeftLogo = ref<HTMLElement | null>(null);
     const menuLeft = ref<HTMLElement | null>(null);
 
+    watch(()=>props.startID,(newValue)=>{
+      currentID.value = newValue;
+    })
     const selectFirstItem = (item: any) => {
       let resultID = {};
       if (item.children) {
@@ -152,7 +168,9 @@ export default defineComponent({
           showMsg('error','初始path不存在')
           return ;
         }
-        router.push(lookupResult[0].path)
+        if(lookupResult[0].path){
+          router.push(lookupResult[0].path)
+        }
       }else if(props.selectFirstItem){
         currentID.value = firstItem.value.id;
         router.push(firstItem.value.path)
@@ -177,11 +195,12 @@ export default defineComponent({
     const afterConversionMenu = ref<MenuItemType>(props.menuItems);
     const convertData = ()=>{
       if(!props.submenuIndentConfig.autoIndent) return;
-      afterConversionMenu.value = calculateItemDepth(
+      const {updatedList,listTotal} = calculateItemDepth(
         props.menuItems,
         props.submenuIndentConfig.indentValue,
         props.submenuIndentConfig.currentIndent
-      );
+      )
+      afterConversionMenu.value = updatedList
     }
     convertData();
     const xyMenuClickItem = (item:MenuItemType)=>{

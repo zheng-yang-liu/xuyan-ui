@@ -473,24 +473,45 @@ export const svgAnimation = (
 
 
 /**
- * 列表各项添加深度
+ * 列表各项添加深度和位置
  * @param targetList 目标列表
  * @param indentStep 缩进步进值
  * @param initialIndentValue 初始缩进值
- * */
+ * @param currentPos 当前列表位置
+ * @returns 处理后的列表和下一个位置
+ */
 export const calculateItemDepth = (
-  targetList:targetListItem[],
-  indentStep:number = 1,
-  initialIndentValue:number= 2
-):targetListItem[]=> {
-  return targetList.map(item => {
-    let newItem = { ...item, indentValue: item.indentValue?item.indentValue:initialIndentValue };
+  targetList: targetListItem[],
+  indentStep: number = 1,
+  initialIndentValue: number = 2,
+  currentPos: number = 0
+): {
+  nextPos: number;
+  updatedList: { [p: string]: any; indentValue: number; children?: targetListItem[]; listPosition: number }[]
+} => {
+  let pos:number = currentPos;
+
+  const updatedList = targetList.map(item => {
+    let newItem = {
+      ...item,
+      indentValue: item.indentValue ? item.indentValue : initialIndentValue,
+      listPosition: pos
+    };
+    pos += 1;
+
     if (newItem.children) {
-      newItem.children = calculateItemDepth(newItem.children, indentStep, initialIndentValue + indentStep);
+      const result = calculateItemDepth(newItem.children, indentStep, initialIndentValue + indentStep, pos);
+      // @ts-ignore
+      newItem.children = result.updatedList;
+      pos = result.nextPos;
     }
+
     return newItem;
   });
-}
+
+  return { updatedList, nextPos: pos };
+};
+
 /**
  * 深度搜索
  * @param dataList 目标数组

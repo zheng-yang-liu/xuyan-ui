@@ -35,7 +35,7 @@
             :catalogue="catalogue"
             introduction="Divider分割线"
             pageTitle="区隔内容的分割线"
-            :showCatalogue="false"
+            :showCatalogue="true"
           >
             <template #pageExplain>
               <div class="nnnnnnnSlot" >自定义插槽内容</div>
