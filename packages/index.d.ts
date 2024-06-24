@@ -1,6 +1,6 @@
 import {formatDateNum, MessageTypes, targetListItem} from './types/tools'
 import {MessageBoxState} from "element-plus";
-import {VNode} from "vue"
+import {VNode,DefineComponent } from "vue"
 
 /**
  * 安装插件到Vue应用中
@@ -177,3 +177,4 @@ export declare const Tools: {
    */
   deepLookup: (dataList: Array<any>, findRules: Function) => Array<any>;
 };
+

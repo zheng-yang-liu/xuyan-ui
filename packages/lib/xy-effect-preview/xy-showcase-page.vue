@@ -48,13 +48,13 @@ export default defineComponent({
       const tempATag = document.createElement('a');
       tempATag.href = `#${item.id?item.id:item.title}`;
       tempATag.click();
+      showPromptBlock.value = true;
       promptBlockTop.value = menuItemHeight * item.listPosition
     }
 
     onMounted(()=>{
       //获取可视区域的高度
       const viewHeight = document.documentElement.clientHeight;
-      console.log()
       const hTagList = document.getElementsByClassName('hTag');
       let options = {
         root: null,

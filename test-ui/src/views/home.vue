@@ -1,11 +1,12 @@
 <template>
   <div>
-    <xy-calendar
-      :currentMonth="state.currentMonth"
-      :currentYear="state.currentYear"
-      :startDayOfMonday="state.startDayOfMonday"
-      @changeDate="changeDate"
-    > </xy-calendar>
+<!--    <xy-calendar-->
+<!--      :currentMonth="state.currentMonth"-->
+<!--      :currentYear="state.currentYear"-->
+<!--      :startDayOfMonday="state.startDayOfMonday"-->
+<!--      @changeDate="changeDate"-->
+<!--    > </xy-calendar>-->
+    <xy-test></xy-test>
   </div>
 </template>
 

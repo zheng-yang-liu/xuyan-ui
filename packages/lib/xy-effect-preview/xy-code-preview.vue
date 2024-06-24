@@ -41,9 +41,10 @@ export default defineComponent({
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .hljs {
   font-family: "Courier New", Courier, monospace;
   font-size: 13px;
+  border-radius: 10px;
 }
 </style>

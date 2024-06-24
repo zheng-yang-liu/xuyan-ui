@@ -173,7 +173,7 @@ export default defineComponent({
         }
       }else if(props.selectFirstItem){
         currentID.value = firstItem.value.id;
-        router.push(firstItem.value.path)
+        firstItem.value.path&&router.push(firstItem.value.path)
       }
     }
     init();

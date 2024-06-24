@@ -36,10 +36,12 @@ const install = (app) =>{
 }
 
 export {
-    Tools
+    Tools,
+    xyTest
 }
 
 export default {
     install,
-    Tools
+    Tools,
+    xyTest
 }
