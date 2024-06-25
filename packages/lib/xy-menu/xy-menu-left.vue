@@ -95,7 +95,7 @@ export default defineComponent({
     },//是否填充默认图标
     fillingDefaultIcon:{
       type:Boolean,
-      default:true
+      default:false
     },//menuLeft的样式
     menuLeftStyle:{
       type:Object,
@@ -132,6 +132,10 @@ export default defineComponent({
     indent:{
       type:Boolean,
       default:true
+    },//根据路由初始化currentID
+    initByRouter:{
+      type:Boolean,
+      default:false
     }
   },
   emits:['clickItem'],
@@ -161,21 +165,42 @@ export default defineComponent({
     }
     firstItem.value = selectFirstItem(props.menuItems[0])
 
-    const init = ()=>{
-      if(props.startID){
-        const lookupResult = deepLookup(props.menuItems,item=>item.id===props.startID);
-        if(!lookupResult.length){
-          showMsg('error','初始path不存在')
-          return ;
-        }
-        if(lookupResult[0].path){
-          router.push(lookupResult[0].path)
-        }
-      }else if(props.selectFirstItem){
-        currentID.value = firstItem.value.id;
-        firstItem.value.path&&router.push(firstItem.value.path)
+    const init = () => {
+      if (props.initByRouter) {
+        // 根据路由初始化
+        const url = router.currentRoute.value.path;
+        const startItem = deepLookup(props.menuItems, item => item.path === url);
+        currentID.value = startItem[0].id;
+        return;
       }
-    }
+
+      if (props.startID) {
+        // 根据 startID 初始化
+        const lookupResult = deepLookup(props.menuItems, item => item.id === props.startID);
+        if (lookupResult.length) {
+          const { path } = lookupResult[0];
+          if (path) {
+            router.push(path);
+          } else {
+            showMsg('error', '初始 path 不存在');
+          }
+        } else {
+          showMsg('error', '初始 path 不存在');
+        }
+        return;
+      }
+
+      if (props.selectFirstItem) {
+        // 根据第一个可选 item 初始化
+        const { id, path } = firstItem.value;
+        currentID.value = id;
+        if (path) {
+          router.push(path);
+        } else {
+          showMsg('error', '路径不存在');
+        }
+      }
+    };
     init();
 
     const defaultSelectStyle = {
@@ -191,7 +216,7 @@ export default defineComponent({
     const defaultMouseOverStyle = {
       backgroundColor: '#ecf5ff'
     }
-    
+
     const afterConversionMenu = ref<MenuItemType>(props.menuItems);
     const convertData = ()=>{
       if(!props.submenuIndentConfig.autoIndent) return;

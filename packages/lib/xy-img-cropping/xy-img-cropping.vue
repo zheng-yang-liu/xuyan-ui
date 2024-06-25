@@ -24,6 +24,9 @@
             :style="holeStyle"
             @mousedown.stop.prevent="onHoleMouseDown"
           >
+            <p class="selectBoxSize" v-if="!previewSizeFixed&&showSizePrompt" ref="selectBoxSize">
+              {{hole.width}}*{{hole.height}}
+            </p>
             <div class="resize-handle" @mousedown.stop.prevent="onHandleMouseDown"></div>
           </div>
         </div>
@@ -37,6 +40,7 @@
           class="preview-img" ref="previewImg"
           :class="previewSizeFixed ? 'itSAFixedSize' : ''"
         />
+        <p v-if="!previewSizeFixed">{{previewSize.width}}*{{previewSize.height}}</p>
       </div>
     </div>
     <template #footer>
@@ -96,12 +100,17 @@ export default defineComponent({
       left: 100,
     });
 
-
+    const previewSize = ref<object>({
+      width: 100,
+      height: 100,
+    })
     const imgCanvas = ref<HTMLCanvasElement | null>(null);
     const fileInput = ref<HTMLInputElement | null>(null);
+    const selectBoxSize = ref<HTMLInputElement | null>(null);
     const canvasWidth = ref<number>(600);
     const canvasHeight = ref<number>(600);
     const fileName = ref<string>('');
+    const showSizePrompt = ref<boolean>(false);
     let startX = 0;
     let startY = 0;
     let startWidth = 0;
@@ -152,10 +161,9 @@ export default defineComponent({
 
     const onFileChange = (event: Event) => {
       const file = (event.target as HTMLInputElement).files?.[0];
-      //判断文件是否为图片
-      console.log(file);
-      const size = file.size / 1024 / 1024;
 
+      const size = file.size / 1024 / 1024;
+      //判断文件是否为图片
       if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg'){
         showMsg('error','请上传图片文件');
           return;
@@ -265,6 +273,16 @@ export default defineComponent({
       const dy = e.clientY - startY;
       hole.top = Math.min(Math.max(startTop + dy, 0), overlayHeight - hole.height);
       hole.left = Math.min(Math.max(startLeft + dx, 0), overlayWidth - hole.width);
+      console.log(hole.top, hole.left);
+      if(hole.top<=24){
+        if(selectBoxSize.value){
+          selectBoxSize.value.style.top = '0px';
+        }
+      }else{
+        if(selectBoxSize.value){
+          selectBoxSize.value.style.top = '-20px';
+        }
+      }
     };
 
     const onHoleMouseUp = () => {
@@ -275,6 +293,7 @@ export default defineComponent({
     };
 
     const onHandleMouseDown = (e: MouseEvent) => {
+      showSizePrompt.value = true;
       startX = e.clientX;
       startY = e.clientY;
       startWidth = hole.width;
@@ -295,6 +314,10 @@ export default defineComponent({
 
     const onHandleMouseUp = () => {
       resizing = false;
+      showSizePrompt.value = false;
+      console.log(hole.width, hole.height);
+      previewSize.value.width = hole.width;
+      previewSize.value.height = hole.height;
       drawPreview();
       document.removeEventListener('mousemove', onHandleMouseMove);
       document.removeEventListener('mouseup', onHandleMouseUp);
@@ -343,6 +366,10 @@ export default defineComponent({
       onHandleMouseDown,
       onHoleMouseDownCanvas,
       sizeWheel,
+      previewSize,
+      selectBoxSize,
+      showSizePrompt
+
     };
   },
 });
@@ -377,6 +404,14 @@ $border: 1px solid #ebeef5;
       position: absolute;
       background: transparent;
       cursor: move;
+      .selectBoxSize{
+        position: absolute;
+        top: -20px;
+        left: 0;
+        color: #ffca1e;
+        padding: 2px;
+        font-size: 10px;
+      }
       .resize-handle {
         position: absolute;
         width: 10px;

@@ -1,9 +1,9 @@
 <template>
   <div>
     <xy-img-cropping
-      v-model:visible="state.visible"
-      @confirmReturn="confirmReturn"
-      :uploadApi="upload"
+        v-model:visible="state.visible"
+        @confirmReturn="confirmReturn"
+        :previewSizeFixed="false"
     ></xy-img-cropping>
     <el-button @click="state.visible = true"></el-button>
     <el-button @click="dianji()">点击打开</el-button>
