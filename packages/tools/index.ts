@@ -257,6 +257,21 @@ export const debounce = (fn:Function, delay:number):Function=>{
   }
 }
 /**
+ * 节流函数
+ * @param fn 需要节流的函数
+ * @param delay 节流时间
+ */
+export const throttle = (fn:Function, delay:number):Function=>{
+  let oldTime:number = Date.now();
+  return function(...args){
+    let newTime:number = Date.now();
+    if(newTime - oldTime >= delay){
+      fn.apply(this,args);
+      oldTime = newTime;
+    }
+  }
+}
+/**
  * base64转file
  * @param urlData base64数据
  * @param fileName 文件名

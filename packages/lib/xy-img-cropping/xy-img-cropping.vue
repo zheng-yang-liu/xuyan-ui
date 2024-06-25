@@ -70,7 +70,7 @@ export default defineComponent({
     },//预览窗口是否固定大小
     previewSizeFixed:{
       type:Boolean,
-      default:true
+      default:false
     },//上传的数据是否为file对象
     uploadParamIsFile:{
       type:Boolean,
@@ -166,7 +166,7 @@ export default defineComponent({
       //判断文件是否为图片
       if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg'){
         showMsg('error','请上传图片文件');
-          return;
+        return;
       }
       if(size>props.fileSize){
         showMsg('error',`文件大小不能超过${props.fileSize}MB`);

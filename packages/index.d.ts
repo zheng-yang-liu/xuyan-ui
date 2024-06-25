@@ -176,5 +176,11 @@ export declare const Tools: {
    * @returns 返回一个数组，包含查找到的元素
    */
   deepLookup: (dataList: Array<any>, findRules: Function) => Array<any>;
+  /**
+   * 节流函数
+   * @param fn 需要节流的函数
+   * @param delay 节流时间
+   */
+  throttle:(fn:Function, delay:number)=>Function;
 };
 

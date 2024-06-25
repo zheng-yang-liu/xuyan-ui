@@ -1,8 +1,8 @@
 <script lang="ts">
-import {defineComponent,PropType,h,ref,onMounted} from 'vue'
+import {defineComponent,PropType,h,ref,onMounted,onBeforeUnmount} from 'vue'
 import {catalogue} from"./effect.type"
 import xyMenuLeft from "../xy-menu/xy-menu-left.vue";
-import{calculateItemDepth,deepLookup}from"../../tools"
+import{calculateItemDepth,deepLookup,throttle}from"../../tools"
 export default defineComponent({
   name: "xy-showcase-page",
   props: {
@@ -35,7 +35,7 @@ export default defineComponent({
   },
   setup(props, context) {
     const promptBlockTop = ref(0);
-    const menuItemHeight = 19;
+    const menuItemHeight = 30;
     const showPromptBlock = ref<Boolean>(false);
     const {updatedList,listTotal} = calculateItemDepth(
       props.catalogue,
@@ -43,7 +43,11 @@ export default defineComponent({
       0
     );
     const startID = ref<string>('');
-
+    const displayCatalogue = ref<Boolean>(props.showCatalogue);
+    const originalWidth = window.innerWidth;
+    if(props.showCatalogue){
+      displayCatalogue.value = originalWidth > 1075;
+    }
     const clickItemToTitle = (item) => {
       const tempATag = document.createElement('a');
       tempATag.href = `#${item.id?item.id:item.title}`;
@@ -51,8 +55,23 @@ export default defineComponent({
       showPromptBlock.value = true;
       promptBlockTop.value = menuItemHeight * item.listPosition
     }
+    console.log(originalWidth)
+    
+    const debounceResize = throttle(() => {
+      const currentWidth = window.innerWidth;
+      if(props.showCatalogue){
+        if (currentWidth !== originalWidth) {
+          displayCatalogue.value = currentWidth > 1075;
+        }
+      }
+    }, 500);
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', debounceResize);
+    });
 
     onMounted(()=>{
+      window.addEventListener('resize', debounceResize);
       //获取可视区域的高度
       const viewHeight = document.documentElement.clientHeight;
       const hTagList = document.getElementsByClassName('hTag');
@@ -88,7 +107,9 @@ export default defineComponent({
       menuItemHeight,
       updatedList,
       startID,
-      showPromptBlock
+      showPromptBlock,
+      displayCatalogue
+
     }
   },
   render() {
@@ -163,47 +184,9 @@ export default defineComponent({
     }
     const createAssembly = () =>{
       let result = []
-      if(this.showCatalogue){
+      if(this.displayCatalogue){
         result.push(
-          h(xyMenuLeft,{
-            startID:this.startID,
-            expandAll:true,
-            selfJump:false,
-            needPath:false,
-            defaultStyle:false,
-            isTheHeightSet:false,
-            areAllClickable:true,
-            menuItems:this.updatedList,
-            fillingDefaultIcon:false,
-            height:this.menuItemHeight,
-            selectStyle:{color:'#409eff'},
-            itemTitleStyle:{fontWeight:500},
-            onClickItem:this.clickItemToTitle,
-            menuLeftStyle:{position:"sticky",top:'50px'},
-            mouseOverStyle:{color:'#409eff',cursor:'pointer'},
-            submenuIndentConfig:{autoIndent:false,indentValue:10,currentIndent:0},
-            logoSlotStyle:{position:"sticky",top:'50px',display:"flex",alignItems:"center"}
-          },{
-            logo:()=>h('div',{
-              style:{
-                position:'relative',
-                width:'4px',
-                height:'15px',
-              }
-            },[
-              this.showPromptBlock?h("div",{
-                style:{
-                  position:'absolute',
-                  width:'4px',
-                  height:'15px',
-                  backgroundColor:'#409eff',
-                  borderRadius:'3px',
-                  top:`${this.promptBlockTop}px`,
-                  left:0,
-                }
-              },''):''
-            ])
-          }),
+
         )
       }
       return result
@@ -217,11 +200,49 @@ export default defineComponent({
 
     pageElement = pageElement.concat(renderCatalogue(this.catalogue))
 
-    const assemblyList = createAssembly()
+    const catalogueCom = h(xyMenuLeft,{
+        startID:this.startID,
+        expandAll:true,
+        selfJump:false,
+        needPath:false,
+        defaultStyle:false,
+        isTheHeightSet:false,
+        areAllClickable:true,
+        menuItems:this.updatedList,
+        fillingDefaultIcon:false,
+        height:this.menuItemHeight,
+        selectStyle:{color:'#409eff'},
+        onClickItem:this.clickItemToTitle,
+        menuLeftStyle:{position:"sticky",top:'50px'},
+        itemTitleStyle:{fontWeight:500,fontSize:'12px'},
+        mouseOverStyle:{color:'#409eff',cursor:'pointer'},
+        submenuIndentConfig:{autoIndent:false,indentValue:10,currentIndent:0},
+        logoSlotStyle:{position:"sticky",top:'50px',display:"flex",alignItems:"center"}
+      },{
+        logo:()=>h('div',{
+          style:{
+            position:'relative',
+            width:'4px',
+            height:'15px',
+          }
+        },[
+          this.showPromptBlock?h("div",{
+            style:{
+              position:'absolute',
+              width:'4px',
+              height:'15px',
+              backgroundColor:'#409eff',
+              borderRadius:'3px',
+              top:`${this.promptBlockTop}px`,
+              left:0,
+            }
+          },''):''
+        ])
+      })
 
     return h('div', { class: 'xy-showcase' },[
       h('div',{class:'xy-showcase-left'},[pageElement]),
-      ...assemblyList
+      this.displayCatalogue?catalogueCom:''
     ]);
   }
 })
