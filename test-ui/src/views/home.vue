@@ -1,19 +1,19 @@
 <template>
   <div>
-<!--    <xy-calendar-->
-<!--      :currentMonth="state.currentMonth"-->
-<!--      :currentYear="state.currentYear"-->
-<!--      :startDayOfMonday="state.startDayOfMonday"-->
-<!--      @changeDate="changeDate"-->
-<!--    > </xy-calendar>-->
-    <xy-test></xy-test>
+    <xy-calendar
+      :currentMonth="state.currentMonth"
+      :currentYear="state.currentYear"
+      :startDayOfMonday="state.startDayOfMonday"
+      @changeDate="changeDate"
+    > </xy-calendar>
   </div>
 </template>
 
 <script setup lang="ts">
 import {reactive} from 'vue'
 import {Tools} from "../../../packages"
-
+const name = 'sssswwwwwwwwwwwwwwwwww'
+console.log(name,'name');
 const state = reactive({
   currentYear: new Date().getFullYear(),
   currentMonth: new Date().getMonth(),

@@ -12,7 +12,7 @@
       @before-enter="beforeEnter"
     >
       <div class="effect-code" v-if="showCode">
-        <xy-code-preview :code="code" :language="language"></xy-code-preview>
+        <xy-code-preview :code="code" :language="language" :round="false"></xy-code-preview>
         <div class="effect-code-close" @click="showCode=!showCode">
           <i class="iconfont icon-insert-right-full"></i>
           <p>隐藏源代码</p>

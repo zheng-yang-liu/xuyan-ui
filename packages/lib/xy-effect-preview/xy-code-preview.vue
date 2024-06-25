@@ -1,6 +1,6 @@
 <template>
   <pre v-highlightjs="code" ref="preBox">
-    <code :class="languageClass" ref="codeBox"></code>
+    <code :class="languageClass" ref="codeBox" :style="round?{borderRadius:'10px'}:''"></code>
   </pre>
 </template>
 
@@ -17,6 +17,10 @@ export default defineComponent({
     language: {
       type: String,
       default: 'xml'
+    },//是否圆角
+    round: {
+      type: Boolean,
+      default: true
     }
   },
   setup(props, context) {
@@ -45,6 +49,5 @@ export default defineComponent({
 .hljs {
   font-family: "Courier New", Courier, monospace;
   font-size: 13px;
-  border-radius: 10px;
 }
 </style>

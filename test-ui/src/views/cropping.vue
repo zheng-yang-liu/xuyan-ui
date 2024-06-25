@@ -6,7 +6,7 @@
       :uploadApi="upload"
     ></xy-img-cropping>
     <el-button @click="state.visible = true"></el-button>
-    <el-button @click="dianji()">点击</el-button>
+    <el-button @click="dianji()">点击打开</el-button>
   </div>
 </template>
 
@@ -33,7 +33,7 @@ const dianji = ()=>{
   // Tools.showConfirm("提示",()=>{
   //   console.log("确定删除")
   // })
-  Tools.showAlert("提示信息")
+  // Tools.showAlert("提示信息")
 }
 
 

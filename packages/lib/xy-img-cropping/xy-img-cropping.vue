@@ -50,31 +50,35 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, watch, computed } from 'vue';
-import { base64ToFile, fileToBase64 } from "../../tools";
+import { base64ToFile, fileToBase64 ,showMsg} from "../../tools";
 import { initBaseImg } from "./initBaseImg";
 
 export default defineComponent({
   name: "xy-img-cropping",
-  props:{
+  props:{//是否显示弹框
     visible:{
       type:Boolean,
       default:false
-    },
+    },//弹框标题
     title:{
       type:String,
       default:'图像编辑'
-    },
+    },//预览窗口是否固定大小
     previewSizeFixed:{
       type:Boolean,
       default:true
-    },
+    },//上传的数据是否为file对象
     uploadParamIsFile:{
       type:Boolean,
       default:true
-    },
+    },//点击外部是否可以关闭弹框
     closeOnClickModal:{
       type:Boolean,
       default:false
+    },//文件大小MB
+    fileSize:{
+      type:Number,
+      default:4
     }
   },
   emits:['update:visible','confirmReturn'],
@@ -92,11 +96,12 @@ export default defineComponent({
       left: 100,
     });
 
+
     const imgCanvas = ref<HTMLCanvasElement | null>(null);
     const fileInput = ref<HTMLInputElement | null>(null);
     const canvasWidth = ref<number>(600);
     const canvasHeight = ref<number>(600);
-
+    const fileName = ref<string>('');
     let startX = 0;
     let startY = 0;
     let startWidth = 0;
@@ -147,6 +152,19 @@ export default defineComponent({
 
     const onFileChange = (event: Event) => {
       const file = (event.target as HTMLInputElement).files?.[0];
+      //判断文件是否为图片
+      console.log(file);
+      const size = file.size / 1024 / 1024;
+
+      if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg'){
+        showMsg('error','请上传图片文件');
+          return;
+      }
+      if(size>props.fileSize){
+        showMsg('error',`文件大小不能超过${props.fileSize}MB`);
+        return;
+      }
+      fileName.value = file.name;
       if (file) fileToBase64(file, (base64:string) => {
         state.currentBase64 = base64;
         wheelScale.value = 1;
@@ -161,7 +179,7 @@ export default defineComponent({
     };
 
     const confirm = async () => {
-      const file = base64ToFile(state.previewUrl);
+      const file = base64ToFile(state.previewUrl, fileName.value);
       if(props.uploadParamIsFile){
         context.emit("confirmReturn", file);
         context.emit("update:visible", false);

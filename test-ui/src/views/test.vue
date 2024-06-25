@@ -26,7 +26,7 @@
           <xy-effect-preview :code="vueComponentString">
             <template #effect>
               <div style="width: 100%;height: 100%;background-color: #ffffff">
-                <el-button>按钮</el-button>
+                <cropping></cropping>
               </div>
             </template>
           </xy-effect-preview>
@@ -63,6 +63,7 @@
 </template>
 
 <script lang="ts" setup>
+import cropping from"./cropping.vue"
 import {ref} from 'vue'
 import vueComponentString from "@/views/codeTest";
 const catalogue = [
