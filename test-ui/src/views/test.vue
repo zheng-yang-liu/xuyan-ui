@@ -23,23 +23,12 @@
       <template #main>
         <div class="mainBox"
              style="background-color: #f6f6f6;width: 100%;height: 100%;padding: 0 10px;overflow: hidden;overflow-y: auto">
-          <xy-effect-preview :code="vueComponentString">
-            <template #effect>
-              <div style="width: 100%;height: 100%;background-color: #ffffff">
-                <cropping></cropping>
-              </div>
-            </template>
-          </xy-effect-preview>
-          <xy-attribute-table :data="data"></xy-attribute-table>
           <xy-showcase-page
             :catalogue="catalogue"
             introduction="Divider分割线"
             pageTitle="区隔内容的分割线"
             :showCatalogue="true"
           >
-            <template #pageExplain>
-              <div class="nnnnnnnSlot" >自定义插槽内容</div>
-            </template>
             <template #basicUsage>
               <div class="nnnnnnnSlot">基础用法</div>
             </template>
@@ -56,6 +45,14 @@
               <div class="nnnnnnnSlot">slotsname</div>
             </template>
           </xy-showcase-page>
+          <xy-effect-preview :code="vueComponentString">
+            <template #effect>
+              <div style="width: 100%;height: 100%;background-color: #ffffff">
+                <cropping></cropping>
+              </div>
+            </template>
+          </xy-effect-preview>
+          <xy-attribute-table :data="data"></xy-attribute-table>
         </div>
       </template>
     </xy-classic-page>

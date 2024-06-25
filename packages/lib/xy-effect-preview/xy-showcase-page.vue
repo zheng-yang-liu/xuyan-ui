@@ -64,7 +64,7 @@ export default defineComponent({
           displayCatalogue.value = currentWidth > 1075;
         }
       }
-    }, 500);
+    }, 100);
 
     onBeforeUnmount(() => {
       window.removeEventListener('resize', debounceResize);
@@ -91,8 +91,8 @@ export default defineComponent({
             startID.value = targetName;
 
           }else{
-            showPromptBlock.value=false;
-            startID.value= '';
+            // showPromptBlock.value=false;
+            // startID.value= '';
           }
         })
       };
@@ -201,23 +201,24 @@ export default defineComponent({
     pageElement = pageElement.concat(renderCatalogue(this.catalogue))
 
     const catalogueCom = h(xyMenuLeft,{
-        startID:this.startID,
-        expandAll:true,
-        selfJump:false,
-        needPath:false,
-        defaultStyle:false,
-        isTheHeightSet:false,
-        areAllClickable:true,
-        menuItems:this.updatedList,
-        fillingDefaultIcon:false,
-        height:this.menuItemHeight,
-        selectStyle:{color:'#409eff'},
-        onClickItem:this.clickItemToTitle,
-        menuLeftStyle:{position:"sticky",top:'50px'},
-        itemTitleStyle:{fontWeight:500,fontSize:'12px'},
-        mouseOverStyle:{color:'#409eff',cursor:'pointer'},
-        submenuIndentConfig:{autoIndent:false,indentValue:10,currentIndent:0},
-        logoSlotStyle:{position:"sticky",top:'50px',display:"flex",alignItems:"center"}
+      expandAll:true,
+      selfJump:false,
+      needPath:false,
+      showPrompt:false,
+      defaultStyle:false,
+      isTheHeightSet:false,
+      areAllClickable:true,
+      startID:this.startID,
+      menuItems:this.updatedList,
+      fillingDefaultIcon:false,
+      height:this.menuItemHeight,
+      selectStyle:{color:'#409eff'},
+      onClickItem:this.clickItemToTitle,
+      menuLeftStyle:{position:"sticky",top:'50px'},
+      itemTitleStyle:{fontWeight:500,fontSize:'12px'},
+      mouseOverStyle:{color:'#409eff',cursor:'pointer'},
+      submenuIndentConfig:{autoIndent:false,indentValue:10,currentIndent:0},
+      logoSlotStyle:{position:"sticky",top:'50px',display:"flex",alignItems:"center"}
       },{
         logo:()=>h('div',{
           style:{
@@ -256,6 +257,7 @@ export default defineComponent({
   }
   .xy-showcase-left{
     width: 100%;
+    padding-right: 10px;
   }
   .hTag{
     position: relative;

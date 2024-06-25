@@ -141,6 +141,7 @@ export default defineComponent({
 .attribute-box{
   background-color: #fff;
   display: grid;
+  font-size: 14px;
   .cells{
     border-bottom: 1px solid #d8d8d8;
     min-height: 40px;

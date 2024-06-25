@@ -136,7 +136,11 @@ export default defineComponent({
     initByRouter:{
       type:Boolean,
       default:false
-    }
+    },//提示
+    showPrompt:{
+      type:Boolean,
+      default:true
+    },
   },
   emits:['clickItem'],
   setup(props,context) {
@@ -175,6 +179,7 @@ export default defineComponent({
       }
 
       if (props.startID) {
+        console.log('startID', props.startID);
         // 根据 startID 初始化
         const lookupResult = deepLookup(props.menuItems, item => item.id === props.startID);
         if (lookupResult.length) {
@@ -182,10 +187,10 @@ export default defineComponent({
           if (path) {
             router.push(path);
           } else {
-            showMsg('error', '初始 path 不存在');
+            props.showPrompt&&showMsg('error', '初始 path 不存在');
           }
         } else {
-          showMsg('error', '初始 path 不存在');
+          props.showPrompt&&showMsg('error', '初始 path 不存在');
         }
         return;
       }

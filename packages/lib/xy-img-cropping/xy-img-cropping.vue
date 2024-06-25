@@ -66,7 +66,7 @@ export default defineComponent({
     },//弹框标题
     title:{
       type:String,
-      default:'图像编辑'
+      default:'图像裁剪'
     },//预览窗口是否固定大小
     previewSizeFixed:{
       type:Boolean,
@@ -75,7 +75,7 @@ export default defineComponent({
     uploadParamIsFile:{
       type:Boolean,
       default:true
-    },//点击外部是否可以关闭弹框
+    },//点击外部关闭弹框
     closeOnClickModal:{
       type:Boolean,
       default:false
