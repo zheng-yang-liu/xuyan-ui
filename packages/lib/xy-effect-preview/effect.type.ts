@@ -12,8 +12,10 @@ export type data = {
   default?:string
 }
 export type catalogue = {
-  name:string,
-  id:string,
-  explain:string | string[],
-  key?:string,
+  [key: string]: any;
+  id: string;
+  title: string;
+  indentValue?: number;
+  listPosition?: string;
+  children?: catalogue[];
 }

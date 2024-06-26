@@ -28,6 +28,8 @@ export type formatDateStr = {
 export type MessageTypes = "success" | "warning" | "info" | "error"
 type targetListItem = {
   [key: string]: any;
+  id: string;
+  title: string;
   indentValue?: number;
   listPosition?: string;
   children?: targetListItem[];

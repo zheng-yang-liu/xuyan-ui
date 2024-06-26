@@ -23,6 +23,7 @@
       <template #main>
         <div class="mainBox"
              style="background-color: #f6f6f6;width: 100%;height: 100%;padding: 0 10px;overflow: hidden;overflow-y: auto">
+          <xy-menu-catalog :catalogue="catalogue" @clickItem="catalogueClickItem"></xy-menu-catalog>
           <xy-showcase-page
             :catalogue="catalogue"
             introduction="Divider分割线"
@@ -53,6 +54,10 @@
             </template>
           </xy-effect-preview>
           <xy-attribute-table :data="data"></xy-attribute-table>
+
+
+
+
         </div>
       </template>
     </xy-classic-page>
@@ -63,18 +68,19 @@
 import cropping from"./cropping.vue"
 import {ref} from 'vue'
 import vueComponentString from "@/views/codeTest";
+import{Tools}from"../../../packages"
 const catalogue = [
   {
     title:'基础用法',
     explain:'基础用法',
     slot: 'basicUsage',
-    id:"4af1215ffa45b8245f055eb676fd6970"
+    id:"4af1215ffa45b8245f055eb676fd6970",
   },
   {
     title:"设置文案",
     explain:["可以在分割线上自定义文本内容","测试多个P元素"],
     slot: 'setWords',
-    id:'ffb11a4fb28c94c976acf9cf672be273'
+    id:'ffb11a4fb28c94c976acf9cf672be273',
   },
   {
     title:"API",
@@ -293,6 +299,9 @@ const codeTest =
   `console.log("hello world");
 let name = '张三';
 `
+const catalogueClickItem = (item) => {
+  console.log(item)
+}
 
 const clickItem = (item) => {
   console.log(item)

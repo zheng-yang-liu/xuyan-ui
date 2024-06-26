@@ -8,3 +8,11 @@ export type menuItem= {
   disabled?: boolean,
   hidden?: boolean,
 }
+export type targetListItem = {
+  [key: string]: any;
+  id: string;
+  title: string;
+  indentValue?: number;
+  listPosition?: string;
+  children?: targetListItem[];
+}

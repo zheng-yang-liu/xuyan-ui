@@ -1,7 +1,6 @@
 import {formatDateNum, MessageTypes, targetListItem} from './types/tools'
 import {MessageBoxState} from "element-plus";
 import {VNode,DefineComponent } from "vue"
-
 /**
  * 安装插件到Vue应用中
  * @param app Vue应用实例
