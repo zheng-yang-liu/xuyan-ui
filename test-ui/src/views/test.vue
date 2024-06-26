@@ -10,7 +10,7 @@
         <div style="background-color: #ffffff;width: 100%;height: 100%">
           <xy-menu-left
             :defaultStyle="false"
-            :expandAll="true"
+            :expandAll="false"
             :menuItems="menuItems"
             @clickItem="clickItem"
             :menuLeftStyle="menuLeftStyle"

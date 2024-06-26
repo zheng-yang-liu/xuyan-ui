@@ -1,5 +1,5 @@
 <template>
-  <div :style="[{maxHeight:`${height}px`},logoSlotStyle]" class="xyMenuLeftLogo" ref="xyMenuLeftLogo">
+  <div :style="[{maxHeight:`${height}px`,maxWidth:`${width}px`},logoSlotStyle]" class="xyMenuLeftLogo" ref="xyMenuLeftLogo">
     <slot name="logo"></slot>
   </div>
   <ul class="menu-left"

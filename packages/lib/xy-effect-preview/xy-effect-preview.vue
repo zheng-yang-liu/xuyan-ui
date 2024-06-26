@@ -1,6 +1,6 @@
 <template>
   <div :style="{width:width}" class="effect-preview">
-    <div class="effect-box" :style="{minHeight:`${effectHeight}px`}"><slot name="effect"></slot></div>
+    <div class="effect-box" :style="{minHeight:`${effectHeight}px`}"><slot></slot></div>
     <div class="effect-tools">
       <i class="iconfont icon-fuzhi" title="复制" @click="copyCode"></i>
       <i class="iconfont icon-zhankai" title="查看源代码" @click="showCode=!showCode"></i>
@@ -44,7 +44,7 @@ export default defineComponent({
     },
     effectHeight:{
       type:Number,
-      default:150
+      default:85
     }
   },
   components: {
