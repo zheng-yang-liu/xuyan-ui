@@ -23,13 +23,14 @@
       <template #main>
         <div class="mainBox"
              style="background-color: #f6f6f6;width: 100%;height: 100%;padding: 0 10px;overflow: hidden;overflow-y: auto">
-          <xy-menu-catalog :catalogue="catalogue" @clickItem="catalogueClickItem"></xy-menu-catalog>
+<!--          <xy-menu-catalog :catalogue="catalogue" @clickItem="catalogueClickItem"></xy-menu-catalog>-->
           <xy-showcase-page
             :catalogue="catalogue"
             introduction="Divider分割线"
             pageTitle="区隔内容的分割线"
             :showCatalogue="true"
           >
+            <template #pageExplain>44444444444444444444</template>
             <template #basicUsage>
               <div class="nnnnnnnSlot">基础用法</div>
             </template>

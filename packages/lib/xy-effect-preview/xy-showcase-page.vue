@@ -3,6 +3,7 @@ import {defineComponent,PropType,h,ref,onMounted,onBeforeUnmount} from 'vue'
 import {catalogue} from"./effect.type"
 import xyMenuLeft from "../xy-menu/xy-menu-left.vue";
 import{calculateItemDepth,deepLookup,throttle}from"../../tools"
+import xyMenuCatalog from "../xy-menu/xy-menu-catalog.vue";
 export default defineComponent({
   name: "xy-showcase-page",
   props: {
@@ -55,7 +56,6 @@ export default defineComponent({
       showPromptBlock.value = true;
       promptBlockTop.value = menuItemHeight * item.listPosition
     }
-    console.log(originalWidth)
     
     const debounceResize = throttle(() => {
       const currentWidth = window.innerWidth;
@@ -89,7 +89,6 @@ export default defineComponent({
             const resultLook = deepLookup(updatedList,(item)=>item.id===targetName);
             promptBlockTop.value = menuItemHeight * resultLook[0].listPosition
             startID.value = targetName;
-
           }else{
             // showPromptBlock.value=false;
             // startID.value= '';
@@ -102,13 +101,13 @@ export default defineComponent({
       }
     })
     return {
-      clickItemToTitle,
+      startID,
+      updatedList,
       promptBlockTop,
       menuItemHeight,
-      updatedList,
-      startID,
       showPromptBlock,
-      displayCatalogue
+      displayCatalogue,
+      clickItemToTitle
 
     }
   },
@@ -200,45 +199,20 @@ export default defineComponent({
 
     pageElement = pageElement.concat(renderCatalogue(this.catalogue))
 
-    const catalogueCom = h(xyMenuLeft,{
-      expandAll:true,
-      selfJump:false,
-      needPath:false,
-      showPrompt:false,
-      defaultStyle:false,
-      isTheHeightSet:false,
-      areAllClickable:true,
+    const catalogueCom = h(xyMenuCatalog,{
       startID:this.startID,
-      menuItems:this.updatedList,
-      fillingDefaultIcon:false,
-      height:this.menuItemHeight,
-      selectStyle:{color:'#409eff'},
+      promptBlockTop:this.promptBlockTop,
+      catalogue:this.updatedList,
       onClickItem:this.clickItemToTitle,
-      menuLeftStyle:{position:"sticky",top:'50px'},
-      itemTitleStyle:{fontWeight:500,fontSize:'12px'},
-      mouseOverStyle:{color:'#409eff',cursor:'pointer'},
-      submenuIndentConfig:{autoIndent:false,indentValue:10,currentIndent:0},
-      logoSlotStyle:{position:"sticky",top:'50px',display:"flex",alignItems:"center"}
-      },{
+      showPromptBlock:this.showPromptBlock,
+    },{
         logo:()=>h('div',{
           style:{
             position:'relative',
             width:'4px',
             height:'15px',
           }
-        },[
-          this.showPromptBlock?h("div",{
-            style:{
-              position:'absolute',
-              width:'4px',
-              height:'15px',
-              backgroundColor:'#409eff',
-              borderRadius:'3px',
-              top:`${this.promptBlockTop}px`,
-              left:0,
-            }
-          },''):''
-        ])
+        },'')
       })
 
     return h('div', { class: 'xy-showcase' },[

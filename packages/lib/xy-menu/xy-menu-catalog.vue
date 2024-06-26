@@ -1,5 +1,15 @@
 <template>
-  <div class="menu-catalog" :style="[{position:'sticky',top:`${stickyTop}px`},stickyStyle]">
+  <div
+    class="menu-catalog"
+    :style="[
+      {
+        position:'sticky',
+        top:`${stickyTop}px`,
+        height:'100%'
+      }
+      ,stickyStyle
+    ]"
+  >
     <xy-menu-left
       :height="height"
       :selfJump="false"
@@ -67,7 +77,11 @@ export default defineComponent({
     },
     completeData:{
       type:Boolean,
-      default:true
+      default:false
+    },
+    totalQuantity:{
+      type:Number,
+      default:0
     }
   },
   components: {
@@ -77,6 +91,7 @@ export default defineComponent({
   setup(props, context) {
     const menuItems = ref(props.catalogue);
     const currentID = ref(props.startID);
+    const totalQuantityCH = ref(props.totalQuantity);
     const showPromptBlockCH = ref(props.showPromptBlock);
     const promptBlockTopCH = ref(props.promptBlockTop);
     watch(() => props.startID,
@@ -84,13 +99,25 @@ export default defineComponent({
         currentID.value = val;
       }
     );
+    watch(()=>props.showPromptBlock,
+      (val) => {
+        showPromptBlockCH.value = val;
+      }
+    );
+    watch(()=>props.promptBlockTop,
+      (val) => {
+        promptBlockTopCH.value = val;
+      }
+    );
     const init = () =>{
       if(props.completeData){
-        const {updatedList,listTotal} = calculateItemDepth(
+        const {updatedList,nextPos} = calculateItemDepth(
           props.catalogue,
           10,
           0
         );
+        console.log(nextPos)
+        totalQuantityCH.value = nextPos;
         menuItems.value = updatedList;
       }
     }
@@ -104,9 +131,10 @@ export default defineComponent({
     return {
       currentID,
       menuItems,
+      totalQuantityCH,
       promptBlockTopCH,
-      showPromptBlockCH,
-      clickItemToTitle
+      clickItemToTitle,
+      showPromptBlockCH
     }
   }
 })
