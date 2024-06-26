@@ -1,10 +1,10 @@
 <template>
   <div class="attribute-box" ref="attributeBox">
-    <template v-for="(item,index) in columns" :key="index">
+    <template v-for="(item,index) in columnsCH" :key="index">
       <div class="attribute-columns cells">{{item.name}}</div>
     </template>
     <template v-for="(item,index) in data" :key="index">
-      <template v-for="(itemColumns,index) in columns" :key="itemColumns.key">
+      <template v-for="(itemColumns,index) in columnsCH" :key="itemColumns.key">
         <div class="attribute-line cells" v-if="itemColumns.key!=='type'">
           {{item[itemColumns.key]?item[itemColumns.key]:'-'}}
         </div>
@@ -103,6 +103,10 @@ export default defineComponent({
     promptXOffset: {
       type: Number,
       default: 0
+    },
+    columnsNoDefault:{
+      type:Boolean,
+      default:false
     }
   },
   components: {
@@ -114,10 +118,28 @@ export default defineComponent({
     const showComplexType = (type:string):boolean=>{
       return !basicType.includes(type)
     }
+    const columnsNoDefault = [
+      {
+        name: '属性名',
+        key: 'name',
+        width: '1fr'
+      },
+      {
+        name: '说明',
+        key: 'explain',
+        width: '2fr'
+      },
+      {
+        name: '类型',
+        key: 'type',
+        width: '1fr'
+      }
+    ]
+    const columnsCH = props.columnsNoDefault?columnsNoDefault:props.columns;
     const attributeBox = ref<HTMLElement | null>(null);
     const initGridColumns = ()=>{
       let gridColumns = '';
-      props.columns.forEach((item)=>{
+      columnsCH.forEach((item)=>{
         gridColumns += `${item.width} `
       })
       if(attributeBox.value) {
@@ -130,7 +152,8 @@ export default defineComponent({
     })
     return {
       showComplexType,
-      attributeBox
+      attributeBox,
+      columnsCH
     }
   }
 })

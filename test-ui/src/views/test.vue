@@ -54,7 +54,7 @@
               </div>
             </template>
           </xy-effect-preview>
-          <xy-attribute-table :data="data"></xy-attribute-table>
+          <xy-attribute-table :data="data" :columnsNoDefault="false"></xy-attribute-table>
 
 
 
