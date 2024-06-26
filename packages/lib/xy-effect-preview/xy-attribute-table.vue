@@ -192,12 +192,12 @@ export default defineComponent({
       }
     }
     .complexType{
-    padding: 0 10px;
-    background-color: #f5f7fa;
-    border-radius: 5px;
-    color: #0c61c9;
-      font-size: 14px;
-    }
+      padding: 4px 8px;
+      background-color: #f5f7fa;
+      border-radius: 5px;
+      color: #0c61c9;
+        font-size: 14px;
+      }
   }
 }
 </style>

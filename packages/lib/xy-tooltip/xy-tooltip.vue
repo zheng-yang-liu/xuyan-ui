@@ -159,7 +159,7 @@ export default defineComponent({
   display: inline-block;
   position: relative;
   .tooltipContent {
-    padding: 10px;
+    padding: 6px 11px;
     border-radius: 5px;
     display: inline-block;
     background-color: #fff;

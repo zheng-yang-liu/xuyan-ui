@@ -2,6 +2,7 @@ export type menuItem= {
   title: string,
   id: string,
   indentValue?: number,
+  listPosition?: number,
   icon?: string,
   children?: Array<menuItem>,
   path?: string,
