@@ -3,7 +3,7 @@
     <slot name="logo"></slot>
   </div>
   <ul class="menu-left"
-      :style="[{backgroundColor:itemStyle.backgroundColor,minWidth:`${width}px`},menuLeftStyle]"
+      :style="[{backgroundColor:itemStyle.backgroundColor,width:`${width}px`,minWidth:`${width}px`},menuLeftStyle]"
       ref="menuLeft"
   >
     <xy-menu-item
