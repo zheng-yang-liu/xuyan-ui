@@ -31,25 +31,6 @@
           <xy-menu-item
             :key="index"
             :item="child"
-            :height="height"
-            :indent="indent"
-            :selfJump="selfJump"
-            :needPath="needPath"
-            :clickName="clickName"
-            :expandAll="expandAll"
-            :itemStyle="itemStyle"
-            :selectStyle="selectStyle"
-            :itemTitleStyle="itemTitleStyle"
-            :mouseOverStyle="mouseOverStyle"
-            :areAllClickable="areAllClickable"
-            v-for="(child, index) in item.children"
-            :fillingDefaultIcon="fillingDefaultIcon"
-          />
-        </template>
-        <template v-else>
-          <xy-menu-item
-            :key="index"
-            :item="child"
             :index="index"
             :height="height"
             :indent="indent"
@@ -64,6 +45,25 @@
             :areAllClickable="areAllClickable"
             v-for="(child, index) in item.children"
             v-model:currentIndex="childCurrentIndex"
+            :fillingDefaultIcon="fillingDefaultIcon"
+          />
+        </template>
+        <template v-else>
+          <xy-menu-item
+            :key="index"
+            :item="child"
+            :height="height"
+            :indent="indent"
+            :selfJump="selfJump"
+            :needPath="needPath"
+            :clickName="clickName"
+            :expandAll="expandAll"
+            :itemStyle="itemStyle"
+            :selectStyle="selectStyle"
+            :itemTitleStyle="itemTitleStyle"
+            :mouseOverStyle="mouseOverStyle"
+            :areAllClickable="areAllClickable"
+            v-for="(child, index) in item.children"
             :fillingDefaultIcon="fillingDefaultIcon"
           />
         </template>
@@ -93,10 +93,10 @@ export default defineComponent({
     },
     currentIndex: {
       type: Number,
-    },//是否不只存在一个战开打子菜单项
+    },//仅展示一个子菜单项
     showOnlyOneSubmenu: {
       type: Boolean,
-      default: false
+      default: true
     },
     height:{
       type:Number,
@@ -178,7 +178,7 @@ export default defineComponent({
         if (!item.path) {
           showMsg('error', '路径不存在');
         } else {
-          // router.push(item.path.trim());
+          router.push(item.path.trim());
         }
 
         // 更新当前ID

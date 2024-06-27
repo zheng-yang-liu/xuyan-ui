@@ -121,9 +121,9 @@ export default defineComponent({
         return ''
       }
       if(Array.isArray(PData)){
-        return PData.map(item=>h('p',{},item))
+        return PData.map(item=>h('p',{class:'xy-showcase-page-p'},item))
       }else{
-        return h('p',{},PData)
+        return h('p',{class:'xy-showcase-page-p'},PData)
       }
     }
     function renderCatalogue(catalogue, depth = 2,subelement:boolean = false) {
@@ -193,7 +193,7 @@ export default defineComponent({
 
     let pageElement = [
       h('h1', {style:{margin:'0 0 32px'}}, this.pageTitle),
-      h('p',{},this.introduction),
+      h('p',{class:'xy-showcase-page-p'},this.introduction),
       createSlot('pageExplain')
     ]
 
@@ -228,10 +228,11 @@ export default defineComponent({
   display: flex;
   p{
     margin: 16px 0;
+    line-height: 1.7;
   }
   .xy-showcase-left{
     width: 100%;
-    padding-right: 10px;
+    padding-right: 40px;
   }
   .hTag{
     position: relative;

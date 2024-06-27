@@ -44,7 +44,7 @@ export default defineComponent({
     },
     effectHeight:{
       type:Number,
-      default:85
+      default:85,
     }
   },
   components: {

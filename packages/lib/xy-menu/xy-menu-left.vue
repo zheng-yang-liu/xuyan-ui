@@ -1,15 +1,34 @@
 <template>
-  <div :style="[{maxHeight:`${height}px`,maxWidth:`${width}px`},logoSlotStyle]" class="xyMenuLeftLogo" ref="xyMenuLeftLogo">
+  <div
+    ref="xyMenuLeftLogo"
+    class="xyMenuLeftLogo"
+    :style="[
+      {
+        maxWidth:`${width}px`,
+        maxHeight:`${height}px`
+      },
+      logoSlotStyle
+    ]"
+  >
     <slot name="logo"></slot>
   </div>
-  <ul class="menu-left"
-      :style="[{backgroundColor:itemStyle.backgroundColor,width:`${width}px`,minWidth:`${width}px`},menuLeftStyle]"
-      ref="menuLeft"
+  <ul
+    class="menu-left"
+    :style="[
+      {
+        width:`${width}px`,
+        minWidth:`${width}px`,
+        backgroundColor:itemStyle.backgroundColor
+      },
+      menuLeftStyle
+    ]"
+    ref="menuLeft"
   >
     <xy-menu-item
       :key="index"
       :item="item"
       :index="index"
+      :indent="indent"
       :height="height"
       :selfJump="selfJump"
       :needPath="needPath"
@@ -17,7 +36,7 @@
       :itemTitleStyle="itemTitleStyle"
       :areAllClickable="areAllClickable"
       v-model:currentIndex="currentIndex"
-      :indent="indent"
+      :showOnlyOneSubmenu="showOnlyOneSubmenu"
       :fillingDefaultIcon="fillingDefaultIcon"
       v-for="(item, index) in afterConversionMenu"
       :itemStyle="defaultStyle?defaultItemStyle:itemStyle"
@@ -135,6 +154,10 @@ export default defineComponent({
     showPrompt:{
       type:Boolean,
       default:true
+    },//仅展示一个子菜单项
+    showOnlyOneSubmenu: {
+      type: Boolean,
+      default: true
     },
   },
   emits:['clickItem'],
@@ -236,6 +259,7 @@ export default defineComponent({
     const setMenuHeight = ()=>{
       const logoHeight = xyMenuLeftLogo.value.offsetHeight;
       const tempMenuHeight = menuLeft.value.offsetHeight
+      console.log('temp',tempMenuHeight,'logo',logoHeight)
       menuLeft.value.style.height = tempMenuHeight - logoHeight + 'px';
     }
     onMounted(()=>{

@@ -14,7 +14,9 @@ export type data = {
 export type catalogue = {
   [key: string]: any;
   id: string;
+  slot?: string;
   title: string;
+  explain?: string;
   indentValue?: number;
   listPosition?: string;
   children?: catalogue[];
