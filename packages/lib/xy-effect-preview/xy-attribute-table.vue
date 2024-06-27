@@ -13,31 +13,34 @@
           v-else-if="typeof(item[itemColumns.key])!=='string'"
           style="display: inline-block"
         >
-          <template
-            v-for="(itemType,indexType) in item[itemColumns.key]"
-            :key="indexType"
-          >
-            <div
-              v-if="itemColumns"
+          <div style="width: 100%;height: 100%;display: flex;align-items: center;flex-wrap: wrap;">
+            <template
+              v-for="(itemType,indexType) in item[itemColumns.key]"
               :key="indexType"
-              :class="`attribute-type${indexType}`"
-              :style="{display: 'inline-block',marginBottom:'5px'}"
             >
-              <span v-if="indexType!==0" style="margin: 0 5px">/</span>
-              <code>{{itemType.value}}</code>
-              <xyTooltip v-if="showComplexType(itemType.value)"
-                         :hoverShow="false"
-                         :XOffset="promptXOffset"
-                         :topOffset="promptTopOffset">
-                <template #display>
-                  <i class="iconfont icon-zhuyi"></i>
-                </template>
-                <template #prompt>
-                  <div class="complexType">{{itemType.complexType}}</div>
-                </template>
-              </xyTooltip>
-            </div>
-          </template>
+              <div
+                v-if="itemColumns"
+                :key="indexType"
+                :class="`attribute-type${indexType}`"
+                :style="{display: 'inline-block',marginBottom:'5px'}"
+              >
+                <span v-if="indexType!==0" style="margin: 0 5px">/</span>
+                <code>{{itemType.value}}</code>
+                <xyTooltip v-if="showComplexType(itemType.value)"
+                           :hoverShow="false"
+                           :XOffset="promptXOffset"
+                           :topOffset="promptTopOffset">
+                  <template #display>
+                    <i class="iconfont icon-zhuyi"></i>
+                  </template>
+                  <template #prompt>
+                    <div class="complexType">{{itemType.complexType}}</div>
+                  </template>
+                </xyTooltip>
+              </div>
+            </template>
+          </div>
+
         </div>
         <div class="attribute-line cells" v-else style="display: flex;align-items: center">
           <code>{{item[itemColumns.key]}}</code>

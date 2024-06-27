@@ -5,9 +5,7 @@ export type menuItem= {
   listPosition?: number,
   icon?: string,
   children?: Array<menuItem>,
-  path?: string,
-  disabled?: boolean,
-  hidden?: boolean,
+  path?: string
 }
 export type targetListItem = {
   [key: string]: any;

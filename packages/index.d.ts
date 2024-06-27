@@ -1,4 +1,4 @@
-import {formatDateNum, MessageTypes, targetListItem} from './types/tools'
+import {formatDateNum, MessageTypes} from './types/tools'
 import {MessageBoxState} from "element-plus";
 import {VNode,DefineComponent } from "vue"
 /**
@@ -164,10 +164,10 @@ export declare const Tools: {
    * @param initialIndentValue 初始缩进值
    * */
   calculateItemDepth: (
-    targetList: targetListItem[],
+    targetList: any[],
     indentStep: number = 1,
     initialIndentValue: number = 2
-  ) => targetListItem[];
+  ) => any[];
   /**
    * 深度搜索
    * @param dataList 目标数组

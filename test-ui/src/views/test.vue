@@ -24,6 +24,8 @@
         <div class="mainBox"
              style="background-color: #f6f6f6;width: 100%;height: 100%;padding: 0 10px;overflow: hidden;overflow-y: auto">
 <!--          <xy-menu-catalog :catalogue="catalogue" @clickItem="catalogueClickItem"></xy-menu-catalog>-->
+          <xy-attribute-table :data="data" :columnsNoDefault="false"></xy-attribute-table>
+
           <xy-showcase-page
             :catalogue="catalogue"
             introduction="Divider分割线"
@@ -54,7 +56,6 @@
               </div>
             </template>
           </xy-effect-preview>
-          <xy-attribute-table :data="data" :columnsNoDefault="false"></xy-attribute-table>
 
 
 
@@ -316,7 +317,29 @@ const data = [
   {
     name: 'age',
     explain: '年龄',
-    type: [{value: "number"},{value: 'array', complexType: 'object[]'},{value: 'array', complexType: 'object[]'},{value: 'array', complexType: 'object[]'}]
+    type:[
+      {
+        value:"object",
+        complexType:`{
+          autoIndent: boolean,
+          indentValue: number,
+          currentIndent: number
+        }`
+      },
+      {
+        value:"object",
+        complexType:`{
+          autoIndent: boolean,
+          indentValue: number,
+          currentIndent: number
+        }`
+      }
+    ],
+    default:`{
+      autoIndent: true,
+      indentValue: 10,
+      currentIndent: 0
+    }`
   },
   {
     name: 'address',

@@ -1,6 +1,6 @@
 {
   "name": "yanyan-ui",
-  "version": "2.0.84",
+  "version": "2.0.86",
   "private": false,
   "description": "适用于vue3的前端xy组件库",
   "main": "index.js",

@@ -154,7 +154,7 @@ export default defineComponent({
     const childCurrentIndex = ref(0);
     const currentID = inject('currentID');
     const mouseOverItemStyle = ref({});
-    const clickItem = inject('xyMenuClickItem');
+    const clickItem = inject(`${props.clickName}`);
     const toggle = (clickIndex: number, item: MenuItemType) => {
       // 切换状态
       isOpen.value = !isOpen.value;
@@ -178,7 +178,7 @@ export default defineComponent({
         if (!item.path) {
           showMsg('error', '路径不存在');
         } else {
-          router.push(item.path.trim());
+          // router.push(item.path.trim());
         }
 
         // 更新当前ID

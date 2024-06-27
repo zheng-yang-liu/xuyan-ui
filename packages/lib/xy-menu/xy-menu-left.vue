@@ -13,7 +13,6 @@
       :height="height"
       :selfJump="selfJump"
       :needPath="needPath"
-      :clickName="clickName"
       :expandAll="expandAll"
       :itemTitleStyle="itemTitleStyle"
       :areAllClickable="areAllClickable"
@@ -80,7 +79,7 @@ export default defineComponent({
     expandAll:{
       type:Boolean,
       default:false
-    },//是否采用自身的跳转方式(router.push),false时父组件需@click
+    },//是否采用自身的跳转方式(router.push),false时父组件需@click处理点击事件
     selfJump:{
       type:Boolean,
       default:true
@@ -100,7 +99,7 @@ export default defineComponent({
     menuLeftStyle:{
       type:Object,
       default:()=>({})
-    },//是否设置高度
+    },//是否自动设置menuLeft的高度
     isTheHeightSet:{
       type:Boolean,
       default:true
@@ -108,10 +107,6 @@ export default defineComponent({
     needPath:{
       type:Boolean,
       default:true
-    },//点击事件名,多个xy-menu-item/xy-menu-left时需设置不同的值
-    clickName:{
-      type:String,
-      default:'xyMenuClickItem'
     },//是否全部可选
     areAllClickable:{
       type:Boolean,
@@ -234,6 +229,7 @@ export default defineComponent({
     }
     convertData();
     const xyMenuClickItem = (item:MenuItemType)=>{
+      console.log('clickItem',item)
       context.emit('clickItem',item)
     }
     provide('xyMenuClickItem',xyMenuClickItem)

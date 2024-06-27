@@ -496,13 +496,13 @@ export const svgAnimation = (
  * @returns 处理后的列表和下一个位置
  */
 export const calculateItemDepth = (
-  targetList: targetListItem[],
+  targetList: any[],
   indentStep: number = 1,
   initialIndentValue: number = 2,
   currentPos: number = 0
 ): {
   nextPos: number;
-  updatedList: { [p: string]: any; indentValue: number; children?: targetListItem[]; listPosition: number }[]
+  updatedList: { [p: string]: any; indentValue: number; children?: any[]; listPosition: number }[]
 } => {
   let pos:number = currentPos;
 

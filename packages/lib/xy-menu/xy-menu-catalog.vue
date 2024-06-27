@@ -27,11 +27,12 @@
       :itemTitleStyle="{fontWeight:500,fontSize:'12px'}"
       :mouseOverStyle="{color:'#409eff',cursor:'pointer'}"
       :submenuIndentConfig="{autoIndent:false,indentValue:10,currentIndent:0}"
-      :logoSlotStyle="{position:'sticky',top:'50px',display:'flex',alignItems:'center'}"
+      :menuLeftStyle="{position:'relative'}"
+      :logoSlotStyle="{position: 'absolute',top:`${height/2-promptBlockHeight/2}px`,display:'flex',alignItems:'center'}"
     >
       <template #logo>
         <div class="promptBlockBox">
-          <div v-if="showPromptBlockCH" :style="{top:`${promptBlockTopCH}px`}" class="promptBlock"></div>
+          <div v-if="showPromptBlockCH" :style="{top:`${promptBlockTopCH}px`,height:`${promptBlockHeight}px`}" class="promptBlock"></div>
         </div>
       </template>
     </xy-menu-left>
@@ -82,6 +83,10 @@ export default defineComponent({
     totalQuantity:{
       type:Number,
       default:0
+    },//提示框的高度
+    promptBlockHeight:{
+      type:Number,
+      default:15
     }
   },
   components: {
@@ -150,7 +155,6 @@ export default defineComponent({
     .promptBlock{
       position:absolute;
       width:4px;
-      height:15px;
       background-color:#409eff;
       border-radius:3px;
       left:0;
