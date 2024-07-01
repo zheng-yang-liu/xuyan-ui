@@ -26,13 +26,12 @@
               >
                 <span v-if="indexType!==0" style="margin: 0 5px">/</span>
                 <code>{{itemType.value}}</code>
-                <xyTooltip v-if="showComplexType(itemType.value)"
-                           :hoverShow="false"
-                           :XOffset="promptXOffset"
-                           :topOffset="promptTopOffset">
-                  <template #display>
+                <xyTooltip
+                  v-if="showComplexType(itemType.value)"
+                  :hoverShow="false"
+                  :XOffset="promptXOffset"
+                  :topOffset="promptTopOffset">
                     <i class="iconfont icon-zhuyi"></i>
-                  </template>
                   <template #prompt>
                     <div class="complexType">{{itemType.complexType}}</div>
                   </template>
@@ -44,13 +43,12 @@
         </div>
         <div class="attribute-line cells" v-else style="display: flex;align-items: center">
           <code>{{item[itemColumns.key]}}</code>
-          <xyTooltip v-if="showComplexType(item[itemColumns.key])"
-                     :hoverShow="false"
-                     :XOffset="promptXOffset"
-                     :topOffset="promptTopOffset">
-            <template #display>
+          <xyTooltip
+            v-if="showComplexType(item[itemColumns.key])"
+            :hoverShow="false"
+            :XOffset="promptXOffset"
+            :topOffset="promptTopOffset">
               <i class="iconfont icon-zhuyi"></i>
-            </template>
             <template #prompt>
               <div class="complexType">{{item[itemColumns.key]}}</div>
             </template>

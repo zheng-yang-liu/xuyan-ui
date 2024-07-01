@@ -5,7 +5,7 @@
       @mouseover.stop.prevent="mouseOver"
       @mouseleave.stop.prevent="mouseLeave"
     >
-      <slot name="display"></slot>
+      <slot></slot>
     </div>
     <div class="tooltipContent" ref="tooltipContent">
       <div v-if="content" class="contentText" ref="contentText">{{ content }}</div>
@@ -95,6 +95,7 @@ export default defineComponent({
     const mouseOver = () => {
       if (!props.hoverShow) return;
       animateIN();
+      initTooltipContent(); // 确保位置计算在鼠标移入时进行
     };
 
     const mouseLeave = () => {
@@ -132,14 +133,22 @@ export default defineComponent({
       }
     };
 
+    const handleScroll = () => {
+      if (isVisible.value) {
+        initTooltipContent(); // 重新计算tooltip位置
+      }
+    };
+
     onMounted(() => {
       initTooltipContent();
       emitter.on('closeAll', closeTooltip);
+      window.addEventListener('scroll', handleScroll, true);
     });
 
     onUnmounted(() => {
       emitter.off('closeAll', closeTooltip);
       document.removeEventListener('click', handleClickOutside);
+      window.removeEventListener('scroll', handleScroll, true);
     });
 
     return {
