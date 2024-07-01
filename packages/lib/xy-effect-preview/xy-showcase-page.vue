@@ -6,30 +6,35 @@ import{calculateItemDepth,deepLookup,throttle}from"../../tools"
 import xyMenuCatalog from "../xy-menu/xy-menu-catalog.vue";
 export default defineComponent({
   name: "xy-showcase-page",
-  props: {
+  props: {//目录列表
     catalogue:{
       type: Array as PropType<catalogue[]>,
       default: () => [],
       required: true
-    },
+    },//页面标题
     pageTitle:{
       type: String,
       default: '',
       required: true
-    },
+    },//页面介绍
     introduction:{
       type: String,
       default: '',
       required: true
-    },
+    },//是否显示目录
     showCatalogue:{
       type: Boolean,
       default: true
-    },//标题触发范围height
+    },//标题触发范围的height,从顶部开始计算
     titleTriggerRange:{
       type: Number,
       default: 200
+    },//动态显示目录的宽度
+    showCatalogueWidth:{
+      type: Number,
+      default: 1075
     }
+
   },
   components: {
     xyMenuLeft
@@ -47,7 +52,7 @@ export default defineComponent({
     const displayCatalogue = ref<Boolean>(props.showCatalogue);
     const originalWidth = window.innerWidth;
     if(props.showCatalogue){
-      displayCatalogue.value = originalWidth > 1075;
+      displayCatalogue.value = originalWidth > props.showCatalogueWidth;
     }
     const clickItemToTitle = (item) => {
       const tempATag = document.createElement('a');
@@ -61,7 +66,7 @@ export default defineComponent({
       const currentWidth = window.innerWidth;
       if(props.showCatalogue){
         if (currentWidth !== originalWidth) {
-          displayCatalogue.value = currentWidth > 1075;
+          displayCatalogue.value = currentWidth > props.showCatalogueWidth;
         }
       }
     }, 100);

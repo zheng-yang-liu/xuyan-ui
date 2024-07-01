@@ -8,7 +8,6 @@ export type data = {
   name:string,
   explain:string,
   type:string | {value:string,complexType?:string}[],
-  typeValue?:string,
   default?:string
 }
 export type catalogue = {

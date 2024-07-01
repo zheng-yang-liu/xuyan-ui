@@ -64,37 +64,12 @@
 
 <script lang="ts">
 import {defineComponent,PropType,ref,onMounted} from 'vue'
-import {columns,data} from "./effect.type"
+import {data} from "./effect.type"
 import xyTooltip from "../xy-tooltip/xy-tooltip.vue";
 import xyCodePreview from "./xy-code-preview.vue";
 export default defineComponent({
   name: "xy-attribute-table",
   props: {
-    columns: {
-      type: Array as PropType<columns[]>,
-      default: () => [
-        {
-          name: '属性名',
-          key: 'name',
-          width: '1fr'
-        },
-        {
-          name: '说明',
-          key: 'explain',
-          width: '2fr'
-        },
-        {
-          name: '类型',
-          key: 'type',
-          width: '1.2fr'
-        },
-        {
-          name: 'Default',
-          key: 'default',
-          width: '1fr'
-        }
-      ]
-    },
     data: {
       type: Array as PropType<data[]>,
       default: () => []
@@ -121,7 +96,7 @@ export default defineComponent({
     const showComplexType = (type:string):boolean=>{
       return !basicType.includes(type)
     }
-    const columnsNoDefault = [
+    const columns = [
       {
         name: '属性名',
         key: 'name',
@@ -135,10 +110,15 @@ export default defineComponent({
       {
         name: '类型',
         key: 'type',
+        width: '1.2fr'
+      },
+      {
+        name: 'Default',
+        key: 'default',
         width: '1fr'
       }
     ]
-    const columnsCH = props.columnsNoDefault?columnsNoDefault:props.columns;
+    const columnsCH = props.columnsNoDefault?columns.filter(item=>item.key!=='default'):columns;
     const attributeBox = ref<HTMLElement | null>(null);
     const initGridColumns = ()=>{
       let gridColumns = '';
