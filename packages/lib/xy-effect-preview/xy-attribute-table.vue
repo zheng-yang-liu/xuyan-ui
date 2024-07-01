@@ -86,7 +86,7 @@ export default defineComponent({
         {
           name: '类型',
           key: 'type',
-          width: '1fr'
+          width: '1.2fr'
         },
         {
           name: 'Default',

@@ -46,8 +46,12 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import"../../assets/style/mixin.scss";
 .hljs {
   font-family: "Courier New", Courier, monospace;
   font-size: 13px;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
+@include scrollbar();
 </style>
