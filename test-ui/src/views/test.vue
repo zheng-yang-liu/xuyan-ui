@@ -5,6 +5,13 @@
         <el-button @click="dianji">header</el-button>
         <el-button @click="dddddddd">header2</el-button>
         <i class="iconfont icon-kuaidiyuan-xianxing"></i>
+        <xy-dialog v-model:visible="dialogVie" :defaultBottom="false">
+          去微软推
+          <template #bottom>
+            <xy-button @click="cancel">取消w</xy-button>
+            <xy-button type="primary" @click="confirm" style="margin-left: 10px">确定</xy-button>
+          </template>
+        </xy-dialog>
       </template>
       <template #aside>
         <div style="background-color: #ffffff;width: 100%;height: 100%">
@@ -336,8 +343,10 @@ const menuLeftStyle = {
 const dianji = () => {
   direction.value = 'vertical'
 }
+const dialogVie = ref(false)
 const dddddddd = () => {
-  direction.value = 'horizontal'
+  direction.value = 'horizontal';
+  dialogVie.value = true
 }
 const selectStyle = {
   backgroundColor: '#417ff2',
@@ -398,6 +407,19 @@ const data = [
     type: [{value: 'address', complexType: "'beijing' | 'shanghai' | 'sichuan' | 'beijing' | 'shanghai' | 'sichuan'"}],
   }
 ]
+
+const cancel = () => {
+  dialogVie.value = false
+}
+const confirm = () => {
+  dialogVie.value = false
+}
+
+const confirmCallback = () => {
+
+  console.log('confirmCallback')
+  return false;
+}
 </script>
 
 <style lang="scss" scoped>

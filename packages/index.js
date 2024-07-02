@@ -11,6 +11,8 @@ import {xyClassicPage} from "./lib/xy-classic-page"
 import {xyMenuLeft,xyMenuItem,xyMenuCatalog} from "./lib/xy-menu";
 import {xyCodePreview,xyEffectPreview,xyAttributeTable,xyShowcasePage}from "./lib/xy-effect-preview"
 import {xyTooltip} from "./lib/xy-tooltip";
+import {xyDialog} from "./lib/xy-dialog";
+import {xyButton} from "./lib/xy-button";
 //挂载组件
 
 const install = (app) =>{
@@ -26,7 +28,10 @@ const install = (app) =>{
         xyAttributeTable,
         xyTooltip,
         xyShowcasePage,
-        xyMenuCatalog
+        xyMenuCatalog,
+        xyDialog,
+        xyButton
+
     ];
     components.forEach(item=>{
         const name = item.name || item.__name;
