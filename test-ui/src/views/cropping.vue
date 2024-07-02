@@ -22,6 +22,9 @@ const confirmReturn = async (file:File|string)=>{
   console.log(file);
   // const res = await upload(file)
   // console.log(res)
+  setTimeout(()=>{
+    state.visible = false
+  },3000)
 }
 import {getLink} from "@/api/index"
 const test = async ()=>{

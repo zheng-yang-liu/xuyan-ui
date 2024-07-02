@@ -1,10 +1,12 @@
 <template>
-  <xy-dialog
+  <el-dialog
+    align-center
     :title="title"
-    :esc-close="false"
-    v-model:visible="state.diaVisible"
+    @closed="closeAfter"
+    v-model="state.diaVisible"
+    :close-on-press-escape="false"
     :width="previewSizeFixed ? 600 : 800"
-    :clickOnExternalClose="clickOnExternalClose"
+    :close-on-click-modal="closeOnClickModal"
   >
     <div class="croppingBox">
       <input type="file" @change="onFileChange" style="display: none" ref="fileInput" />
@@ -22,7 +24,7 @@
             :style="holeStyle"
             @mousedown.stop.prevent="onHoleMouseDown"
           >
-            <p class="selectBoxSize" v-show="!previewSizeFixed&&showSizePrompt" ref="selectBoxSize">
+            <p class="selectBoxSize" v-if="!previewSizeFixed&&showSizePrompt" ref="selectBoxSize">
               {{hole.width}}*{{hole.height}}
             </p>
             <div class="resize-handle" @mousedown.stop.prevent="onHandleMouseDown"></div>
@@ -47,14 +49,13 @@
         <el-button type="primary" @click="confirm">确定</el-button>
       </div>
     </template>
-  </xy-dialog>
+  </el-dialog>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, reactive, watch, computed } from 'vue';
 import { base64ToFile, fileToBase64 ,showMsg} from "../../tools";
 import { initBaseImg } from "./initBaseImg";
-import xyDialog from "../xy-dialog/xy-dialog.vue"
 
 export default defineComponent({
   name: "xy-img-cropping",
@@ -75,23 +76,16 @@ export default defineComponent({
       type:Boolean,
       default:true
     },//点击外部关闭弹框
-    clickOnExternalClose:{
+    closeOnClickModal:{
       type:Boolean,
       default:false
     },//文件大小MB
     fileSize:{
       type:Number,
       default:4
-    },//是否立即关闭
-    immediateClose:{
-      type:Boolean,
-      default:false
     }
   },
   emits:['update:visible','confirmReturn'],
-  components:{
-    xyDialog
-  },
   setup(props, context) {
     const state = reactive({
       diaVisible: false,
@@ -196,11 +190,9 @@ export default defineComponent({
       const file = base64ToFile(state.previewUrl, fileName.value);
       if(props.uploadParamIsFile){
         context.emit("confirmReturn", file);
-        if(!props.immediateClose)return;
         context.emit("update:visible", false);
       }else{
         context.emit("confirmReturn", state.previewUrl);
-        if(!props.immediateClose)return;
         context.emit("update:visible", false);
       }
     };
@@ -281,6 +273,7 @@ export default defineComponent({
       const dy = e.clientY - startY;
       hole.top = Math.min(Math.max(startTop + dy, 0), overlayHeight - hole.height);
       hole.left = Math.min(Math.max(startLeft + dx, 0), overlayWidth - hole.width);
+      console.log(hole.top, hole.left);
       if(hole.top<=24){
         if(selectBoxSize.value){
           selectBoxSize.value.style.top = '0px';
@@ -322,6 +315,7 @@ export default defineComponent({
     const onHandleMouseUp = () => {
       resizing = false;
       showSizePrompt.value = false;
+      console.log(hole.width, hole.height);
       previewSize.value.width = hole.width;
       previewSize.value.height = hole.height;
       drawPreview();

@@ -1,6 +1,6 @@
 <template>
   <dialog ref="xyDialog">
-    <div class="xy-dialog" :style="{width:width,height:height}">
+    <div class="xy-dialog" :style="{minWidth:`${width}px`,width:`${width}px`,minHeight:`${height}px`}">
       <div class="dialog-header">
         <div>{{title}}</div>
         <i class="iconfont icon-quxiao" @click="closeDialog"></i>
@@ -12,7 +12,7 @@
           <xy-button type="primary" @click="confirm" style="margin-left: 10px">确定</xy-button>
         </template>
         <template v-else>
-          <slot name="bottom"></slot>
+          <slot name="footer"></slot>
         </template>
       </div>
     </div>
@@ -30,12 +30,12 @@ export default defineComponent({
       default: false
     },
     width: {
-      type: String,
-      default: "500px"
+      type: Number,
+      default: "500"
     },
     height: {
-      type: String,
-      default: "122px"
+      type: Number,
+      default: "122"
     },
     title: {
       type: String,
@@ -47,14 +47,26 @@ export default defineComponent({
     },//点击确定执行的回调函数,需要有一个返回值,返回值为true时关闭弹窗
     confirmCallback: {
       type: Function as PropType<()=>boolean>,
-    }
-  },//handleClose 点击flag0:右上角关闭 -1:取消 1:确定
+    },//点击外部关闭弹窗
+    clickOnExternalClose: {
+      type: Boolean,
+      default: false
+    },//esc关闭
+    escClose: {
+      type: Boolean,
+      default: true
+    },
+  },
   emits: ['update:visible','handleClose'],
   components: {
     xyButton
   },
   setup(props, context) {
     const xyDialog = ref<HTMLElement|null>(null);
+    const dialogX = ref(0);
+    const dialogEndX = ref(0);
+    const dialogY = ref(0);
+    const dialogEndY = ref(0);
 
     watch(()=>props.visible,(val)=>{
       if(val){
@@ -66,23 +78,32 @@ export default defineComponent({
     const show = () => {
       if(xyDialog.value){
         xyDialog.value.showModal();
+
+        const rect = xyDialog.value.getBoundingClientRect();
+        const x = rect.left + window.scrollX;
+        const y = rect.top + window.scrollY;
+        dialogX.value = x;
+        dialogEndX.value = x + rect.width;
+        dialogY.value = y;
+        dialogEndY.value = y + rect.height;
+
+        setTimeout(()=>{
+          window.addEventListener('click',mouseClick);
+          window.addEventListener('keydown',monitorKeyboardPresses);
+        },100)
       }
     }
     const close = () => {
       if(xyDialog.value){
         xyDialog.value.close();
-      }
-    }
-    const init = () => {
-      if(props.visible){
-        show();
-      }else{
-        close();
+        window.removeEventListener('click',mouseClick);
+        window.removeEventListener('keydown',monitorKeyboardPresses);
       }
     }
     const closeDialog = () => {
       context.emit('update:visible',false);
-      context.emit('handleClose',false,-1)
+      //handleClose 点击flag0:右上角关闭/外部 -1:取消 1:确定
+      context.emit('handleClose',false,-1);
     }
     const cancel = () => {
       context.emit('update:visible',false)
@@ -101,8 +122,26 @@ export default defineComponent({
         context.emit('handleClose',false,1);
       }
     }
+    const mouseClick = (e)=>{
+      console.log(e.x,e.y)
+      if(e.x < dialogX.value || e.x > dialogEndX.value || e.y < dialogY.value || e.y > dialogEndY.value){
+        if(!props.clickOnExternalClose) return;
+        context.emit('update:visible',false);
+        context.emit('handleClose',false,-1);
+      }
+    }
+    const monitorKeyboardPresses = (e)=>{
+      if(e.key === "Escape"){
+        e.preventDefault();
+      }
+      if(!props.escClose)return;
+      console.log('close')
+      if(e.key === "Escape"){
+        context.emit('update:visible',false);
+        context.emit('handleClose',false,-1);
+      }
+    }
     onMounted(()=>{
-      init();
     })
     return {
       xyDialog,

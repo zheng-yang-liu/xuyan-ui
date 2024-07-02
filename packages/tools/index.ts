@@ -277,7 +277,8 @@ export const throttle = (fn:Function, delay:number):Function=>{
  * @param fileName 文件名
  * @returns  返回一个file对象
  * */
-export const base64ToFile = (urlData:string, fileName:string='test.png'):File => {
+export const base64ToFile = (urlData:string, fileName:string):File => {
+  fileName = fileName || 'test.png';
   let arr:string[] = urlData.split(',');
   let mime:string = arr[0].match(/:(.*?);/)[1];
   let bytes:string = atob(arr[1]); // 解码base64

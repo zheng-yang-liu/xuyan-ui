@@ -5,9 +5,9 @@
         <el-button @click="dianji">header</el-button>
         <el-button @click="dddddddd">header2</el-button>
         <i class="iconfont icon-kuaidiyuan-xianxing"></i>
-        <xy-dialog v-model:visible="dialogVie" :defaultBottom="false">
+        <xy-dialog v-model:visible="dialogVie" :defaultBottom="false" :escClose="false">
           去微软推
-          <template #bottom>
+          <template #footer>
             <xy-button @click="cancel">取消w</xy-button>
             <xy-button type="primary" @click="confirm" style="margin-left: 10px">确定</xy-button>
           </template>
