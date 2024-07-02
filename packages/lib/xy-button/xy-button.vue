@@ -1,20 +1,22 @@
 <template>
-  <div
-    :style="[initialStyle]"
-    @click="buttonClick"
-    class="xy-button"
-    ref="xyButton"
-    @mouseover.stop.prevent="buttonMouseOver"
-    @mouseleave.stop.prevent="buttonMouseLeave"
-  >
+  <div style="display: inline-block">
+    <div
+      :style="[initialStyle]"
+      @click="buttonClick"
+      class="xy-button"
+      ref="xyButton"
+      @mouseover.stop.prevent="buttonMouseOver"
+      @mouseleave.stop.prevent="buttonMouseLeave"
+    >
+      <div class="xy-button-text">
+        <i :class="`iconfont icon-${frontIcon}`" class="frontIcon"></i>
+        <slot></slot>
+        <i :class="`iconfont icon-${postIcon}`" class="postIcon"></i>
+      </div>
 
-    <div class="xy-button-text">
-      <i :class="`iconfont icon-${frontIcon}`" class="frontIcon"></i>
-      <slot></slot>
-      <i :class="`iconfont icon-${postIcon}`" class="postIcon"></i>
     </div>
-
   </div>
+
 </template>
 
 <script lang="ts">

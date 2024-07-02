@@ -109,10 +109,11 @@ export default defineComponent({
       context.emit('update:visible',false)
       context.emit('handleClose',false,0)
     }
-    const confirm = () => {
+    const confirm = async() => {
       console.log(props.confirmCallback)
       if(props.confirmCallback){
-        const res = props.confirmCallback();
+        const res = await props.confirmCallback();
+        console.log('res',res)
         if(res){
           context.emit('update:visible',false);
           context.emit('handleClose',false,1);
