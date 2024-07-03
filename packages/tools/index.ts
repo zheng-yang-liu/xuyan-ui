@@ -551,6 +551,51 @@ export const deepLookup = (dataList:Array<any>,findRules:Function)=>{
   search(dataList);
   return result;
 }
+/**
+ * 复制代码
+ * @param codeText 代码文本
+ * @returns 返回一个Promise对象
+ */
+export const copyCode = (codeText:string):Promise => {
+  return new Promise((resolve, reject)=>{
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(codeText)
+        .then(() => {
+          resolve({code:200,message:"代码已复制"})
+        })
+        .catch(err => {
+          resolve({code:401,message:"复制失败"+err})
+        });
+    }else{
+      //Document.execCommand() 方法实现
+      const codeElement = document.createElement('pre');
+      codeElement.style.position = 'absolute';
+      codeElement.style.left = '-9999px';
+      codeElement.textContent = codeText;
+      document.body.appendChild(codeElement);
+
+      const range = document.createRange();
+      range.selectNodeContents(codeElement);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          resolve({code:200,message:"代码已复制"})
+        } else {
+          resolve({code:401,message:"复制失败"})
+        }
+      } catch (err) {
+        resolve({code:401,message:"复制失败"+err})
+      }
+
+      document.body.removeChild(codeElement);
+      selection.removeAllRanges();
+    }
+  })
+}
 
 
 

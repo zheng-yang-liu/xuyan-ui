@@ -181,5 +181,11 @@ export declare const Tools: {
    * @param delay 节流时间
    */
   throttle:(fn:Function, delay:number)=>Function;
+  /**
+   * 复制代码
+   * @param codeText 代码文本
+   * @returns 返回一个Promise对象
+   * */
+  copyCode:(codeText:string)=>Promise;
 };
 

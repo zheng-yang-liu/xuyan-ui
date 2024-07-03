@@ -2,7 +2,8 @@
   <div :style="{width:width}" class="effect-preview">
     <div class="effect-box" :style="{minHeight:`${effectHeight}px`}"><slot></slot></div>
     <div class="effect-tools">
-      <i class="iconfont icon-fuzhi" title="复制" @click="copyCode"></i>
+
+      <i class="iconfont icon-fuzhi" title="复制" @click="copy"></i>
       <i class="iconfont icon-zhankai" title="查看源代码" @click="showCode=!showCode"></i>
     </div>
     <transition
@@ -26,7 +27,7 @@
 <script lang="ts">
 import {defineComponent,ref} from 'vue'
 import xyCodePreview from "./xy-code-preview.vue";
-import{showMsg}from "../../tools"
+import{copyCode,showMsg}from "../../tools"
 export default defineComponent({
   name: "xy-effect-preview",
   props: {
@@ -70,51 +71,22 @@ export default defineComponent({
         el.style.height = '0';
       });
     };
-    const copyCode = () => {
-      if(navigator.clipboard){
-        navigator.clipboard.writeText(props.code)
-          .then(() => {
-            showMsg('success', '代码已复制')
-          })
-          .catch(err => {
-            showMsg('error', '复制失败'+err)
-          });
-      }else{
-        //Document.execCommand() 方法实现
-        const codeElement = document.createElement('pre');
-        codeElement.style.position = 'absolute';
-        codeElement.style.left = '-9999px';
-        codeElement.textContent = props.code;
-        document.body.appendChild(codeElement);
 
-        const range = document.createRange();
-        range.selectNodeContents(codeElement);
-        const selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-
-        try {
-          const successful = document.execCommand('copy');
-          if (successful) {
-            showMsg('success', '代码已复制');
-          } else {
-            showMsg('error', '复制失败');
-          }
-        } catch (err) {
-          showMsg('error', '复制失败: ' + err);
-        }
-
-        document.body.removeChild(codeElement);
-        selection.removeAllRanges();
+    const copy = async ()=>{
+      const res = await copyCode(props.code);
+      if(res.code ===200){
+        showMsg("success",res.message);
+        return;
       }
-
+      showMsg("error",res.message)
     }
+
     return {
       showCode,
       beforeEnter,
       enter,
       leave,
-      copyCode
+      copy
     }
   }
 })
