@@ -1,5 +1,5 @@
 <template>
-  <dialog ref="xyDialog" class="xy-dialog">
+  <dialog ref="xyDialog" class="xy-dialog" :style="dialogStyle">
     <div
       class="xy-dialog-content"
       :style="{minWidth:`${width}px`,width:`${width}px`,minHeight:`${height}px`}"
@@ -71,6 +71,10 @@ export default defineComponent({
     dragRange: {
       type: Boolean,
       default: true
+    },//dialog样式
+    dialogStyle: {
+      type: CSSStyleValue,
+      default: ()=>({})
     }
   },
   emits: ['update:visible','handleClose'],
@@ -84,6 +88,7 @@ export default defineComponent({
     const dialogEndX = ref(0);
     const dialogY = ref(0);
     const dialogEndY = ref(0);
+
 
     watch(()=>props.visible,(val)=>{
       if(val){
@@ -205,6 +210,7 @@ export default defineComponent({
       document.removeEventListener('mouseup', onHoleMouseUp);
     };
     onMounted(()=>{
+
 
     })
     return {
