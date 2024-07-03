@@ -48,20 +48,6 @@
       "unicode_decimal": 58925
     },
     {
-      "icon_id": "5262894",
-      "name": "彩色-盒子",
-      "font_class": "cs-hz-1",
-      "unicode": "e62e",
-      "unicode_decimal": 58926
-    },
-    {
-      "icon_id": "10135299",
-      "name": "svg",
-      "font_class": "svg",
-      "unicode": "e8bf",
-      "unicode_decimal": 59583
-    },
-    {
       "icon_id": "10194308",
       "name": "小工具",
       "font_class": "xiaogongju",
@@ -70,7 +56,7 @@
     },
     {
       "icon_id": "18175365",
-      "name": "三角符,插入符,右",
+      "name": "三角符,插入符",
       "font_class": "insert-right-full",
       "unicode": "ea5d",
       "unicode_decimal": 59997
@@ -98,7 +84,7 @@
     },
     {
       "icon_id": "1795844",
-      "name": "51快递员-线性",
+      "name": "快递员",
       "font_class": "kuaidiyuan-xianxing",
       "unicode": "e90f",
       "unicode_decimal": 59663

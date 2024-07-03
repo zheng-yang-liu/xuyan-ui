@@ -5,7 +5,7 @@
         <el-button @click="dianji">header</el-button>
         <el-button @click="dddddddd">header2</el-button>
         <i class="iconfont icon-kuaidiyuan-xianxing"></i>
-        <xy-icon icon="cs-hz-1" @click="dianjitwo"></xy-icon>
+        <xy-icon icon="fuzhi" @click="dianjitwo"></xy-icon>
         <xy-dialog
           v-model:visible="dialogVie"
           :defaultBottom="false"

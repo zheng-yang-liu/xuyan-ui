@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4577634 */
-  src: url('iconfont.woff2?t=1719884431342') format('woff2'),
-       url('iconfont.woff?t=1719884431342') format('woff'),
-       url('iconfont.ttf?t=1719884431342') format('truetype');
+  src: url('iconfont.woff2?t=1720000024917') format('woff2'),
+       url('iconfont.woff?t=1720000024917') format('woff'),
+       url('iconfont.ttf?t=1720000024917') format('truetype');
 }
 
 .iconfont {
@@ -35,14 +35,6 @@
 
 .icon-zhankai:before {
   content: "\e62d";
-}
-
-.icon-cs-hz-1:before {
-  content: "\e62e";
-}
-
-.icon-svg:before {
-  content: "\e8bf";
 }
 
 .icon-xiaogongju:before {
