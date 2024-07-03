@@ -73,12 +73,7 @@ export default defineComponent({
     };
 
     const copy = async ()=>{
-      const res = await copyText(props.code);
-      if(res.code ===200){
-        showMsg("success",res.message);
-        return;
-      }
-      showMsg("error",res.message)
+      await copyText(props.code);
     }
 
     return {

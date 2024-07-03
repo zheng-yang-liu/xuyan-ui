@@ -554,16 +554,20 @@ export const deepLookup = (dataList:Array<any>,findRules:Function)=>{
 /**
  * 复制代码
  * @param codeText 代码文本
+ * @param ifShowMsg 是否显示消息
  * @returns 返回一个Promise对象
  */
-export const copyText = (codeText:string):Promise => {
+export const copyText = (codeText:string,ifShowMsg:Boolean=true):Promise<{code:number,message:string}> => {
+
   return new Promise((resolve, reject)=>{
     if(navigator.clipboard){
       navigator.clipboard.writeText(codeText)
         .then(() => {
+          if(ifShowMsg){showMsg('success','代码已复制')}
           resolve({code:200,message:"代码已复制"})
         })
         .catch(err => {
+          if(ifShowMsg){showMsg('error','复制失败'+err)}
           resolve({code:401,message:"复制失败"+err})
         });
     }else{
@@ -583,11 +587,14 @@ export const copyText = (codeText:string):Promise => {
       try {
         const successful = document.execCommand('copy');
         if (successful) {
+          if(ifShowMsg){showMsg('success','代码已复制')}
           resolve({code:200,message:"代码已复制"})
         } else {
+          if(ifShowMsg){showMsg('error','复制失败')}
           resolve({code:401,message:"复制失败"})
         }
       } catch (err) {
+        if(ifShowMsg){showMsg('error','复制失败'+err)}
         resolve({code:401,message:"复制失败"+err})
       }
 

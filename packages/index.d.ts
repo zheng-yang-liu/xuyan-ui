@@ -184,8 +184,9 @@ export declare const Tools: {
   /**
    * 复制代码
    * @param codeText 代码文本
+   * @param ifShowMsg 是否显示消息
    * @returns 返回一个Promise对象
-   * */
-  copyText:(codeText:string)=>Promise;
+   */
+  copyText:(codeText:string,ifShowMsg:Boolean=true)=>Promise;
 };
 
