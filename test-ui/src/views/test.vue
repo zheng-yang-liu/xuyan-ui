@@ -5,6 +5,7 @@
         <el-button @click="dianji">header</el-button>
         <el-button @click="dddddddd">header2</el-button>
         <i class="iconfont icon-kuaidiyuan-xianxing"></i>
+        <xy-icon icon="tianjia" @click="dianjitwo"></xy-icon>
         <xy-dialog
           v-model:visible="dialogVie"
           :defaultBottom="false"
@@ -345,6 +346,9 @@ const menuItemswewe = [
 const direction = ref('horizontal')
 const menuLeftStyle = {
   borderRight: '1px solid #e8e8e8'
+}
+const dianjitwo = () => {
+  console.log('ppppppp')
 }
 const dianji = () => {
   direction.value = 'vertical'

@@ -13,8 +13,9 @@ import {xyCodePreview,xyEffectPreview,xyAttributeTable,xyShowcasePage}from "./li
 import {xyTooltip} from "./lib/xy-tooltip";
 import {xyDialog} from "./lib/xy-dialog";
 import {xyButton} from "./lib/xy-button";
-//挂载组件
+import {xyIcon} from "./lib/xy-icon";
 
+//挂载组件
 const install = (app) =>{
     const components = [
         xyTest,
@@ -30,7 +31,8 @@ const install = (app) =>{
         xyShowcasePage,
         xyMenuCatalog,
         xyDialog,
-        xyButton
+        xyButton,
+        xyIcon
 
     ];
     components.forEach(item=>{
