@@ -9,7 +9,7 @@
           v-model:visible="dialogVie"
           :defaultBottom="false"
           :escClose="false"
-          :drag="true"
+          :drag="false"
           :dragRange="false"
         >
           去微软推

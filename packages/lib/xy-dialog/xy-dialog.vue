@@ -88,7 +88,16 @@ export default defineComponent({
     const dialogEndX = ref(0);
     const dialogY = ref(0);
     const dialogEndY = ref(0);
-
+    let startX = 0;
+    let startY = 0;
+    let startTop = 0;
+    let startLeft = 0;
+    let halfWidth = 0;
+    let halfHeight = 0;
+    let dragging = false;
+    const rectDialog = ref({});
+    const rectContent = ref({});
+    const dragAndDropNoHappen = ref(true);
 
     watch(()=>props.visible,(val)=>{
       if(val){
@@ -120,6 +129,12 @@ export default defineComponent({
         xyDialog.value.close();
         window.removeEventListener('click',mouseClick);
         window.removeEventListener('keydown',monitorKeyboardPresses);
+        // console.log(top,left)
+        console.log(props.drag)
+        console.log(dragAndDropNoHappen.value)
+        if(!props.drag || dragAndDropNoHappen.value)return;
+        dialogContent.value.style.top = `${startTop+halfHeight}px`;
+        dialogContent.value.style.left = `${startLeft+halfWidth}px`;
       }
     }
     const closeDialog = () => {
@@ -161,16 +176,8 @@ export default defineComponent({
       }
     }
 
-    let startX = 0;
-    let startY = 0;
-    let startTop = 0;
-    let startLeft = 0;
-    let halfWidth = 0;
-    let halfHeight = 0;
-    let dragging = false;
-    const rectDialog = ref({});
-    const rectContent = ref({});
     const onHoleMouseDown = (e: MouseEvent) => {
+      if(!props.drag)return;
       rectDialog.value = xyDialog.value.getBoundingClientRect();
       rectContent.value = dialogContent.value.getBoundingClientRect();
       halfWidth = rectContent.value.width / 2;
@@ -189,6 +196,7 @@ export default defineComponent({
 
     const onHoleMouseMove = (e: MouseEvent) => {
       if (!dragging) return;
+      dragAndDropNoHappen.value = false;
       const dx = e.clientX - startX;
       const dy = e.clientY - startY;
       let top = startTop + dy + halfHeight;
