@@ -55,12 +55,13 @@ export default defineComponent({
   components: {},
   setup(props, context) {
     const tempStyle = {
-      minWidth: `${props.width}px`,
-      height: `${props.height}px`,
-      lineHeight: `${props.height}px`,
-      backgroundColor: props.color,
-      border:'1px solid #dcdfe6',
       color:'#3e3e3e',
+      padding:"0 14px",
+      border:'1px solid #dcdfe6',
+      height: `${props.height}px`,
+      minWidth: `${props.width}px`,
+      backgroundColor: props.color,
+      lineHeight: `${props.height}px`,
     };
     const initialStyle = ref(deepCopy(tempStyle))
     const xyButton = ref<HTMLElement|null>(null);
