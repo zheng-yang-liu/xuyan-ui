@@ -273,7 +273,7 @@ export default defineComponent({
       const dy = e.clientY - startY;
       hole.top = Math.min(Math.max(startTop + dy, 0), overlayHeight - hole.height);
       hole.left = Math.min(Math.max(startLeft + dx, 0), overlayWidth - hole.width);
-      console.log(hole.top, hole.left);
+
       if(hole.top<=24){
         if(selectBoxSize.value){
           selectBoxSize.value.style.top = '0px';
@@ -315,7 +315,6 @@ export default defineComponent({
     const onHandleMouseUp = () => {
       resizing = false;
       showSizePrompt.value = false;
-      console.log(hole.width, hole.height);
       previewSize.value.width = hole.width;
       previewSize.value.height = hole.height;
       drawPreview();

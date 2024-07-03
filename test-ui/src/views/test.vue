@@ -5,7 +5,13 @@
         <el-button @click="dianji">header</el-button>
         <el-button @click="dddddddd">header2</el-button>
         <i class="iconfont icon-kuaidiyuan-xianxing"></i>
-        <xy-dialog v-model:visible="dialogVie" :defaultBottom="false" :escClose="false">
+        <xy-dialog
+          v-model:visible="dialogVie"
+          :defaultBottom="false"
+          :escClose="false"
+          :drag="true"
+          :dragRange="false"
+        >
           去微软推
           <template #footer>
             <xy-button @click="cancel">取消w</xy-button>
@@ -423,6 +429,8 @@ const confirmCallback = () => {
 </script>
 
 <style lang="scss" scoped>
+
+@import "@/assets/base.scss";
 .mainBox {
   background-color: red;
 }

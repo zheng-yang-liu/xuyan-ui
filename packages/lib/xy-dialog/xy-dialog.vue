@@ -1,7 +1,15 @@
 <template>
-  <dialog ref="xyDialog">
-    <div class="xy-dialog" :style="{minWidth:`${width}px`,width:`${width}px`,minHeight:`${height}px`}">
-      <div class="dialog-header">
+  <dialog ref="xyDialog" class="xy-dialog">
+    <div
+      class="xy-dialog-content"
+      :style="{minWidth:`${width}px`,width:`${width}px`,minHeight:`${height}px`}"
+      ref="dialogContent"
+    >
+      <div
+        class="dialog-header"
+        :style="drag?{cursor:'move'}:{}"
+        @mousedown.stop.prevent="onHoleMouseDown"
+      >
         <div>{{title}}</div>
         <i class="iconfont icon-quxiao" @click="closeDialog"></i>
       </div>
@@ -20,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref,watch,onMounted,PropType} from 'vue'
+import {defineComponent, ref,watch,onMounted,PropType,reactive} from 'vue'
 import xyButton from "../xy-button/xy-button.vue";
 export default defineComponent({
   name: "xy-dialog",
@@ -55,7 +63,15 @@ export default defineComponent({
     escClose: {
       type: Boolean,
       default: true
-    },
+    },//拖动
+    drag: {
+      type: Boolean,
+      default: false
+    },//拖动范围限制
+    dragRange: {
+      type: Boolean,
+      default: true
+    }
   },
   emits: ['update:visible','handleClose'],
   components: {
@@ -63,6 +79,7 @@ export default defineComponent({
   },
   setup(props, context) {
     const xyDialog = ref<HTMLElement|null>(null);
+    const dialogContent = ref<HTMLElement|null>(null);
     const dialogX = ref(0);
     const dialogEndX = ref(0);
     const dialogY = ref(0);
@@ -110,10 +127,8 @@ export default defineComponent({
       context.emit('handleClose',false,0)
     }
     const confirm = async() => {
-      console.log(props.confirmCallback)
       if(props.confirmCallback){
         const res = await props.confirmCallback();
-        console.log('res',res)
         if(res){
           context.emit('update:visible',false);
           context.emit('handleClose',false,1);
@@ -124,7 +139,6 @@ export default defineComponent({
       }
     }
     const mouseClick = (e)=>{
-      console.log(e.x,e.y)
       if(e.x < dialogX.value || e.x > dialogEndX.value || e.y < dialogY.value || e.y > dialogEndY.value){
         if(!props.clickOnExternalClose) return;
         context.emit('update:visible',false);
@@ -136,19 +150,70 @@ export default defineComponent({
         e.preventDefault();
       }
       if(!props.escClose)return;
-      console.log('close')
       if(e.key === "Escape"){
         context.emit('update:visible',false);
         context.emit('handleClose',false,-1);
       }
     }
+
+    let startX = 0;
+    let startY = 0;
+    let startTop = 0;
+    let startLeft = 0;
+    let halfWidth = 0;
+    let halfHeight = 0;
+    let dragging = false;
+    const rectDialog = ref({});
+    const rectContent = ref({});
+    const onHoleMouseDown = (e: MouseEvent) => {
+      rectDialog.value = xyDialog.value.getBoundingClientRect();
+      rectContent.value = dialogContent.value.getBoundingClientRect();
+      halfWidth = rectContent.value.width / 2;
+      halfHeight = rectContent.value.height / 2;
+
+      startX = e.clientX;
+      startY = e.clientY;
+      startTop = rectContent.value.top;
+      startLeft = rectContent.value.left;
+
+
+      dragging = true;
+      document.addEventListener('mousemove', onHoleMouseMove);
+      document.addEventListener('mouseup', onHoleMouseUp);
+    };
+
+    const onHoleMouseMove = (e: MouseEvent) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      let top = startTop + dy + halfHeight;
+      let left = startLeft + dx + halfWidth;
+      if(props.dragRange){
+        top = Math.min(Math.max(top,halfHeight),window.innerHeight-rectContent.value.height+halfHeight);
+        left = Math.min(Math.max(left,halfWidth),window.innerWidth-rectContent.value.width+halfWidth);
+      }
+
+      // console.log(top,left)
+      dialogContent.value.style.top = `${top}px`;
+      dialogContent.value.style.left = `${left}px`;
+
+    };
+
+    const onHoleMouseUp = () => {
+      dragging = false;
+      document.removeEventListener('mousemove', onHoleMouseMove);
+      document.removeEventListener('mouseup', onHoleMouseUp);
+    };
     onMounted(()=>{
+
     })
     return {
       xyDialog,
       closeDialog,
       cancel,
-      confirm
+      confirm,
+      onHoleMouseDown,
+      dialogContent
     }
   }
 })
@@ -157,21 +222,27 @@ export default defineComponent({
 <style scoped lang="scss">
 @import "../../assets/style/mixin.scss";
 $upAndDownHeight: 40px;
-dialog{
+@include scrollbar();
+.xy-dialog{
+  width: 100vw;
+  max-width:100vw ;
+  height: 100vh;
+  max-height: 100vh;
+  background-color: rgba(184, 184, 184, 0.5);
   border: none;
-  padding: 16px;
-  position: fixed;
   outline: none; /* 去除可能存在的焦点轮廓线 */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 99999999;
-  border-radius: 4px;
-  .xy-dialog{
-    min-width: 500px;
-    min-height: 122px;
+  &::backdrop {
+    background-color: transparent;
+  }
+  position: relative;
+  .xy-dialog-content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 4px;
     background-color: #fff;
-    border: none;
+    padding: 10px;
     .dialog-header{
       height: $upAndDownHeight;
       padding: 0 10px;
@@ -188,10 +259,10 @@ dialog{
       padding: 10px;
     }
     .dialog-bottom{
+      padding: 10px;
       height: $upAndDownHeight;
       @include display-flex(center,end);
     }
   }
 }
-
 </style>

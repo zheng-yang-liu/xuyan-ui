@@ -197,7 +197,6 @@ export default defineComponent({
       }
 
       if (props.startID) {
-        console.log('startID', props.startID);
         // 根据 startID 初始化
         const lookupResult = deepLookup(props.menuItems, item => item.id === props.startID);
         if (lookupResult.length) {
@@ -252,14 +251,12 @@ export default defineComponent({
     }
     convertData();
     const xyMenuClickItem = (item:MenuItemType)=>{
-      console.log('clickItem',item)
       context.emit('clickItem',item)
     }
     provide('xyMenuClickItem',xyMenuClickItem)
     const setMenuHeight = ()=>{
       const logoHeight = xyMenuLeftLogo.value.offsetHeight;
       const tempMenuHeight = menuLeft.value.offsetHeight
-      console.log('temp',tempMenuHeight,'logo',logoHeight)
       menuLeft.value.style.height = tempMenuHeight - logoHeight + 'px';
     }
     onMounted(()=>{

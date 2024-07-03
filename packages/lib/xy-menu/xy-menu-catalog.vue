@@ -121,7 +121,6 @@ export default defineComponent({
           10,
           0
         );
-        console.log(nextPos)
         totalQuantityCH.value = nextPos;
         menuItems.value = updatedList;
       }
