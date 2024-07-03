@@ -27,7 +27,7 @@
 <script lang="ts">
 import {defineComponent,ref} from 'vue'
 import xyCodePreview from "./xy-code-preview.vue";
-import{copyCode,showMsg}from "../../tools"
+import{copyText,showMsg}from "../../tools"
 export default defineComponent({
   name: "xy-effect-preview",
   props: {
@@ -73,7 +73,7 @@ export default defineComponent({
     };
 
     const copy = async ()=>{
-      const res = await copyCode(props.code);
+      const res = await copyText(props.code);
       if(res.code ===200){
         showMsg("success",res.message);
         return;

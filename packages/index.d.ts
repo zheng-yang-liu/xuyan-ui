@@ -186,6 +186,6 @@ export declare const Tools: {
    * @param codeText 代码文本
    * @returns 返回一个Promise对象
    * */
-  copyCode:(codeText:string)=>Promise;
+  copyText:(codeText:string)=>Promise;
 };
 

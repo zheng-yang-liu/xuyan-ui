@@ -556,7 +556,7 @@ export const deepLookup = (dataList:Array<any>,findRules:Function)=>{
  * @param codeText 代码文本
  * @returns 返回一个Promise对象
  */
-export const copyCode = (codeText:string):Promise => {
+export const copyText = (codeText:string):Promise => {
   return new Promise((resolve, reject)=>{
     if(navigator.clipboard){
       navigator.clipboard.writeText(codeText)
