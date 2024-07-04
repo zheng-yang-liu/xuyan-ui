@@ -167,13 +167,13 @@ export default defineComponent({
   },
   emits:['clickItem'],
   setup(props,context) {
-    const router = useRouter();
-    provide('currentID', currentID);
     const currentIndex = ref(0);
-    const currentID = ref(props.startID);
+    const router = useRouter();
     const firstItem = ref<object>({})
-    const menuLeft = ref<HTMLElement | null>(null);
+    const currentID = ref(props.startID);
+    provide('currentID', currentID);
     const xyMenuLeftLogo = ref<HTMLElement | null>(null);
+    const menuLeft = ref<HTMLElement | null>(null);
 
     watch(()=>props.startID,(newValue)=>{
       currentID.value = newValue;
