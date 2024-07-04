@@ -603,6 +603,144 @@ export const copyText = (codeText:string,ifShowMsg:Boolean=true):Promise<{code:n
     }
   })
 }
+/**
+ * 改变颜色
+ * @param colorValue 16进制颜色值 或 rgb() 或 rgba()
+ * @param degree 改变的程度,负数加深颜色、透明度变小；正数颜色变浅、透明度变大
+ * @param originally 返回结果和原本类型一致,false时输出16进制颜色值
+ * @returns 返回改变后的颜色值
+ */
+export const changeColor = (colorValue: string, degree: number, originally: boolean = true): string => {
+  // 将十六进制颜色值转为 RGB 组件
+  const hexToRgb = (hex: string) => {
+    let r = 0, g = 0, b = 0, a = 1;
+    if (hex.length === 4) {
+      r = parseInt(hex[1] + hex[1], 16);
+      g = parseInt(hex[2] + hex[2], 16);
+      b = parseInt(hex[3] + hex[3], 16);
+    } else if (hex.length === 7) {
+      r = parseInt(hex[1] + hex[2], 16);
+      g = parseInt(hex[3] + hex[4], 16);
+      b = parseInt(hex[5] + hex[6], 16);
+    } else if (hex.length === 9) { // #RRGGBBAA 格式
+      r = parseInt(hex[1] + hex[2], 16);
+      g = parseInt(hex[3] + hex[4], 16);
+      b = parseInt(hex[5] + hex[6], 16);
+      a = parseInt(hex[7] + hex[8], 16) / 255;
+    }
+    return { r, g, b, a };
+  };
+
+  // 将 RGB 组件转为十六进制颜色值
+  const rgbToHex = (r: number, g: number, b: number) => {
+    const toHex = (n: number) => {
+      const hex = n.toString(16);
+      return hex.length === 1 ? '0' + hex : hex;
+    };
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+  };
+
+  // 将 RGBA 转为带透明度的十六进制颜色值
+  const rgbaToHex = (r: number, g: number, b: number, a: number) => {
+    const toHex = (n: number) => {
+      const hex = Math.round(n * 255).toString(16);
+      return hex.length === 1 ? '0' + hex : hex;
+    };
+    return `${rgbToHex(r, g, b)}${toHex(a)}`;
+  };
+
+  // 解析颜色值
+  let r, g, b, a = 1;
+  let isHex = false;
+  let hasAlpha = false;
+
+  if (colorValue.startsWith('#')) {
+    isHex = true;
+    ({ r, g, b, a } = hexToRgb(colorValue));
+    hasAlpha = colorValue.length === 9;
+  } else if (colorValue.startsWith('rgb')) {
+    const regex = /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/;
+    const match = regex.exec(colorValue);
+    if (match) {
+      r = parseInt(match[1]);
+      g = parseInt(match[2]);
+      b = parseInt(match[3]);
+      if (match[4]) {
+        a = parseFloat(match[4]);
+        hasAlpha = true;
+      }
+    }
+  } else {
+    throw new Error('Invalid color value');
+  }
+
+  // 改变颜色组件的值
+  const changeColorComponent = (component: number, degree: number) => {
+    const newComponent = degree > 0
+      ? Math.min(255, component + degree)
+      : Math.max(0, component + degree);
+    return newComponent;
+  };
+
+  // 改变透明度值
+  const changeAlpha = (a: number, degree: number) => {
+    const newAlpha = degree > 0
+      ? Math.min(1, a + degree / 100)
+      : Math.max(0, a + degree / 100);
+    return newAlpha;
+  };
+
+  // 应用颜色和透明度变化
+  if (hasAlpha) {
+    a = changeAlpha(a, degree);
+  } else {
+    r = changeColorComponent(r, degree);
+    g = changeColorComponent(g, degree);
+    b = changeColorComponent(b, degree);
+  }
+
+  if (originally) {
+    // 如果 originally 为 true,返回与输入类型一致的颜色值
+    if (isHex) {
+      return hasAlpha ? rgbaToHex(r, g, b, a) : rgbToHex(r, g, b);
+    } else {
+      return hasAlpha ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`;
+    }
+  } else {
+    // 如果 originally 为 false,返回十六进制颜色值,带有透明度
+    return hasAlpha ? rgbaToHex(r, g, b, a) : rgbToHex(r, g, b);
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

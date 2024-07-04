@@ -4,7 +4,6 @@ import {VNode,DefineComponent } from "vue"
 /**
  * 安装插件到Vue应用中
  * @param app Vue应用实例
- * @returns 无返回值
  */
 export declare const install: (app: import("vue").App<any>) => void;
 
@@ -23,7 +22,7 @@ export declare const Tools: {
    * 数组分类函数
    * @param array 需要分类的数组
    * @param rules 分类规则
-   * @returns 返回一个对象，包含分类后的数组
+   * @returns {object | { true: [], false: [] }}返回一个对象，包含分类后的数组
    */
   groupBy: (array: object[], rules: string | Function) => object | { true: [], false: [] };
   /**
@@ -37,14 +36,14 @@ export declare const Tools: {
   /**
    * 深拷贝
    * @param data 需要拷贝的元素
-   * @returns  深拷贝后的元素
+   * @returns  {Array<any> | object}深拷贝后的元素
    */
   deepCopy: (data: Array<any> | object) => Array<any> | object;
   /**
    * 更具key数组去重
    * @param array 需要去重的数组
    * @param key 去重的key
-   * @returns  {*}
+   * @returns  {Array<any>}
    */
   accordingToKeyUnique: (array: Array<any>, key?: string) => Array<any>;
   /**
@@ -57,7 +56,7 @@ export declare const Tools: {
    * base64转file
    * @param urlData base64数据
    * @param fileName 文件名
-   * @returns  返回一个file对象
+   * @returns  {File}返回一个file对象
    */
   base64ToFile: (urlData: string, fileName: string = 'test.png') => File;
   /**
@@ -172,7 +171,7 @@ export declare const Tools: {
    * 深度搜索
    * @param dataList 目标数组
    * @param findRules 查找规则
-   * @returns 返回一个数组，包含查找到的元素
+   * @returns {Array<any>}返回一个数组，包含查找到的元素
    */
   deepLookup: (dataList: Array<any>, findRules: Function) => Array<any>;
   /**
@@ -185,8 +184,16 @@ export declare const Tools: {
    * 复制代码
    * @param codeText 代码文本
    * @param ifShowMsg 是否显示消息
-   * @returns 返回一个Promise对象
+   * @returns {Promise}返回一个Promise对象
    */
   copyText:(codeText:string,ifShowMsg:Boolean=true)=>Promise;
+  /**
+   * 改变颜色
+   * @param colorValue 16进制颜色值 或 rgb() 或 rgba()
+   * @param degree 改变的程度,负数加深颜色、透明度变小；正数颜色变浅、透明度变大
+   * @param originally 返回结果和原本类型一致,false时输出16进制颜色值
+   * @returns 返回改变后的颜色值
+   */
+  changeColor:(colorValue: string, degree: number, originally: boolean = true)=>string;
 };
 
