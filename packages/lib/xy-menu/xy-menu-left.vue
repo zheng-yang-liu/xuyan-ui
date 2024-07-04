@@ -14,6 +14,7 @@
   </div>
   <ul
     class="menu-left"
+    :class="{'noScrollBar':!showScrollBar}"
     :style="[
       {
         width:`${width}px`,
@@ -158,17 +159,21 @@ export default defineComponent({
     showOnlyOneSubmenu: {
       type: Boolean,
       default: true
-    },
+    },//是否显示滚动条
+    showScrollBar:{
+      type:Boolean,
+      default:false
+    }
   },
   emits:['clickItem'],
   setup(props,context) {
-    const currentIndex = ref(0);
     const router = useRouter();
-    const firstItem = ref<object>({})
-    const currentID = ref(props.startID);
     provide('currentID', currentID);
-    const xyMenuLeftLogo = ref<HTMLElement | null>(null);
+    const currentIndex = ref(0);
+    const currentID = ref(props.startID);
+    const firstItem = ref<object>({})
     const menuLeft = ref<HTMLElement | null>(null);
+    const xyMenuLeftLogo = ref<HTMLElement | null>(null);
 
     watch(()=>props.startID,(newValue)=>{
       currentID.value = newValue;
@@ -284,6 +289,11 @@ export default defineComponent({
   padding: 0;
   height: 100%;
   overflow-y: auto;
+}
+.noScrollBar{
+  &::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+  }
 }
 @include scrollbar;
 
