@@ -711,6 +711,15 @@ export const changeColor = (colorValue: string, degree: number, originally: bool
     return hasAlpha ? rgbaToHex(r, g, b, a) : rgbToHex(r, g, b);
   }
 };
+/**
+ * 随机整数
+ * @param min 最小值
+ * @param max 最大值
+ * @returns 返回一个随机整数
+ */
+export const randomInterval = (min,max):number => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
 
 

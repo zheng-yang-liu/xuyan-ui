@@ -195,5 +195,12 @@ export declare const Tools: {
    * @returns 返回改变后的颜色值
    */
   changeColor:(colorValue: string, degree: number, originally: boolean = true)=>string;
+  /**
+   * 随机整数
+   * @param min 最小值
+   * @param max 最大值
+   * @returns 返回一个随机整数
+   */
+  randomInterval:(min,max) => number;
 };
 
