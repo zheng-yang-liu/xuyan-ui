@@ -23,14 +23,7 @@
       <template #aside>
         <div style="background-color: #ffffff;width: 100%;height: 100%">
           <xy-menu-left
-            :defaultStyle="false"
-            :expandAll="true"
             :menuItems="menuItems"
-            @clickItem="clickItem"
-            :menuLeftStyle="menuLeftStyle"
-            :selectStyle="selectStyle"
-            :selectFirstItem="false"
-            :showOnlyOneSubmenu="false"
           >
           </xy-menu-left>
         </div>
@@ -40,39 +33,39 @@
              style="background-color: #f6f6f6;width: 100%;height: 100%;padding: 0 10px;overflow: hidden;overflow-y: auto">
 <!--          <xy-menu-catalog :catalogue="catalogue" @clickItem="catalogueClickItem"></xy-menu-catalog>-->
 
-          <xy-effect-preview :code="vueComponentString">
-            <preIcon></preIcon>
-          </xy-effect-preview>
-          <xy-attribute-table :data="data" :columnsNoDefault="false"></xy-attribute-table>
+<!--          <xy-effect-preview :code="vueComponentString">-->
+<!--            <preIcon></preIcon>-->
+<!--          </xy-effect-preview>-->
+<!--          <xy-attribute-table :data="data" :columnsNoDefault="false"></xy-attribute-table>-->
 
 
 
-          <xy-showcase-page
-            :catalogue="catalogue"
-            introduction="Divider分割线"
-            pageTitle="区隔内容的分割线"
-            :showCatalogue="true"
-          >
-            <template #pageExplain>44444444444444444444</template>
-            <template #basicUsage>
-              <div class="nnnnnnnSlot">基础用法qqq</div>
-              <xy-tooltip content="这是一段被隐藏的文字">
-                <p>显示更多</p>
-              </xy-tooltip>
-            </template>
-            <template #setWords>
-              <div class="nnnnnnnSlot">设置文案</div>
-            </template>
-            <template #props>
-              <div class="nnnnnnnSlot">props</div>
-            </template>
-            <template #slots>
-              <div class="nnnnnnnSlot">slots</div>
-            </template>
-            <template #slotsname>
-              <div class="nnnnnnnSlot">slotsname</div>
-            </template>
-          </xy-showcase-page>
+<!--          <xy-showcase-page-->
+<!--            :catalogue="catalogue"-->
+<!--            introduction="Divider分割线"-->
+<!--            pageTitle="区隔内容的分割线"-->
+<!--            :showCatalogue="true"-->
+<!--          >-->
+<!--            <template #pageExplain>44444444444444444444</template>-->
+<!--            <template #basicUsage>-->
+<!--              <div class="nnnnnnnSlot">基础用法qqq</div>-->
+<!--              <xy-tooltip content="这是一段被隐藏的文字">-->
+<!--                <p>显示更多</p>-->
+<!--              </xy-tooltip>-->
+<!--            </template>-->
+<!--            <template #setWords>-->
+<!--              <div class="nnnnnnnSlot">设置文案</div>-->
+<!--            </template>-->
+<!--            <template #props>-->
+<!--              <div class="nnnnnnnSlot">props</div>-->
+<!--            </template>-->
+<!--            <template #slots>-->
+<!--              <div class="nnnnnnnSlot">slots</div>-->
+<!--            </template>-->
+<!--            <template #slotsname>-->
+<!--              <div class="nnnnnnnSlot">slotsname</div>-->
+<!--            </template>-->
+<!--          </xy-showcase-page>-->
 
 
 
@@ -144,22 +137,22 @@ const catalogue = [
 ]
 const menuItems = [
   {
-    title: 'xuyan-ui组件预览',
-    id: 'b3eda810068053e4189e00c61b000b55',
+    title: '组件预览',
+    id: '7ee90288e34fa07d8b0cde520d152ddf',
     icon: 'iconfont icon-donghua',
     children: [
       {
-        title: 'xuyan-ui组件预览',
-        id: 'b3eda810068053e4189e00c61b000b72',
+        title: '基础组件预览',
+        id: 'f0f40927fb775042ec340c68d85d3cd9',
         path: '/component/componentPreview',
         children: [
           {
-            title: 'xuyan-ui组件预览',
-            id: 'gfdsfdhfsaghjkhgf4444',
+            title: '按钮',
+            id: 'bc039873416411b993abded52050266c',
             path: '/component/componentPreview',
           },
           {
-            title: 'xuyan-ui组件预览',
+            title: '图标',
             id: 'sdfgxgjhghgfdfgkjhgfd66666',
             path: '/component/componentPreview',
           }
@@ -167,7 +160,7 @@ const menuItems = [
         ]
       },
       {
-        title: 'xuyan-ui组件预览',
+        title: '数据组件预览',
         id: 'b3eda810068053e4189e00c61b000888',
         path: '/component/componentPreview',
       }
