@@ -1,14 +1,7 @@
-import {
-  dateListItem,
-  dayContent,
-  formatDateNum,
-  formatDateStr,
-  MessageTypes,
-  targetListItem
-  } from "../types/tools";
+import {dateListItem, dayContent, formatDateNum, formatDateStr, MessageTypes} from "../types/tools";
 
-import {ElMessage, ElMessageBox, MessageBoxState} from "element-plus";
 import type {Action} from 'element-plus';
+import {ElMessage, ElMessageBox, MessageBoxState} from "element-plus";
 import {VNode} from "vue"
 /*
   *获取某日期所在月份的日历天数
@@ -553,29 +546,29 @@ export const deepLookup = (dataList:Array<any>,findRules:Function)=>{
 }
 /**
  * 复制代码
- * @param codeText 代码文本
+ * @param text 文本
  * @param ifShowMsg 是否显示消息
- * @returns 返回一个Promise对象
+ * @returns 返回一个Promise对象 code=200成功，code=100失败
  */
-export const copyText = (codeText:string,ifShowMsg:Boolean=true):Promise<{code:number,message:string}> => {
+export const copyText = (text:string,ifShowMsg:Boolean=true):Promise<{code:number,message:string}> => {
 
   return new Promise((resolve, reject)=>{
     if(navigator.clipboard){
-      navigator.clipboard.writeText(codeText)
+      navigator.clipboard.writeText(text)
         .then(() => {
-          if(ifShowMsg){showMsg('success','代码已复制')}
-          resolve({code:200,message:"代码已复制"})
+          if(ifShowMsg){showMsg('success','已复制!')}
+          resolve({code:200,message:"已复制!"})
         })
         .catch(err => {
           if(ifShowMsg){showMsg('error','复制失败'+err)}
-          resolve({code:401,message:"复制失败"+err})
+          resolve({code:100,message:"复制失败"+err})
         });
     }else{
       //Document.execCommand() 方法实现
       const codeElement = document.createElement('pre');
       codeElement.style.position = 'absolute';
       codeElement.style.left = '-9999px';
-      codeElement.textContent = codeText;
+      codeElement.textContent = text;
       document.body.appendChild(codeElement);
 
       const range = document.createRange();
@@ -587,15 +580,15 @@ export const copyText = (codeText:string,ifShowMsg:Boolean=true):Promise<{code:n
       try {
         const successful = document.execCommand('copy');
         if (successful) {
-          if(ifShowMsg){showMsg('success','代码已复制')}
-          resolve({code:200,message:"代码已复制"})
+          if(ifShowMsg){showMsg('success','已复制!')}
+          resolve({code:200,message:"已复制!"})
         } else {
           if(ifShowMsg){showMsg('error','复制失败')}
-          resolve({code:401,message:"复制失败"})
+          resolve({code:100,message:"复制失败"})
         }
       } catch (err) {
         if(ifShowMsg){showMsg('error','复制失败'+err)}
-        resolve({code:401,message:"复制失败"+err})
+        resolve({code:100,message:"复制失败"+err})
       }
 
       document.body.removeChild(codeElement);
@@ -606,7 +599,7 @@ export const copyText = (codeText:string,ifShowMsg:Boolean=true):Promise<{code:n
 /**
  * 改变颜色
  * @param colorValue 16进制颜色值 或 rgb() 或 rgba()
- * @param degree 改变的程度,负数加深颜色、透明度变小；正数颜色变浅、透明度变大
+ * @param degree 改变的程度,负数加深颜色/透明度变小；正数颜色变浅/透明度变大
  * @param originally 返回结果和原本类型一致,false时输出16进制颜色值
  * @returns 返回改变后的颜色值
  */
@@ -676,18 +669,16 @@ export const changeColor = (colorValue: string, degree: number, originally: bool
 
   // 改变颜色组件的值
   const changeColorComponent = (component: number, degree: number) => {
-    const newComponent = degree > 0
+    return degree > 0
       ? Math.min(255, component + degree)
       : Math.max(0, component + degree);
-    return newComponent;
   };
 
   // 改变透明度值
   const changeAlpha = (a: number, degree: number) => {
-    const newAlpha = degree > 0
+    return degree > 0
       ? Math.min(1, a + degree / 100)
       : Math.max(0, a + degree / 100);
-    return newAlpha;
   };
 
   // 应用颜色和透明度变化
@@ -712,7 +703,7 @@ export const changeColor = (colorValue: string, degree: number, originally: bool
   }
 };
 /**
- * 随机整数
+ * 区间随机整数
  * @param min 最小值
  * @param max 最大值
  * @returns 返回一个随机整数

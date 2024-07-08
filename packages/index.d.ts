@@ -182,24 +182,24 @@ export declare const Tools: {
   throttle:(fn:Function, delay:number)=>Function;
   /**
    * 复制代码
-   * @param codeText 代码文本
+   * @param text 文本
    * @param ifShowMsg 是否显示消息
-   * @returns {Promise}返回一个Promise对象
+   * @returns {Promise<{code:number,message:string}>}返回一个Promise对象 code=200成功，code=100失败
    */
-  copyText:(codeText:string,ifShowMsg:Boolean=true)=>Promise;
+  copyText:(text:string,ifShowMsg:Boolean=true)=>Promise<{code:number,message:string}>
   /**
    * 改变颜色
    * @param colorValue 16进制颜色值 或 rgb() 或 rgba()
-   * @param degree 改变的程度,负数加深颜色、透明度变小；正数颜色变浅、透明度变大
+   * @param degree 改变的程度,负数加深颜色/透明度变小；正数颜色变浅/透明度变大
    * @param originally 返回结果和原本类型一致,false时输出16进制颜色值
    * @returns 返回改变后的颜色值
    */
   changeColor:(colorValue: string, degree: number, originally: boolean = true)=>string;
   /**
-   * 随机整数
+   * 区间随机整数
    * @param min 最小值
    * @param max 最大值
-   * @returns 返回一个随机整数
+   * @returns {number}返回一个随机整数
    */
   randomInterval:(min,max) => number;
 };
