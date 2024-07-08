@@ -228,7 +228,7 @@ export declare const AnimationUtils: {
     elementIDList: string[],
     currentPlatingElement: rangeTargetID,
     animationList: animationItem[],
-    animationCriticalList: animationCriticalItem[]
+    animationCriticalList?: animationCriticalItem[]
   ): void;
 
   /**

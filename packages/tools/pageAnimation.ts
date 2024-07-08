@@ -126,7 +126,7 @@ class AnimationUtils {
     elementIDList: string[],
     currentPlatingElement:rangeTargetID,
     animationList: animationItem[],
-    animationCriticalList: animationCriticalItem[]
+    animationCriticalList?: animationCriticalItem[]
   ): void {
     const elementList = this.getElementById(elementIDList);
     const currentElementBeforeHeight = this.getCurrentElementBeforeHeight(
@@ -159,7 +159,7 @@ class AnimationUtils {
         animationList.forEach((item) => {
           this.animation({ elType: item.element.elType, el: elementList[item.element.el] as HTMLElement }, item.config, rate);
         });
-        animationCriticalList.forEach((item) => {
+        animationCriticalList?.forEach((item) => {
           this.animationByCritical({ el: elementList[item.elementID] as HTMLElement }, item.config as criticalConfig, rate);
         });
       }, iframe);
