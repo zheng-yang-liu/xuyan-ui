@@ -3,6 +3,7 @@
 
 //导入组件
 import * as Tools from "./tools"
+import AnimationUtils from "./tools/pageAnimation";
 import vueHighlightJS from"./directives/vueHighlightJS";
 import {xyTest} from "./lib/xy-test";
 import {xyCalendar} from "./lib/xy-calendar";
@@ -45,10 +46,12 @@ const install = (app) =>{
 
 export {
     Tools,
-    xyTest
+    xyTest,
+    AnimationUtils
 }
 
 export default {
     install,
     Tools,
+    AnimationUtils
 }

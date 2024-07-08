@@ -1,6 +1,13 @@
 import {formatDateNum, MessageTypes} from './types/tools'
 import {MessageBoxState} from "element-plus";
 import {VNode,DefineComponent } from "vue"
+import{
+  animationItem,
+  animationCriticalItem,
+  rangeTargetID,
+  framesConfig,
+  animationRangeItem
+}from"./types/pageAnimation"
 /**
  * 安装插件到Vue应用中
  * @param app Vue应用实例
@@ -202,5 +209,39 @@ export declare const Tools: {
    * @returns {number}返回一个随机整数
    */
   randomInterval:(min,max) => number;
+};
+
+/**
+ * 动画类集合
+ */
+export declare const AnimationUtils: {
+  /**
+   * 公共监听设置动画函数
+   * @param observerId 需要进行监听交叉操作的元素ID
+   * @param elementIDList 需要操作的元素id
+   * @param currentPlatingElement 当前页面的id和根元素id(app)
+   * @param animationList 需要操作的元素的配置
+   * @param animationCriticalList 需要操作的元素的临界值配置
+   */
+   animationObserver(
+    observerId: string,
+    elementIDList: string[],
+    currentPlatingElement: rangeTargetID,
+    animationList: animationItem[],
+    animationCriticalList: animationCriticalItem[]
+  ): void;
+
+  /**
+   * 生成animationList的config
+   * @param animationList 动画配置列表 -- 均匀变化
+   * @param framesConfigs 动画帧配置列表
+   * @param animationRange 动画帧范围
+   * @return NewanimationList 完善后的动画配置列表
+   */
+   setAnimationListConfig(
+    animationList: animationItem[],
+    framesConfigs: framesConfig,
+    animationRange: animationRangeItem
+  ): animationItem[];
 };
 
