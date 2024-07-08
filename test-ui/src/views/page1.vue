@@ -29,12 +29,10 @@ const currentPlatingElement = {
 //动画配置列表  -- 均匀变化
 let animationList = [
   {
-    element: {elType: 'video', el: 'page1_video'},
-    config: {},
+    element: {elType: 'video', el: 'page1_video'}
   },
   {
-    element: {elType: 'page1_text', el: 'page1_text'},
-    config: {},
+    element: {elType: 'page1_text', el: 'page1_text'}
   }
 ]
 //动画配置列表  -- 临界点变化

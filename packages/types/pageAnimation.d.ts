@@ -32,11 +32,15 @@ export type setFrameProperties = {
 };
 export type animationItem = {
   element: { elType: string; el: string; additional?: string };
-  config: object;
+  config: {[key:CSSStyleValue]:string};
 };
 export type animationCriticalItem = {
   elementID: string;
-  config: object;
+  config: {
+    critical: number,
+    exceed?: {[key:CSSStyleValue]:string,value:number}[],
+    noExceed?: {[key:CSSStyleValue]:string,value:number}[],
+  }
 };
 export type rangeTargetID = {
   currentID: string;
