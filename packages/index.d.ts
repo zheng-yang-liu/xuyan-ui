@@ -1,13 +1,14 @@
 import {formatDateNum, MessageTypes} from './types/tools'
 import {MessageBoxState} from "element-plus";
 import {VNode,DefineComponent } from "vue"
-import{
+import {
   animationItem,
   animationCriticalItem,
   rangeTargetID,
   framesConfig,
-  animationRangeItem
-}from"./types/pageAnimation"
+  animationRangeItem,
+  TimingType
+} from "./types/pageAnimation"
 /**
  * 安装插件到Vue应用中
  * @param app Vue应用实例
@@ -230,6 +231,7 @@ export declare const AnimationUtils: {
   /**
    * svg动画
    * @param time 动画时间
+   * @param timingFunction 动画时间函数
    * @param lineClassName 类名
    * @param color 颜色
    * @param strokeWidth 线宽
@@ -238,6 +240,7 @@ export declare const AnimationUtils: {
    */
   svgAnimation(
     time: number = 2,
+    timingFunction:TimingType='ease',
     lineClassName: string = ".svgLine",
     color: string = "#000",
     strokeWidth: string = "5",

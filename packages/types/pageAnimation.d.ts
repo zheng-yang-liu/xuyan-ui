@@ -64,3 +64,4 @@ export type animationRangeItem = {
     end:number;
   }
 }
+export type TimingType = 'ease' | 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'step-start' | 'step-end' | 'steps' | 'cubic-bezier';

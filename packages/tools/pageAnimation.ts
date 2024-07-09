@@ -6,7 +6,8 @@ import {
   animationCriticalItem,
   framesConfig,
   animationRangeItem,
-  rangeTargetID
+  rangeTargetID,
+  TimingType
 } from "../types/pageAnimation"
 
 
@@ -268,6 +269,7 @@ class AnimationUtils {
   /**
    * SVG描边动画
    * @param time 动画时间
+   * @param timingFunction 动画速度曲线
    * @param lineClassName 类名
    * @param color 颜色
    * @param strokeWidth 线宽
@@ -276,6 +278,7 @@ class AnimationUtils {
    */
   svgAnimation(
     time: number = 2,
+    timingFunction:TimingType='ease',
     lineClassName: string = ".svgLine",
     color: string = "#000",
     strokeWidth: string = "6",
@@ -309,7 +312,7 @@ class AnimationUtils {
 
       // Add the animation properties back
       setTimeout(() => {
-        path.style.animation = `d11ff255b682de ${time}s forwards`;
+        path.style.animation = `d11ff255b682de ${time}s ${timingFunction} forwards`;
       }, 0);
     });
   }
