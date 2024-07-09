@@ -8,7 +8,6 @@ export type dayContent = {
   date: string,
   content: string
 }
-
 export type formatDateNum = {
   year?: number,
   month?: number,
@@ -26,11 +25,3 @@ export type formatDateStr = {
   second?: string
 }
 export type MessageTypes = "success" | "warning" | "info" | "error"
-type targetListItem = {
-  [key: string]: any;
-  id: string;
-  title: string;
-  indentValue?: number;
-  listPosition?: string;
-  children?: targetListItem[];
-}
