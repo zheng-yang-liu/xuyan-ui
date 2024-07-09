@@ -284,13 +284,7 @@ class AnimationUtils {
   ): void {
     // 定义关键帧动画
     const styleSheet = document.styleSheets[0];
-    const keyframesRule = `
-    @keyframes d11ff255b682de {
-      to {
-        stroke-dashoffset: 0;
-      }
-    }
-  `;
+    const keyframesRule = `@keyframes d11ff255b682de{to{stroke-dashoffset:0;}}`;
     const existingIndex = Array.from(styleSheet.cssRules).findIndex(
       rule => rule.cssText === keyframesRule
     );
