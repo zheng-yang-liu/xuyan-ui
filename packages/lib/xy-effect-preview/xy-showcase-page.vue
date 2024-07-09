@@ -1,6 +1,6 @@
 <script lang="ts">
 import {defineComponent,PropType,h,ref,onMounted,onBeforeUnmount} from 'vue'
-import {catalogue} from"./effect.type"
+import {catalogueType} from"./effect.type"
 import xyMenuLeft from "../xy-menu/xy-menu-left.vue";
 import{calculateItemDepth,deepLookup,throttle}from"../../tools"
 import xyMenuCatalog from "../xy-menu/xy-menu-catalog.vue";
@@ -8,7 +8,7 @@ export default defineComponent({
   name: "xy-showcase-page",
   props: {//目录列表
     catalogue:{
-      type: Array as PropType<catalogue[]>,
+      type: Array as PropType<catalogueType[]>,
       default: () => [],
       required: true
     },//页面标题

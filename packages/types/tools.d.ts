@@ -1,10 +1,10 @@
-export type dateListItem = {
+export type dateListItemType = {
   ifCurrentMonth: boolean,
   day: number,
   date: string,
   content?: string
 }
-export type dayContent = {
+export type dayContentType = {
   date: string,
   content: string
 }

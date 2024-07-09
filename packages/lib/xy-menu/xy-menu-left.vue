@@ -50,7 +50,7 @@
 <script lang="ts">
 import { defineComponent ,ref,provide,onMounted,watch} from 'vue';
 import type {PropType}from 'vue'
-import type { menuItem as MenuItemType } from './xy-menu.type';
+import type { MenuItemType } from './xy-menu.type';
 import xyMenuItem from './xy-menu-item.vue'
 import{calculateItemDepth,deepLookup,showMsg}from'../../tools'
 import{useRouter}from'vue-router'

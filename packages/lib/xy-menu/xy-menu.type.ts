@@ -1,10 +1,10 @@
-export type menuItem= {
+export type MenuItemType= {
   title: string,
   id: string,
   indentValue?: number,
   listPosition?: number,
   icon?: string,
-  children?: Array<menuItem>,
+  children?: Array<MenuItemType>,
   path?: string
 }
 export type targetListItem = {

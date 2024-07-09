@@ -75,7 +75,7 @@
 <script lang="ts">
 
 import { defineComponent, ref, watch, PropType ,inject} from 'vue';
-import { menuItem as MenuItemType } from './xy-menu.type';
+import { MenuItemType } from './xy-menu.type';
 import{showMsg}from "../../tools"
 import {useRouter} from "vue-router";
 export default defineComponent({

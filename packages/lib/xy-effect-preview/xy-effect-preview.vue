@@ -27,7 +27,7 @@
 <script lang="ts">
 import {defineComponent,ref} from 'vue'
 import xyCodePreview from "./xy-code-preview.vue";
-import{copyText,showMsg}from "../../tools"
+import{copyText}from "../../tools"
 export default defineComponent({
   name: "xy-effect-preview",
   props: {

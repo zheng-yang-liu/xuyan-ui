@@ -16,12 +16,12 @@
 
 <script lang="ts">
 import {defineComponent,onMounted,computed} from 'vue'
-import {direction} from './xy-classic-page.type'
+import {directionType} from './xy-classic-page.type'
 export default defineComponent({
   name: "xy-classic-page",
   props:{
     direction:{
-      type: String as () => direction,
+      type: String as () => directionType,
       default: 'horizontal'
     },
     asideWidth:{

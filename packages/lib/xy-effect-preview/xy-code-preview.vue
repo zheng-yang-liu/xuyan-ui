@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch, computed } from 'vue';
+import { defineComponent, onMounted, ref, computed } from 'vue';
 
 export default defineComponent({
   name: 'xy-code-preview',

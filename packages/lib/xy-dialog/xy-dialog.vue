@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref,watch,onMounted,PropType,reactive} from 'vue'
+import {defineComponent, ref,watch,onMounted,PropType} from 'vue'
 import xyButton from "../xy-button/xy-button.vue";
 export default defineComponent({
   name: "xy-dialog",

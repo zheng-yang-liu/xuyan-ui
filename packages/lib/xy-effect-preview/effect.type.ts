@@ -4,13 +4,13 @@ export type columns = {
   width?: number,
   align?:string,
 };
-export type data = {
+export type dataType = {
   name:string,
   explain:string,
   type:string | {value:string,complexType?:string}[],
   default?:string
 }
-export type catalogue = {
+export type catalogueType = {
   [key: string]: any;
   id: string;
   slot?: string;
@@ -18,5 +18,5 @@ export type catalogue = {
   explain?: string;
   indentValue?: number;
   listPosition?: string;
-  children?: catalogue[];
+  children?: catalogueType[];
 }

@@ -62,14 +62,14 @@
 
 <script lang="ts">
 import {defineComponent,PropType,ref,onMounted} from 'vue'
-import {data} from "./effect.type"
+import {dataType} from "./effect.type"
 import xyTooltip from "../xy-tooltip/xy-tooltip.vue";
 import xyCodePreview from "./xy-code-preview.vue";
 export default defineComponent({
   name: "xy-attribute-table",
   props: {
     data: {
-      type: Array as PropType<data[]>,
+      type: Array as PropType<dataType[]>,
       default: () => []
     },
     promptTopOffset: {

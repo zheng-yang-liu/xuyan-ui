@@ -32,7 +32,7 @@
 <script lang="ts">
 import {defineComponent,onMounted,computed,watch,reactive,toRefs} from 'vue'
 import {createCalendar,convertTimeFormat} from "../../tools"
-import {dateListItem,dayContent} from "../../types/tools";
+import {dateListItemType,dayContentType} from "../../types/tools";
 
 
 export default defineComponent({
@@ -57,7 +57,7 @@ export default defineComponent({
       default: 80
     },
     dayContent:{
-      type: Array as () => dayContent[],
+      type: Array as () => dayContentType[],
       default: ()=>[]
     },
     showTop:{
@@ -73,7 +73,7 @@ export default defineComponent({
   setup(props, context) {
     const tempDate = new Date();
     const state = reactive({
-      dateListItem:[] as dateListItem[],
+      dateListItem:[] as dateListItemType[],
       currentYear: new Date().getFullYear(),
       currentMonth: new Date().getMonth(),
       currentDay: new Date().getDate(),
