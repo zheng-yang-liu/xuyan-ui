@@ -266,7 +266,7 @@ class AnimationUtils {
   }
 
   /**
-   * svg描边动画
+   * SVG描边动画
    * @param time 动画时间
    * @param lineClassName 类名
    * @param color 颜色
@@ -281,27 +281,42 @@ class AnimationUtils {
     strokeWidth: string = "6",
     strokeLinecap: string = "round",
     fill: string = "none"
-  ): void{
+  ): void {
     // 定义关键帧动画
     const styleSheet = document.styleSheets[0];
-    styleSheet.insertRule(`
-      @keyframes storke {
-          to {
-              stroke-dashoffset: 0;
-          }
+    const keyframesRule = `
+    @keyframes d11ff255b682de {
+      to {
+        stroke-dashoffset: 0;
       }
-  `, styleSheet.cssRules.length);
+    }
+  `;
+    const existingIndex = Array.from(styleSheet.cssRules).findIndex(
+      rule => rule.cssText === keyframesRule
+    );
+    if (existingIndex === -1) {
+      styleSheet.insertRule(keyframesRule, styleSheet.cssRules.length);
+    }
+
     const paths = document.querySelectorAll(lineClassName);
-    paths.forEach((p: Element, key: number, parent: NodeListOf<Element>) => {
+    paths.forEach((p: Element) => {
       const path = p as SVGPathElement;
       const l = path.getTotalLength() + 1;
+
+      // Reset animation by removing and re-adding animation properties
+      path.style.animation = "none";
+      path.getBoundingClientRect(); // Trigger reflow to apply the reset
       path.style.stroke = color;
       path.style.strokeWidth = strokeWidth;
       path.style.strokeDasharray = `${l}`;
       path.style.strokeDashoffset = `${l}`;
-      path.style.animation = `storke ${time}s forwards`;
       path.style.strokeLinecap = strokeLinecap;
       path.style.fill = fill;
+
+      // Add the animation properties back
+      setTimeout(() => {
+        path.style.animation = `d11ff255b682de ${time}s forwards`;
+      }, 0);
     });
   }
 }
