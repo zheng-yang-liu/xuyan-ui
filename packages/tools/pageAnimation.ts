@@ -2,7 +2,7 @@ import {
   criticalElement,
   criticalConfig,
   setFrameProperties,
-  animationList,
+  animationItem,
   animationCriticalItem,
   framesConfig,
   animationRangeItem,
@@ -11,6 +11,13 @@ import {
 
 
 class AnimationUtils {
+  /**
+   * 动画操作函数 -- 根据进度操作元素
+   * @param el 需要操作的元素
+   * @param config 配置动画效果帧
+   * @param rate 进度
+   *
+   */
    animation(el: { elType: string; el: HTMLElement }, config: object, rate: number): void {
     switch (el.elType) {
       case "video":
@@ -29,7 +36,12 @@ class AnimationUtils {
         break;
     }
   }
-
+  /**
+   * 动画操作函数 -- 根据临界值
+   * @param el 需要操作的元素
+   * @param config 配置动画效果帧
+   * @param rate 进度
+   */
    animationByCritical(el: criticalElement, config: criticalConfig, rate: number): void {
     const rateState: string = (Boolean(rate > config.critical)).toString();
     switch (rateState) {
@@ -47,7 +59,13 @@ class AnimationUtils {
         break;
     }
   }
-
+  /**
+   * 生成帧
+   * @param startFrame 开始帧
+   * @param endFrame 结束帧
+   * @param properties 需要生成的属性
+   * @return frames 生成的帧
+   */
    generateFrames(startFrame: number, endFrame: number, properties: setFrameProperties): object {
     let frames: { [key: number]: { [styleName: string]: string | number } } = {};
 
@@ -98,7 +116,11 @@ class AnimationUtils {
 
     return frames;
   }
-
+  /**
+   * 根据Id获取元素
+   * @param id 元素id数组
+   * @return element获取到的元素
+   */
    getElementById(id: string[]): { [key: string]: HTMLElement | null } {
     const element: { [key: string]: HTMLElement | null } = {};
     id.forEach(item => {
@@ -106,7 +128,12 @@ class AnimationUtils {
     });
     return element;
   }
-
+  /**
+   * 计算当前元素的之前元素的clientHeight有高
+   * @param id 当前元素id
+   * @param fatherId 父元素id
+   * @return height 计算出的高度
+   */
    getCurrentElementBeforeHeight(id: string, fatherId: string): number {
     let height = 0;
     const father = document.getElementById(fatherId);
@@ -120,7 +147,14 @@ class AnimationUtils {
     }
     return height;
   }
-
+  /**
+   * 动画监听器
+   * @param observerId 需要进行监听交叉操作的元素ID
+   * @param elementIDList 需要操作的元素id
+   * @param currentPlatingElement 当前页面的id和根元素id(app)
+   * @param animationList 需要操作的元素的配置
+   * @param animationCriticalList 需要操作的元素的临界值配置
+   */
    animationObserver(
     observerId: string,
     elementIDList: string[],
@@ -194,12 +228,18 @@ class AnimationUtils {
     const observer = new IntersectionObserver(callback, observerConfig);
     observer.observe(observerElement);
   }
-
+  /**
+   * 生成animationList的config
+   * @param animationList 动画配置列表 -- 均匀变化
+   * @param framesConfigs 动画帧配置列表
+   * @param animationRange 动画帧范围
+   * @return 完善后的动画配置列表
+   */
    setAnimationListConfig(
     animationList: animationItem[],
     framesConfigs: framesConfig,
     animationRange: animationRangeItem
-  ): animationList[] {
+  ): animationItem[] {
     const newAnimationList = animationList;
     for (const key in framesConfigs) {
       for (let i = 0; i < newAnimationList.length; i++) {
@@ -223,6 +263,46 @@ class AnimationUtils {
       }
     }
     return newAnimationList;
+  }
+
+  /**
+   * svg描边动画
+   * @param time 动画时间
+   * @param lineClassName 类名
+   * @param color 颜色
+   * @param strokeWidth 线宽
+   * @param strokeLinecap 线头样式
+   * @param fill 填充
+   */
+  svgAnimation = (
+    time: number = 2,
+    lineClassName: string = ".svgLine",
+    color: string = "#000",
+    strokeWidth: string = "6",
+    strokeLinecap: string = "round",
+    fill: string = "none"
+  ): void => {
+    // 定义关键帧动画
+    const styleSheet = document.styleSheets[0];
+    styleSheet.insertRule(`
+      @keyframes storke {
+          to {
+              stroke-dashoffset: 0;
+          }
+      }
+  `, styleSheet.cssRules.length);
+    const paths = document.querySelectorAll(lineClassName);
+    paths.forEach((p: Element, key: number, parent: NodeListOf<Element>) => {
+      const path = p as SVGPathElement;
+      const l = path.getTotalLength() + 1;
+      path.style.stroke = color;
+      path.style.strokeWidth = strokeWidth;
+      path.style.strokeDasharray = `${l}`;
+      path.style.strokeDashoffset = `${l}`;
+      path.style.animation = `storke ${time}s forwards`;
+      path.style.strokeLinecap = strokeLinecap;
+      path.style.fill = fill;
+    });
   }
 }
 

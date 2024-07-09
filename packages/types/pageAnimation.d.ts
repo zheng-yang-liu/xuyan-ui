@@ -32,7 +32,7 @@ export type setFrameProperties = {
 };
 export type animationItem = {
   element: { elType: string; el: string; additional?: string };
-  config: {[key:CSSStyleValue]:string};
+  config?: {[key:CSSStyleValue]:string};
 };
 export type animationCriticalItem = {
   elementID: string;

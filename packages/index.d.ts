@@ -24,7 +24,7 @@ export declare const Tools: {
    * @param date 时间  formatDate对象 | Date对象 | 时间戳
    * @returns 返回一个字符串，格式为对应的时间格式
    */
-  convertTimeFormat: (format: string, date: formatDateNum | Date | number) => string;
+  convertTimeFormat(format: string, date: formatDateNum | Date | number):string;
   /**
    * 数组分类函数
    * @param array 需要分类的数组
@@ -141,23 +141,7 @@ export declare const Tools: {
     callback: Function,
     cancel?: Function,
   ) => void;
-  /**
-   * svg动画
-   * @param time 动画时间
-   * @param lineClassName 类名
-   * @param color 颜色
-   * @param strokeWidth 线宽
-   * @param strokeLinecap 线头样式
-   * @param fill 填充
-   */
-  svgAnimation: (
-    time: number = 2,
-    lineClassName: string = ".svgLine",
-    color: string = "#000",
-    strokeWidth: string = "5",
-    strokeLinecap: string = "round",
-    fill: string = "none"
-  ) => void;
+
   /**
    * 返回数据类型
    * @param sourceData 源数据
@@ -243,5 +227,22 @@ export declare const AnimationUtils: {
     framesConfigs: framesConfig,
     animationRange: animationRangeItem
   ): animationItem[];
+  /**
+   * svg动画
+   * @param time 动画时间
+   * @param lineClassName 类名
+   * @param color 颜色
+   * @param strokeWidth 线宽
+   * @param strokeLinecap 线头样式
+   * @param fill 填充
+   */
+  svgAnimation(
+    time: number = 2,
+    lineClassName: string = ".svgLine",
+    color: string = "#000",
+    strokeWidth: string = "5",
+    strokeLinecap: string = "round",
+    fill: string = "none"
+  ):void;
 };
 

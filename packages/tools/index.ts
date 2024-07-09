@@ -440,46 +440,6 @@ export const showAlert = (
     showMsg("info", "取消操作");
   });
 };
-/**
- * svg描边动画
- * @param time 动画时间
- * @param lineClassName 类名
- * @param color 颜色
- * @param strokeWidth 线宽
- * @param strokeLinecap 线头样式
- * @param fill 填充
- */
-export const svgAnimation = (
-  time: number = 2,
-  lineClassName: string = ".svgLine",
-  color: string = "#000",
-  strokeWidth: string = "6",
-  strokeLinecap: string = "round",
-  fill: string = "none"
-): void => {
-  // 定义关键帧动画
-  const styleSheet = document.styleSheets[0];
-  styleSheet.insertRule(`
-      @keyframes storke {
-          to {
-              stroke-dashoffset: 0;
-          }
-      }
-  `, styleSheet.cssRules.length);
-  const paths = document.querySelectorAll(lineClassName);
-  paths.forEach((p: Element, key: number, parent: NodeListOf<Element>) => {
-    const path = p as SVGPathElement;
-    const l = path.getTotalLength() + 1;
-    path.style.stroke = color;
-    path.style.strokeWidth = strokeWidth;
-    path.style.strokeDasharray = `${l}`;
-    path.style.strokeDashoffset = `${l}`;
-    path.style.animation = `storke ${time}s forwards`;
-    path.style.strokeLinecap = strokeLinecap;
-    path.style.fill = fill;
-  });
-}
-
 
 /**
  * 列表各项添加深度和位置
