@@ -29,9 +29,9 @@ export declare const Tools: {
    * 数组分类函数
    * @param array 需要分类的数组
    * @param rules 分类规则
-   * @returns {object | { true: [], false: [] }}返回一个对象，包含分类后的数组
+   * @returns 返回一个对象，包含分类后的数组
    */
-  groupBy: (array: object[], rules: string | Function) => object | { true: [], false: [] };
+  groupBy(array: object[], rules: string | Function):object | { true: [], false: [] };
   /**
    * 数字动画函数
    * @param duration 动画持续时间 ms
@@ -39,39 +39,39 @@ export declare const Tools: {
    * @param to 结束值
    * @param callback 回调函数
    */
-  figureAnimate: (duration: number, from: number, to: number, callback: Function) => void;
+  figureAnimate(duration: number, from: number, to: number, callback: Function):void;
   /**
    * 深拷贝
    * @param data 需要拷贝的元素
    * @returns  {Array<any> | object}深拷贝后的元素
    */
-  deepCopy: (data: Array<any> | object) => Array<any> | object;
+  deepCopy(data: Array<any> | object):Array<any> | object;
   /**
    * 更具key数组去重
    * @param array 需要去重的数组
    * @param key 去重的key
    * @returns  {Array<any>}
    */
-  accordingToKeyUnique: (array: Array<any>, key?: string) => Array<any>;
+  accordingToKeyUnique(array: Array<any>, key?: string):Array<any>;
   /**
    * 防抖函数
    * @param fn 需要防抖的函数
    * @param delay 防抖时间
    */
-  debounce: (fn: Function, delay: number) => Function;
+  debounce(fn: Function, delay: number):Function;
   /**
    * base64转file
    * @param urlData base64数据
    * @param fileName 文件名
    * @returns  {File}返回一个file对象
    */
-  base64ToFile: (urlData: string, fileName: string = 'test.png') => File;
+  base64ToFile(urlData: string, fileName: string = 'test.png'):File;
   /**
    * file转base64
    * @param file file对象
    * @param callBack 回调函数
    */
-  fileToBase64: (file: File, callBack) => void;
+  fileToBase64(file: File, callBack):void;
   /**
    * 显示消息框
    * @param type      消息类型（success / info / warning / error）
@@ -81,14 +81,14 @@ export declare const Tools: {
    * @param grouping  合并内容相同的消息，不支持 VNode 类型的消息
    * @param dangerouslyUseHTMLString  是否将 message 属性作为 HTML 片段处理
    */
-  showMsg: (
+  showMsg(
     type: MessageTypes,
     message: string | VNode,
     offset: number = 60,
     duration: number = 3000,
     grouping: boolean = true,
     dangerouslyUseHTMLString?: boolean
-  ) => void;
+  ): void;
   /**
    * 显示确认框
    * @param message                    消息内容
@@ -102,7 +102,7 @@ export declare const Tools: {
    * @param confirmButtonText          确定按钮的文本内容
    * @param cancelButtonText           取消按钮的文本内容
    */
-  showConfirm: (
+  showConfirm(
     message: string,
     callback: Function,
     title?: string,
@@ -113,7 +113,7 @@ export declare const Tools: {
     showConfirmButton: boolean = true,
     confirmButtonText: string = "确定",
     cancelButtonText: string = "取消"
-  ) => void;
+  ): void;
   /**
    * 消息提示框
    * @param message                    消息内容
@@ -128,7 +128,7 @@ export declare const Tools: {
    * @param callback                   若不使用 Promise，可以使用此参数指定 MessageBox 关闭后的回调
    * @param cancel                     在外部自定义捕获异常时的回调
    */
-  showAlert: (
+  showAlert(
     message: string,
     showClose: boolean = true,
     title: string = "提示",
@@ -140,44 +140,44 @@ export declare const Tools: {
     cancelButtonText: string = "取消",
     callback: Function,
     cancel?: Function,
-  ) => void;
+  ):void;
 
   /**
    * 返回数据类型
    * @param sourceData 源数据
    */
-  getType: <T>(sourceData: T) => string;
+  getType(sourceData: T): string;
   /**
    * 列表各项添加深度
    * @param targetList 目标列表
    * @param indentStep 缩进步进值
    * @param initialIndentValue 初始缩进值
    * */
-  calculateItemDepth: (
+  calculateItemDepth(
     targetList: any[],
     indentStep: number = 1,
     initialIndentValue: number = 2
-  ) => any[];
+  ): any[];
   /**
    * 深度搜索
    * @param dataList 目标数组
    * @param findRules 查找规则
    * @returns {Array<any>}返回一个数组，包含查找到的元素
    */
-  deepLookup: (dataList: Array<any>, findRules: Function) => Array<any>;
+  deepLookup (dataList: Array<any>, findRules: Function): Array<any>;
   /**
    * 节流函数
    * @param fn 需要节流的函数
    * @param delay 节流时间
    */
-  throttle:(fn:Function, delay:number)=>Function;
+  throttle(fn:Function, delay:number):Function;
   /**
    * 复制代码
    * @param text 文本
    * @param ifShowMsg 是否显示消息
    * @returns {Promise<{code:number,message:string}>}返回一个Promise对象 code=200成功，code=100失败
    */
-  copyText:(text:string,ifShowMsg:Boolean=true)=>Promise<{code:number,message:string}>
+  copyText(text:string,ifShowMsg:Boolean=true): Promise<{code:number,message:string}>
   /**
    * 改变颜色
    * @param colorValue 16进制颜色值 或 rgb() 或 rgba()
@@ -185,14 +185,14 @@ export declare const Tools: {
    * @param originally 返回结果和原本类型一致,false时输出16进制颜色值
    * @returns 返回改变后的颜色值
    */
-  changeColor:(colorValue: string, degree: number, originally: boolean = true)=>string;
+  changeColor(colorValue: string, degree: number, originally: boolean = true):string;
   /**
    * 区间随机整数
    * @param min 最小值
    * @param max 最大值
    * @returns {number}返回一个随机整数
    */
-  randomInterval:(min,max) => number;
+  randomInterval(min,max): number;
 };
 
 /**

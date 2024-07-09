@@ -274,14 +274,14 @@ class AnimationUtils {
    * @param strokeLinecap 线头样式
    * @param fill 填充
    */
-  svgAnimation = (
+  svgAnimation(
     time: number = 2,
     lineClassName: string = ".svgLine",
     color: string = "#000",
     strokeWidth: string = "6",
     strokeLinecap: string = "round",
     fill: string = "none"
-  ): void => {
+  ): void{
     // 定义关键帧动画
     const styleSheet = document.styleSheets[0];
     styleSheet.insertRule(`
