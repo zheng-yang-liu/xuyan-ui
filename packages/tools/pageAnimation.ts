@@ -7,7 +7,8 @@ import {
   framesConfig,
   animationRangeItem,
   rangeTargetID,
-  TimingType
+  TimingType,
+  animationItemSet
 } from "../types/pageAnimation"
 
 
@@ -149,9 +150,9 @@ class AnimationUtils {
     return height;
   }
   /**
-   * 动画监听器
+   * 动画监听器-执行动画
    * @param observerId 需要进行监听交叉操作的元素ID
-   * @param elementIDList 需要操作的元素id
+   * @param elementIDList 所有需要操作的元素id
    * @param currentPlatingElement 当前页面的id和根元素id(app)
    * @param animationList 需要操作的元素的配置
    * @param animationCriticalList 需要操作的元素的临界值配置
@@ -237,7 +238,7 @@ class AnimationUtils {
    * @return 完善后的动画配置列表
    */
    setAnimationListConfig(
-    animationList: animationItem[],
+    animationList: animationItemSet[],
     framesConfigs: framesConfig,
     animationRange: animationRangeItem
   ): animationItem[] {

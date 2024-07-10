@@ -7,7 +7,8 @@ import {
   rangeTargetID,
   framesConfig,
   animationRangeItem,
-  TimingType
+  TimingType,
+  animationItemSet
 } from "./types/pageAnimation"
 /**
  * 安装插件到Vue应用中
@@ -201,9 +202,9 @@ export declare const Tools: {
  */
 export declare const AnimationUtils: {
   /**
-   * 公共监听设置动画函数
+   * 动画监听器-执行动画
    * @param observerId 需要进行监听交叉操作的元素ID
-   * @param elementIDList 需要操作的元素id
+   * @param elementIDList 所有需要操作的元素id
    * @param currentPlatingElement 当前页面的id和根元素id(app)
    * @param animationList 需要操作的元素的配置
    * @param animationCriticalList 需要操作的元素的临界值配置
@@ -221,10 +222,10 @@ export declare const AnimationUtils: {
    * @param animationList 动画配置列表 -- 均匀变化
    * @param framesConfigs 动画帧配置列表
    * @param animationRange 动画帧范围
-   * @return NewanimationList 完善后的动画配置列表
+   * @return 完善后的动画配置列表
    */
    setAnimationListConfig(
-    animationList: animationItem[],
+    animationList: animationItemSet[],
     framesConfigs: framesConfig,
     animationRange: animationRangeItem
   ): animationItem[];
