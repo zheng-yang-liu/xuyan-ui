@@ -211,7 +211,6 @@ const hover = (el:any)=>{
   topRight = currentIndex.value.column;
   bottomLeft = currentIndex.value.column-((currentIndex.value.row+1)%2?-1:1);
   bottomRight = currentIndex.value.column;
-  console.log(topLeft,topRight,bottomLeft,bottomRight)
   items.value[currentIndex.value.row][currentIndex.value.column]?.classList.add('enlarge');
 
   if(currentIndex.value.column-1>=0){
