@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted , onBeforeUnmount} from 'vue';
+import { ref, onMounted,onBeforeUnmount} from 'vue';
 import {Tools} from "../../../packages"
 
 const canvas = ref<HTMLCanvasElement | null>(null);

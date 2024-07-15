@@ -10,6 +10,7 @@ import {
   TimingType,
   animationItemSet
 } from "./types/pageAnimation"
+import drawGraph from "./tools/canvasDraw/DrawGraph";
 /**
  * 安装插件到Vue应用中
  * @param app Vue应用实例
@@ -17,8 +18,7 @@ import {
 export declare const install: (app: import("vue").App<any>) => void;
 
 /**
- * 工具类集合
- */
+ * 工具类集合*/
 export declare const Tools: {
   /**
    * 转换时间格式
@@ -198,8 +198,7 @@ export declare const Tools: {
 };
 
 /**
- * 动画类集合
- */
+ * 动画类集合*/
 export declare const AnimationUtils: {
   /**
    * 动画监听器-执行动画
@@ -209,7 +208,7 @@ export declare const AnimationUtils: {
    * @param animationList 需要操作的元素的配置
    * @param animationCriticalList 需要操作的元素的临界值配置
    */
-   animationObserver(
+  animationObserver(
     observerId: string,
     elementIDList: string[],
     currentPlatingElement: rangeTargetID,
@@ -224,7 +223,7 @@ export declare const AnimationUtils: {
    * @param animationRange 动画帧范围
    * @return 完善后的动画配置列表
    */
-   setAnimationListConfig(
+  setAnimationListConfig(
     animationList: animationItemSet[],
     framesConfigs: framesConfig,
     animationRange: animationRangeItem
@@ -249,4 +248,103 @@ export declare const AnimationUtils: {
     fill: string = "none"
   ):void;
 };
+
+/**
+ * 表示图形的总类-用于自定义图形时继承此类。
+ * */
+export declare class Graph{
+  protected _color: string;
+  private _startX: number;
+  private _startY: number;
+  private _endX: number;
+  private _endY: number;
+  protected _ctx: CanvasRenderingContext2D;
+  private readonly _vasWidth: number;
+  private readonly _vasHeight: number;
+  protected _dpi: number;
+  /**
+   * 构造函数 - 创建一个图形。
+   * @param color - 图形的颜色。
+   * @param startX - 起始的 X 坐标。
+   * @param startY - 起始的 Y 坐标。
+   * @param ctx - 绘图上下文。
+   * @param width - 画布的宽度。
+   * @param height - 画布的高度。
+   * @param dpi - DPI 缩放系数。
+   */
+  constructor(
+    color:string,
+    startX:number,
+    startY:number,
+    ctx:CanvasRenderingContext2D,
+    width:number,
+    height:number,
+    dpi:number
+  );
+  /**
+   * 设置终止的 X 坐标。
+   * @param value - 新的终止 X 坐标。
+   */
+  endX(value:number):void;
+  /**
+   * 设置终止的 Y 坐标。
+   * @param value - 新的终止 Y 坐标。
+   */
+  endY(value:number):void;
+  //获取最小X坐标
+  minX:number;
+  //获取最大X坐标
+  maxX:number;
+  //获取最小Y坐标
+  minY:number;
+  //获取最大Y坐标
+  maxY:number;
+}
+
+/**
+ * 绘制对象.*/
+// DrawGraph.d.ts
+export declare class DrawGraph {
+  /**
+   * 构造函数 - 创建一个绘图对象。
+   * @param canvas - 画布元素。
+   * @param ctx - 画布上下文。
+   */
+  constructor(
+    canvas: HTMLCanvasElement,
+    ctx: CanvasRenderingContext2D
+  );
+
+  /**
+   * 初始化绘图
+   * @param width - 画布宽度
+   * @param height - 画布高度
+   * @param canvasBG - 画布背景颜色
+   * @param graphColor - 图形颜色
+   */
+  init(width: number, height: number, canvasBG: string, graphColor: string): void;
+
+  /**
+   * 销毁绘图
+   */
+  destruction(): void;
+
+  /**
+   * 设置自定义图形
+   * @param customShape - 自定义图形
+   */
+  setShape(customShape: Object): void;
+
+  /**
+   * 设置当前图形
+   * @param currentGraph - 当前图形
+   */
+  setCurrentGraph(currentGraph: string): void;
+
+  /**
+   * 改变填充颜色
+   * @param graphColor - 填充颜色
+   */
+  changeGraphColor(graphColor: string): void;
+}
 
