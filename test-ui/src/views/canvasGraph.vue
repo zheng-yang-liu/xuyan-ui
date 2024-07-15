@@ -24,6 +24,11 @@ onMounted(()=>{
   graph = new DrawGraph(canvas,ctx);
   graph.init();
   graph.drawShape();
+  setTimeout(()=>{
+    console.log('change color')
+    // graph.changeCanvasBG("#4c2525");
+    graph.downloadCanvas();
+  },5000)
 })
 //页面销毁
 onBeforeUnmount(()=>{

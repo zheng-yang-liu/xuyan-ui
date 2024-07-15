@@ -1,6 +1,6 @@
-import graph from"./graph"
+import Graph from"./Graph"
 
-export default class circle extends graph{
+export default class circle extends Graph{
   /**
    * 绘制圆形。
    */

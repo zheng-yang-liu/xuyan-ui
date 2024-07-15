@@ -1,5 +1,6 @@
 import Rectangular from "./Rectangular"
 import Circle from "./Circle"
+import Triangle from "./Triangle"
 export default class DrawGraph {
   private _canvas: HTMLCanvasElement;
   private readonly _ctx: CanvasRenderingContext2D;
@@ -30,7 +31,7 @@ export default class DrawGraph {
     this._ifDraw = false;
     this._shape = [];
     this._graphColor = "#b5b5b5";
-    this._customShape = {Rectangular:Rectangular,Circle:Circle};
+    this._customShape = {Rectangular:Rectangular,Circle:Circle,Triangle:Triangle};
     this._currentGraph = "Rectangular";
   }
   /**
@@ -150,6 +151,19 @@ export default class DrawGraph {
     }
   }
   /**
+   * 修改画布背景颜色
+   * @param canvasBG - 画布背景颜色
+   * */
+  changeCanvasBG(canvasBG:string):void{
+    this._canvasBG = canvasBG;
+    this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
+    this._ctx.fillStyle = this._canvasBG;
+    this._ctx.fillRect(0, 0, this._canvas.width, this._canvas.height);
+    for (const item of this._shape) {
+      item.draw();
+    }
+  }
+  /**
    * 销毁绘图
    */
   destruction():void{
@@ -181,5 +195,16 @@ export default class DrawGraph {
    */
   changeGraphColor(graphColor:string):void{
     this._graphColor = graphColor;
+  }
+  /**
+   * 下载canvas
+   * */
+  downloadCanvas():void {
+    const pngName:string = Math.random().toString(36).substr(2);
+    const image:string = this._canvas.toDataURL('image/png');
+    const link:HTMLAnchorElement = document.createElement('a');
+    link.href = image;
+    link.download = `${pngName}.png`;
+    link.click();
   }
 }

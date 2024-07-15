@@ -291,13 +291,13 @@ export declare class Graph{
    * @param value - 新的终止 Y 坐标。
    */
   endY(value:number):void;
-  //获取最小X坐标
+  //最小X坐标
   minX:number;
-  //获取最大X坐标
+  //最大X坐标
   maxX:number;
-  //获取最小Y坐标
+  //最小Y坐标
   minY:number;
-  //获取最大Y坐标
+  //最大Y坐标
   maxY:number;
 }
 
@@ -323,7 +323,11 @@ export declare class DrawGraph {
    * @param graphColor - 图形颜色
    */
   init(width: number, height: number, canvasBG: string, graphColor: string): void;
-
+  /**
+   * 修改画布背景颜色
+   * @param canvasBG - 画布背景颜色
+   * */
+  changeCanvasBG(canvasBG:string):void
   /**
    * 销毁绘图
    */

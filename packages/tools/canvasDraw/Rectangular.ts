@@ -1,8 +1,8 @@
-import graph from "./Graph"
+import Graph from "./Graph"
 /**
  * 表示矩形的类。
  */
-export default class Rectangular extends graph{
+export default class Rectangular extends Graph{
   /**
    * 绘制矩形。
    */
