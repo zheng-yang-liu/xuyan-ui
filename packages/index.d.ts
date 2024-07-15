@@ -350,5 +350,9 @@ export declare class DrawGraph {
    * @param graphColor - 填充颜色
    */
   changeGraphColor(graphColor: string): void;
+  /**
+   * 下载canvas
+   * */
+  downloadCanvas():void
 }
 
