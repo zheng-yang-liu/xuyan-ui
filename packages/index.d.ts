@@ -10,7 +10,6 @@ import {
   TimingType,
   animationItemSet
 } from "./types/pageAnimation"
-import drawGraph from "./tools/canvasDraw/DrawGraph";
 /**
  * 安装插件到Vue应用中
  * @param app Vue应用实例

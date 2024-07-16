@@ -4,8 +4,8 @@
 //导入组件
 import * as Tools from "./tools"
 import AnimationUtils from "./tools/AnimationUtils";
-import Graph from "./tools/canvasDraw/Graph";
-import DrawGraph from "./tools/canvasDraw/DrawGraph";
+import Graph from "./tools/canvasAPI/canvasDraw/Graph";
+import DrawGraph from "./tools/canvasAPI/canvasDraw/DrawGraph";
 import vueHighlightJS from"./directives/vueHighlightJS";
 import {xyTest} from "./lib/xy-test";
 import {xyCalendar} from "./lib/xy-calendar";
@@ -17,7 +17,7 @@ import {xyTooltip} from "./lib/xy-tooltip";
 import {xyDialog} from "./lib/xy-dialog";
 import {xyButton} from "./lib/xy-button";
 import {xyIcon} from "./lib/xy-icon";
-import drawGraph from "./tools/canvasDraw/DrawGraph";
+import drawGraph from "./tools/canvasAPI/canvasDraw/DrawGraph";
 
 //挂载组件
 const install = (app) =>{

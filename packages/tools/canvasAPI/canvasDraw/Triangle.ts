@@ -1,4 +1,4 @@
-import Graph from"./graph"
+import Graph from "./Graph"
 
 // 三角形
 export default class Triangle extends Graph{

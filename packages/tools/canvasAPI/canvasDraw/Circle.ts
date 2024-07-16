@@ -1,4 +1,4 @@
-import Graph from"./Graph"
+import Graph from "./Graph"
 
 export default class circle extends Graph{
   /**
