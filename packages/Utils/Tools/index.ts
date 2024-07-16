@@ -156,7 +156,7 @@ export const groupBy = (array:object[], rules: string | Function):object|{true:[
  * @param data 需要拷贝的元素
  * @returns 深拷贝后的元素
  */
-export const deepCopy = (data:Array<any>|object):Array<any>|object=>{
+export const deepCopy = (data:any):any=>{
   let newData:any = null;
   if(typeof(data) === 'object' && data != null){
     newData = data instanceof Array ? [] : {};

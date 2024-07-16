@@ -38,9 +38,9 @@ export declare const Tools: {
   /**
    * 深拷贝
    * @param data 需要拷贝的元素
-   * @returns  {Array<any> | object}深拷贝后的元素
+   * @returns 深拷贝后的元素
    */
-  deepCopy(data: Array<any> | object):Array<any> | object;
+  deepCopy(data:any):any;
   /**
    * 更具key数组去重
    * @param array 需要去重的数组
