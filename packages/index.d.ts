@@ -25,7 +25,8 @@ export declare const Tools: {
    * @param format 时间格式
    * @param date 时间  formatDate对象 | Date对象 | 时间戳
    * @returns 返回一个字符串，格式为对应的时间格式
-   */
+   * @example Tools.convertTimeFormat('YYYY-MM-DD HH:mm:ss',new Date())
+   * */
   convertTimeFormat(format: string, date: formatDateNum | Date | number):string;
   /**
    * 数组分类函数
@@ -34,14 +35,7 @@ export declare const Tools: {
    * @returns 返回一个对象，包含分类后的数组
    */
   groupBy(array: object[], rules: string | Function):object | { true: [], false: [] };
-  /**
-   * 数字动画函数
-   * @param duration 动画持续时间 ms
-   * @param from 起始值
-   * @param to 结束值
-   * @param callback 回调函数
-   */
-  figureAnimate(duration: number, from: number, to: number, callback: Function):void;
+
   /**
    * 深拷贝
    * @param data 需要拷贝的元素
@@ -247,6 +241,14 @@ export declare const AnimationUtils: {
     strokeLinecap: string = "round",
     fill: string = "none"
   ):void;
+  /**
+   * 数字动画函数
+   * @param duration 动画持续时间 ms
+   * @param from 起始值
+   * @param to 结束值
+   * @param callback 回调函数
+   */
+  numberAnimate(duration: number, from: number, to: number, callback: Function):void;
 };
 
 /**

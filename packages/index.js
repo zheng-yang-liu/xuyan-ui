@@ -3,7 +3,7 @@
 
 //导入组件
 import * as Tools from "./tools"
-import AnimationUtils from "./tools/pageAnimation";
+import AnimationUtils from "./tools/AnimationUtils";
 import Graph from "./tools/canvasDraw/Graph";
 import DrawGraph from "./tools/canvasDraw/DrawGraph";
 import vueHighlightJS from"./directives/vueHighlightJS";

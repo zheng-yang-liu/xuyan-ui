@@ -317,6 +317,31 @@ class AnimationUtils {
       }, 0);
     });
   }
+  /**
+   * 数字动画函数
+   * @param duration 动画持续时间 ms
+   * @param from 起始值
+   * @param to 结束值
+   * @param callback 回调函数
+   */
+  numberAnimate(duration:number, from:number, to:number, callback:Function):void{
+    const speed:number = (to - from) / duration;
+    const startTime:number = Date.now();
+    let value:number = from;
+    function _run():void {
+      const now:number = Date.now();
+      const time:number = now - startTime;
+      if (time >= duration) {
+        value = to;
+        callback && callback(value);
+        return;
+      }
+      value = from + speed * time;
+      callback && callback(value);
+      requestAnimationFrame(_run);
+    }
+    _run();
+  }
 }
 
 export default new AnimationUtils();

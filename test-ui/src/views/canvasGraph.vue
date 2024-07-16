@@ -27,7 +27,7 @@ onMounted(()=>{
   setTimeout(()=>{
     console.log('change color')
     // graph.changeCanvasBG("#4c2525");
-    graph.downloadCanvas();
+    // graph.downloadCanvas();
   },5000)
 })
 //页面销毁
