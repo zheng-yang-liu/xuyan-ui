@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import {defineComponent,PropType,ref,watch} from 'vue'
-import{calculateItemDepth}from"../../tools"
+import{calculateItemDepth}from "../../Utils/Tools"
 import{targetListItem}from"./xy-menu.type"
 import xyMenuLeft from "./xy-menu-left.vue";
 export default defineComponent({

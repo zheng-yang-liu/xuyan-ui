@@ -2,7 +2,7 @@
 import {defineComponent,PropType,h,ref,onMounted,onBeforeUnmount} from 'vue'
 import {catalogueType} from"./effect.type"
 import xyMenuLeft from "../xy-menu/xy-menu-left.vue";
-import{calculateItemDepth,deepLookup,throttle}from"../../tools"
+import{calculateItemDepth,deepLookup,throttle}from "../../Utils/Tools"
 import xyMenuCatalog from "../xy-menu/xy-menu-catalog.vue";
 export default defineComponent({
   name: "xy-showcase-page",

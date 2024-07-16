@@ -9,7 +9,7 @@ import {
   rangeTargetID,
   TimingType,
   animationItemSet
-} from "../types/pageAnimation"
+} from "../../types/pageAnimation"
 
 
 class AnimationUtils {

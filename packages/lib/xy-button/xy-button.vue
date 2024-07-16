@@ -22,7 +22,7 @@
 <script lang="ts">
 import {defineComponent, ref,PropType} from 'vue'
 import {buttonType} from "./xy-button-type"
-import{deepCopy}from"../../tools"
+import{deepCopy}from "../../Utils/Tools"
 export default defineComponent({
   name: "xy-button",
   props: {

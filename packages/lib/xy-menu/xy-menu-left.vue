@@ -52,7 +52,7 @@ import { defineComponent ,ref,provide,onMounted,watch} from 'vue';
 import type {PropType}from 'vue'
 import type { MenuItemType } from './xy-menu.type';
 import xyMenuItem from './xy-menu-item.vue'
-import{calculateItemDepth,deepLookup,showMsg}from'../../tools'
+import{calculateItemDepth,deepLookup,showMsg}from '../../Utils/Tools'
 import{useRouter}from'vue-router'
 export default defineComponent({
   name: 'xy-menu-left',

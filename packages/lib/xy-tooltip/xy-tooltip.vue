@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, onUnmounted, nextTick } from 'vue';
-import emitter from '../../tools/mitt';
+import emitter from '../../Utils/mitt';
 
 export default defineComponent({
   name: "xy-tooltip",

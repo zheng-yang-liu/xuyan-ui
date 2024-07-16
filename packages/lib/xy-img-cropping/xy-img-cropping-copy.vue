@@ -54,7 +54,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, watch, computed } from 'vue';
-import { base64ToFile, fileToBase64 ,showMsg} from "../../tools";
+import { base64ToFile, fileToBase64 ,showMsg} from "../../Utils/Tools";
 import { initBaseImg } from "./initBaseImg";
 
 export default defineComponent({
