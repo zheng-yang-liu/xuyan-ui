@@ -4,8 +4,8 @@
 //导入组件
 import * as Tools from "./Utils/Tools"
 import AnimationUtils from "./Utils/AnimationAPI/AnimationUtils";
-import Graph from "./Utils/canvasAPI/canvasDraw/Graph";
-import DrawGraph from "./Utils/canvasAPI/canvasDraw/DrawGraph";
+import Graph from "./Utils/canvasAPI/canvasGraph/Graph";
+import DrawGraph from "./Utils/canvasAPI/canvasGraph/DrawGraph";
 import vueHighlightJS from"./directives/vueHighlightJS";
 import {xyTest} from "./lib/xy-test";
 import {xyCalendar} from "./lib/xy-calendar";
