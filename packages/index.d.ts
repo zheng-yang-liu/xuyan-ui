@@ -1,4 +1,4 @@
-import {formatDateNum, MessageTypes} from './types/tools'
+import {formatDateNum, MessageTypes,dataType} from './types/tools'
 import {MessageBoxState} from "element-plus";
 import {VNode,DefineComponent } from "vue"
 import {
@@ -60,13 +60,14 @@ export declare const Tools: {
    * @param fileName 文件名
    * @returns  {File}返回一个file对象
    */
+  // @ts-ignore
   base64ToFile(urlData: string, fileName: string = 'test.png'):File;
   /**
    * file转base64
    * @param file file对象
    * @param callBack 回调函数
    */
-  fileToBase64(file: File, callBack):void;
+  fileToBase64(file:File,callBack:(baseStr:any)=>void):void;
   /**
    * 显示消息框
    * @param type      消息类型（success / info / warning / error）
@@ -138,28 +139,34 @@ export declare const Tools: {
   ):void;
 
   /**
-   * 返回数据类型
+   * 获取数据类型
    * @param sourceData 源数据
    */
-  getType(sourceData: T): string;
+  getType(sourceData: T): dataType;
   /**
-   * 列表各项添加深度
+   * 列表各项添加深度和位置信息
    * @param targetList 目标列表
-   * @param indentStep 缩进步进值
-   * @param initialIndentValue 初始缩进值
-   * */
+   * @param indentStep 深度步进值
+   * @param initialIndentValue 初始深度值
+   * @param currentPos 第一项位置的初始值
+   * @returns 处理后的列表和下一个位置
+   */
   calculateItemDepth(
-    targetList: any[],
+    targetList: object[],
     indentStep: number = 1,
-    initialIndentValue: number = 2
-  ): any[];
+    initialIndentValue: number = 0,
+    currentPos: number = 0
+  ):{
+    nextPos: number;
+    updatedList: { [p: string]: any; indentValue: number; children?: any[]; listPosition: number }[]
+  }
   /**
    * 深度搜索
    * @param dataList 目标数组
    * @param findRules 查找规则
-   * @returns {Array<any>}返回一个数组，包含查找到的元素
+   * @returns返回一个数组，包含查找到的元素
    */
-  deepLookup (dataList: Array<any>, findRules: Function): Array<any>;
+  deepLookup (dataList: Array<object>, findRules: Function): object[];
   /**
    * 节流函数
    * @param fn 需要节流的函数

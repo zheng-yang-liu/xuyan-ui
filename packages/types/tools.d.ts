@@ -25,3 +25,5 @@ export type formatDateStr = {
   second?: string
 }
 export type MessageTypes = "success" | "warning" | "info" | "error"
+
+export type dataType =  "'boolean'| |'number' |'string' |'function' |'array' |'date' |'regExp' |'undefined' |'null' |'object' |'blob' |'formData' |'promise'"

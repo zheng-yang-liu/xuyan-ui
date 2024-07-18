@@ -1,5 +1,4 @@
 适用于vue3的前端xy组件库
-基于 element-plus:2.7.4
 # 安装
 ```
     npm install xuyan-ui

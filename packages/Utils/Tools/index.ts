@@ -1,4 +1,11 @@
-import {dateListItemType, dayContentType, formatDateNum, formatDateStr, MessageTypes} from "../../types/tools";
+import {
+  dateListItemType,
+  dayContentType,
+  formatDateNum,
+  formatDateStr,
+  MessageTypes,
+  dataType
+} from "../../types/tools";
 
 import type {Action} from 'element-plus';
 import {ElMessage, ElMessageBox, MessageBoxState} from "element-plus";
@@ -240,7 +247,7 @@ export const base64ToFile = (urlData:string, fileName:string):File => {
  * @param file file对象
  * @param callBack 回调函数
  * */
-export const fileToBase64 = (file:File,callBack):void=> {
+export const fileToBase64 = (file:File,callBack:(baseStr:any)=>void):void=> {
   const reader:FileReader = new FileReader();
   reader.onload = (e:ProgressEvent<FileReader>):void => {
     callBack(e.target.result)
@@ -248,11 +255,11 @@ export const fileToBase64 = (file:File,callBack):void=> {
   reader.readAsDataURL(file);
 }
 /**
- * 返回数据类型
+ * 获取数据类型
  * @param sourceData 源数据
  * @returns 返回数据类型
  */
-export const getType = <T>(sourceData: T): string => {
+export const getType = <T>(sourceData: T): dataType => {
   //toString会返回对应不同的标签的构造函数
   let toString = Object.prototype.toString;
   const map: any = {
@@ -395,17 +402,17 @@ export const showAlert = (
 };
 
 /**
- * 列表各项添加深度和位置
+ * 列表各项添加深度和位置信息
  * @param targetList 目标列表
- * @param indentStep 缩进步进值
- * @param initialIndentValue 初始缩进值
- * @param currentPos 当前列表位置
+ * @param indentStep 深度步进值
+ * @param initialIndentValue 初始深度值
+ * @param currentPos 第一项位置的初始值
  * @returns 处理后的列表和下一个位置
  */
 export const calculateItemDepth = (
   targetList: any[],
   indentStep: number = 1,
-  initialIndentValue: number = 2,
+  initialIndentValue: number = 0,
   currentPos: number = 0
 ): {
   nextPos: number;
