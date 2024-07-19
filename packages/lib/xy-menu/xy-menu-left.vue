@@ -122,7 +122,7 @@ export default defineComponent({
     },//是否自动设置menuLeft的高度
     isTheHeightSet:{
       type:Boolean,
-      default:true
+      default:false
     },//是否需要path
     needPath:{
       type:Boolean,

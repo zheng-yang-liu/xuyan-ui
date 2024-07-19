@@ -27,9 +27,9 @@
             :expandAll="false"
             :isTheHeightSet="true"
           >
-            <template #logo>
-              <div style="height: 40px;width: 100%;background-color: red"></div>
-            </template>
+<!--            <template #logo>-->
+<!--              <div style="height: 40px;width: 100%;background-color: red"></div>-->
+<!--            </template>-->
           </xy-menu-left>
         </div>
       </template>
@@ -38,39 +38,39 @@
              style="background-color: #f6f6f6;width: 100%;height: 100%;padding: 0 10px;overflow: hidden;overflow-y: auto">
 <!--          <xy-menu-catalog :catalogue="catalogue" @clickItem="catalogueClickItem"></xy-menu-catalog>-->
 
-<!--          <xy-effect-preview :code="vueComponentString">-->
-<!--            <preIcon></preIcon>-->
-<!--          </xy-effect-preview>-->
+          <xy-effect-preview :code="vueComponentString">
+            <preIcon></preIcon>
+          </xy-effect-preview>
 <!--          <xy-attribute-table :data="data" :columnsNoDefault="false"></xy-attribute-table>-->
 
 
 
-<!--          <xy-showcase-page-->
-<!--            :catalogue="catalogue"-->
-<!--            introduction="Divider分割线"-->
-<!--            pageTitle="区隔内容的分割线"-->
-<!--            :showCatalogue="true"-->
-<!--          >-->
-<!--            <template #pageExplain>44444444444444444444</template>-->
-<!--            <template #basicUsage>-->
-<!--              <div class="nnnnnnnSlot">基础用法qqq</div>-->
-<!--              <xy-tooltip content="这是一段被隐藏的文字">-->
-<!--                <p>显示更多</p>-->
-<!--              </xy-tooltip>-->
-<!--            </template>-->
-<!--            <template #setWords>-->
-<!--              <div class="nnnnnnnSlot">设置文案</div>-->
-<!--            </template>-->
-<!--            <template #props>-->
-<!--              <div class="nnnnnnnSlot">props</div>-->
-<!--            </template>-->
-<!--            <template #slots>-->
-<!--              <div class="nnnnnnnSlot">slots</div>-->
-<!--            </template>-->
-<!--            <template #slotsname>-->
-<!--              <div class="nnnnnnnSlot">slotsname</div>-->
-<!--            </template>-->
-<!--          </xy-showcase-page>-->
+          <xy-showcase-page
+            :catalogue="catalogue"
+            introduction="Divider分割线"
+            pageTitle="区隔内容的分割线"
+            :showCatalogue="true"
+          >
+            <template #pageExplain>44444444444444444444</template>
+            <template #basicUsage>
+              <div class="nnnnnnnSlot">基础用法qqq</div>
+              <xy-tooltip content="这是一段被隐藏的文字">
+                <p>显示更多</p>
+              </xy-tooltip>
+            </template>
+            <template #setWords>
+              <div class="nnnnnnnSlot">设置文案</div>
+            </template>
+            <template #props>
+              <div class="nnnnnnnSlot">props</div>
+            </template>
+            <template #slots>
+              <div class="nnnnnnnSlot">slots</div>
+            </template>
+            <template #slotsname>
+              <div class="nnnnnnnSlot">slotsname</div>
+            </template>
+          </xy-showcase-page>
 
 
 

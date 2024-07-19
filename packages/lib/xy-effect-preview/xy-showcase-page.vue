@@ -75,19 +75,16 @@ export default defineComponent({
       promptBlockTop.value = menuItemHeight * item.listPosition
     }
 
-    
     const debounceResize = throttle(() => {
       const currentWidth = window.innerWidth;
       if(props.showCatalogue){
         if(props.screenMaxCatalogue){
           displayCatalogue.value = ifMaximizing();
         }else{
-          if (currentWidth !== originalWidth) {
-            displayCatalogue.value = currentWidth > props.showCatalogueWidth;
-          }
+          displayCatalogue.value = currentWidth > props.showCatalogueWidth;
         }
       }
-    }, 100);
+    },100)
 
     onBeforeUnmount(() => {
       window.removeEventListener('resize', debounceResize);
