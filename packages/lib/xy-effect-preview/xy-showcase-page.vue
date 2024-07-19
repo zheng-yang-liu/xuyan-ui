@@ -218,7 +218,7 @@ export default defineComponent({
 
     pageElement = pageElement.concat(renderCatalogue(this.catalogue))
 
-    const catalogueCom = (xyMenuCatalog,{
+    const catalogueCom = h(xyMenuCatalog,{
       startID:this.startID,
       promptBlockTop:this.promptBlockTop,
       catalogue:this.updatedList,
@@ -232,7 +232,8 @@ export default defineComponent({
             height:'15px',
           }
         },'')
-      })
+      }
+    )
 
     return h('div', { class: 'xy-showcase' },[
       h('div',{class:'xy-showcase-left'},[pageElement]),
