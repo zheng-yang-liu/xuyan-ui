@@ -51,9 +51,6 @@ export default defineComponent({
     const sectionStyle = computed(()=>({
         display: props.direction === 'horizontal' ? 'flex' : 'block'
     }))
-    onMounted(()=>{
-
-    })
     return{
       asideStyle,
       mainStyle,
@@ -63,3 +60,8 @@ export default defineComponent({
   }
 })
 </script>
+<style lang="scss" scoped>
+.xy-section{
+  overflow-y: hidden;
+}
+</style>

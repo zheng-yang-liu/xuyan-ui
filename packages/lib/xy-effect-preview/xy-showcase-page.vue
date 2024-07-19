@@ -33,6 +33,10 @@ export default defineComponent({
     showCatalogueWidth:{
       type: Number,
       default: 1075
+    },//只有全屏状态下才显示目录
+    screenMaxCatalogue:{
+      type: Boolean,
+      default: false
     }
 
   },
@@ -51,8 +55,17 @@ export default defineComponent({
     const startID = ref<string>('');
     const displayCatalogue = ref<Boolean>(props.showCatalogue);
     const originalWidth = window.innerWidth;
+
+    const ifMaximizing = ()=>{
+      return window.outerHeight === screen.availHeight && window.outerWidth === screen.availWidth;
+    }
+
     if(props.showCatalogue){
-      displayCatalogue.value = originalWidth > props.showCatalogueWidth;
+      if(props.screenMaxCatalogue){//最大化时显示
+        displayCatalogue.value = ifMaximizing();
+      }else{
+        displayCatalogue.value = originalWidth > props.showCatalogueWidth;
+      }
     }
     const clickItemToTitle = (item) => {
       const tempATag = document.createElement('a');
@@ -61,12 +74,17 @@ export default defineComponent({
       showPromptBlock.value = true;
       promptBlockTop.value = menuItemHeight * item.listPosition
     }
+
     
     const debounceResize = throttle(() => {
       const currentWidth = window.innerWidth;
       if(props.showCatalogue){
-        if (currentWidth !== originalWidth) {
-          displayCatalogue.value = currentWidth > props.showCatalogueWidth;
+        if(props.screenMaxCatalogue){
+          displayCatalogue.value = ifMaximizing();
+        }else{
+          if (currentWidth !== originalWidth) {
+            displayCatalogue.value = currentWidth > props.showCatalogueWidth;
+          }
         }
       }
     }, 100);

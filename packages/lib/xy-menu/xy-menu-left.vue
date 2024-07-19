@@ -19,7 +19,7 @@
       {
         width:`${width}px`,
         minWidth:`${width}px`,
-        backgroundColor:itemStyle.backgroundColor
+        backgroundColor:itemStyle.backgroundColor,
       },
       menuLeftStyle
     ]"
@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent ,ref,provide,onMounted,watch} from 'vue';
+import { defineComponent ,ref,provide,onMounted,watch,onBeforeMount} from 'vue';
 import type {PropType}from 'vue'
 import type { MenuItemType } from './xy-menu.type';
 import xyMenuItem from './xy-menu-item.vue'
@@ -244,7 +244,7 @@ export default defineComponent({
       backgroundColor: '#ecf5ff'
     }
 
-    const afterConversionMenu = ref<MenuItemType>(props.menuItems);
+    const afterConversionMenu = ref<any>(props.menuItems);
     const convertData = ()=>{
       if(!props.submenuIndentConfig.autoIndent) return;
       const {updatedList,listTotal} = calculateItemDepth(
@@ -260,14 +260,21 @@ export default defineComponent({
     }
     provide('xyMenuClickItem',xyMenuClickItem)
     const setMenuHeight = ()=>{
-      const logoHeight = xyMenuLeftLogo.value.offsetHeight;
-      const tempMenuHeight = menuLeft.value.offsetHeight
-      menuLeft.value.style.height = tempMenuHeight - logoHeight + 'px';
+      const menuLeftTop = menuLeft.value?.getBoundingClientRect().top;
+      menuLeft.value.style.height = `calc(100vh - ${menuLeftTop}px)`;
+
     }
     onMounted(()=>{
       if(props.isTheHeightSet){
         setMenuHeight();
+        // 获取menuLeft到顶部的距离
+        const menuLeftTop = menuLeft.value?.getBoundingClientRect().top;
+        console.log(menuLeftTop)
       }
+      window.addEventListener('resize',setMenuHeight)
+    })
+    onBeforeMount(()=>{
+      window.removeEventListener('resize',setMenuHeight)
     })
     return {
       currentIndex,
