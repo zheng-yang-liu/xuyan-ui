@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent ,ref,provide,onMounted,watch,onBeforeMount} from 'vue';
+import { defineComponent ,ref,provide,onMounted,watch} from 'vue';
 import type {PropType}from 'vue'
 import type { MenuItemType } from './xy-menu.type';
 import xyMenuItem from './xy-menu-item.vue'
@@ -267,14 +267,7 @@ export default defineComponent({
     onMounted(()=>{
       if(props.isTheHeightSet){
         setMenuHeight();
-        // 获取menuLeft到顶部的距离
-        const menuLeftTop = menuLeft.value?.getBoundingClientRect().top;
-        console.log(menuLeftTop)
       }
-      window.addEventListener('resize',setMenuHeight)
-    })
-    onBeforeMount(()=>{
-      window.removeEventListener('resize',setMenuHeight)
     })
     return {
       currentIndex,
