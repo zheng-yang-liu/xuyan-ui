@@ -217,7 +217,7 @@ export default defineComponent({
     ]
 
     pageElement = pageElement.concat(renderCatalogue(this.catalogue))
-
+    //@ts-ignore
     const catalogueCom = h(xyMenuCatalog,{
       startID:this.startID,
       promptBlockTop:this.promptBlockTop,
