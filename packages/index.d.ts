@@ -61,7 +61,7 @@ export declare const Tools: {
    * @returns  {File}返回一个file对象
    */
   // @ts-ignore
-  base64ToFile(urlData: string, fileName: string = 'test.png'):File;
+  base64ToFile(urlData: string, fileName: string):File;
   /**
    * file转base64
    * @param file file对象
@@ -153,9 +153,9 @@ export declare const Tools: {
    */
   calculateItemDepth(
     targetList: object[],
-    indentStep: number = 1,
-    initialIndentValue: number = 0,
-    currentPos: number = 0
+    indentStep?: number = 1,
+    initialIndentValue?: number = 0,
+    currentPos?: number = 0
   ):{
     nextPos: number;
     updatedList: { [p: string]: any; indentValue: number; children?: any[]; listPosition: number }[]
@@ -174,12 +174,12 @@ export declare const Tools: {
    */
   throttle(fn:Function, delay:number):Function;
   /**
-   * 复制代码
+   * 复制文本
    * @param text 文本
    * @param ifShowMsg 是否显示消息
    * @returns {Promise<{code:number,message:string}>}返回一个Promise对象 code=200成功，code=100失败
    */
-  copyText(text:string,ifShowMsg:Boolean=true): Promise<{code:number,message:string}>
+  copyText(text:string,ifShowMsg?:Boolean): Promise<{code:number,message:string}>
   /**
    * 改变颜色
    * @param colorValue 16进制颜色值 或 rgb() 或 rgba()

@@ -231,7 +231,6 @@ export const throttle = (fn:Function, delay:number):Function=>{
  * @returns  返回一个file对象
  * */
 export const base64ToFile = (urlData:string, fileName:string):File => {
-  fileName = fileName || 'test.png';
   let arr:string[] = urlData.split(',');
   let mime:string = arr[0].match(/:(.*?);/)[1];
   let bytes:string = atob(arr[1]); // 解码base64
@@ -465,7 +464,7 @@ export const deepLookup = (dataList:Array<any>,findRules:Function)=>{
   return result;
 }
 /**
- * 复制代码
+ * 复制文本
  * @param text 文本
  * @param ifShowMsg 是否显示消息
  * @returns 返回一个Promise对象 code=200成功，code=100失败
