@@ -38,7 +38,6 @@ export default defineComponent({
       type: Boolean,
       default: false
     }
-
   },
   components: {
     xyMenuLeft
@@ -219,7 +218,7 @@ export default defineComponent({
 
     pageElement = pageElement.concat(renderCatalogue(this.catalogue))
 
-    const catalogueCom = h(xyMenuCatalog,{
+    const catalogueCom = (xyMenuCatalog,{
       startID:this.startID,
       promptBlockTop:this.promptBlockTop,
       catalogue:this.updatedList,
