@@ -2,7 +2,7 @@
 import {defineComponent,PropType,h,ref,onMounted,onBeforeUnmount} from 'vue'
 import {catalogueType} from"./effect.type"
 import xyMenuLeft from "../xy-menu/xy-menu-left.vue";
-import{calculateItemDepth,deepLookup,throttle}from "../../Utils/Tools"
+import{calculateItemDepth,deepLookup,throttle,debounce}from "../../Utils/Tools"
 import xyMenuCatalog from "../xy-menu/xy-menu-catalog.vue";
 export default defineComponent({
   name: "xy-showcase-page",
@@ -28,7 +28,7 @@ export default defineComponent({
     },//标题触发范围的height,从顶部开始计算
     titleTriggerRange:{
       type: Number,
-      default: 200
+      default: 0
     },//动态显示目录的宽度
     showCatalogueWidth:{
       type: Number,
@@ -85,18 +85,13 @@ export default defineComponent({
       }
     },100)
 
-    onBeforeUnmount(() => {
-      window.removeEventListener('resize', debounceResize);
-    });
-
-    onMounted(()=>{
-      window.addEventListener('resize', debounceResize);
+    const setDirectory = ()=>{
       //获取可视区域的高度
       const viewHeight = document.documentElement.clientHeight;
       const hTagList = document.getElementsByClassName('hTag');
       let options = {
         root: null,
-        rootMargin: `0px 0px -${viewHeight/2 + props.titleTriggerRange}px 0px`,
+        rootMargin: `0px 0px -${viewHeight*3/4 + props.titleTriggerRange}px 0px`,
         threshold: 1.0,
       };
       const titleTriggerCallback = (e) =>{
@@ -118,7 +113,19 @@ export default defineComponent({
       for(let item of hTagList){
         observer.observe(item)
       }
+    }
+
+    const setDirectoryDebounce = debounce(setDirectory,1000);
+
+    onMounted(()=>{
+      window.addEventListener('resize', debounceResize);
+      window.addEventListener('resize', setDirectoryDebounce);
+      setDirectory();
     })
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', debounceResize);
+      window.removeEventListener('resize', setDirectoryDebounce)
+    });
     return {
       startID,
       updatedList,
