@@ -5,7 +5,13 @@
   "description": "适用于vue3的前端xy组件库",
   "main": "index.js",
   "typings": "index.d.ts",
-  "keywords": ["xuyan-ui", "vue3", "xy", "组件库", "ui"],
+  "keywords": [
+    "xuyan-ui",
+    "vue3",
+    "xy",
+    "组件库",
+    "ui"
+  ],
   "peerDependencies": {
     "element-plus": "2.7.4",
     "vue": "^3.4.26",
