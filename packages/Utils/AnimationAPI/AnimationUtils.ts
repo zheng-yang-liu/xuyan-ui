@@ -8,8 +8,8 @@ import {
   animationRangeItem,
   rangeTargetID,
   TimingType,
-  animationItemSet
-} from "../../types/pageAnimation"
+  animationItemSet, numberAnFunction, numberAnimationType
+} from "../../types/animationType/pageAnimation"
 
 
 class AnimationUtils {
@@ -247,6 +247,7 @@ class AnimationUtils {
       for (let i = 0; i < newAnimationList.length; i++) {
         if (newAnimationList[i].element.additional) {
           if (key === newAnimationList[i].element.additional) {
+            //@ts-ignore
             newAnimationList[i].config = this.generateFrames(
               animationRange[key].start,
               animationRange[key].end,
@@ -255,6 +256,7 @@ class AnimationUtils {
           }
         } else {
           if (newAnimationList[i].element.el === key) {
+            //@ts-ignore
             newAnimationList[i].config = this.generateFrames(
               animationRange[key].start,
               animationRange[key].end,
@@ -289,6 +291,7 @@ class AnimationUtils {
     // 定义关键帧动画
     const styleSheet = document.styleSheets[0];
     const keyframesRule = `@keyframes d11ff255b682de{to{stroke-dashoffset:0;}}`;
+    // @ts-ignore
     const existingIndex = Array.from(styleSheet.cssRules).findIndex(
       rule => rule.cssText === keyframesRule
     );
@@ -317,29 +320,104 @@ class AnimationUtils {
       }, 0);
     });
   }
+
+
+
+  parseSteps(n: number, status: 'start' | 'end'): numberAnFunction {
+    return (t: number) => {
+      const step = Math.floor(t * n);
+      return status === 'start' ? step / n : (step + 1) / n;
+    };
+  }
+
+  parseCubicBezier(p1x: number, p1y: number, p2x: number, p2y: number): numberAnFunction {
+    function cubicBezier(p0: number, p1: number, p2: number, p3: number, t: number): number {
+      return ((1 - t) ** 3) * p0 +
+        3 * ((1 - t) ** 2) * t * p1 +
+        3 * (1 - t) * (t ** 2) * p2 +
+        (t ** 3) * p3;
+    }
+
+    return (t: number) => cubicBezier(0, p1y, p2y, 1, t);
+  }
+
   /**
    * 数字动画函数
    * @param duration 动画持续时间 ms
    * @param from 起始值
    * @param to 结束值
    * @param callback 回调函数
+   * @param animationType 动画类型
    */
-  numberAnimate(duration:number, from:number, to:number, callback:Function):void{
-    const speed:number = (to - from) / duration;
-    const startTime:number = Date.now();
-    let value:number = from;
-    function _run():void {
+  numberAnimate(
+    duration: number,
+    from: number,
+    to: number,
+    callback: (value: number) => void,
+    animationType: numberAnimationType = 'linear'
+  ): void {
+    const startTime = Date.now();
+    const delta = to - from;
+
+    // 定义各种动画函数
+    const animations: Record<string, numberAnFunction> = {
+      linear: (t) => t,
+      'ease-in': (t) => t * t * t,
+      'ease-out': (t) => 1 - Math.pow(1 - t, 3),
+      'ease-in-out': (t) => t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2,
+      'step-start': (t) => (t > 0 ? 1 : 0),
+      'step-end': (t) => (t >= 1 ? 1 : 0),
+      ease: (t) => t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2
+    };
+
+    // 解析 animationType 字符串
+    const parseAnimationType = (type: string | numberAnFunction): numberAnFunction => {
+      if (typeof type === 'function') {
+        return type;
+      }
+
+      // @ts-ignore
+      if (type.startsWith('steps(')) {
+        const match = type.match(/^steps\((\d+),\s*(start|end)\)$/);
+        if (match) {
+          const n = parseInt(match[1], 10);
+          const status = match[2] as 'start' | 'end';
+          return this.parseSteps(n, status);
+        }
+      } else { // @ts-ignore
+        if (type.startsWith('cubic-bezier(')) {
+              const match = type.match(/^cubic-bezier\(([^,]+),\s*([^,]+),\s*([^,]+),\s*([^,]+)\)$/);
+              if (match) {
+                const [_, p1x, p1y, p2x, p2y] = match.map(Number);
+                return this.parseCubicBezier(p1x, p1y, p2x, p2y);
+              }
+            }
+      }
+
+      return animations[type] || animations['linear'];
+    };
+
+    const animate:numberAnFunction = parseAnimationType(animationType);
+    function _run(): void {
       const now:number = Date.now();
       const time:number = now - startTime;
-      if (time >= duration) {
-        value = to;
-        callback && callback(value);
-        return;
+      const timeFraction:number = Math.min(time / duration, 1);
+
+      const progress:number = from + delta * animate(timeFraction);
+      callback(progress);
+
+      if (timeFraction < 1) {
+        requestAnimationFrame(_run);
+      } else {
+        // 确保动画完成时调用最终值
+        callback(to);
       }
-      value = from + speed * time;
-      callback && callback(value);
-      requestAnimationFrame(_run);
     }
+
     _run();
   }
 }

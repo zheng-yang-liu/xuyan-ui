@@ -8,8 +8,9 @@ import {
   framesConfig,
   animationRangeItem,
   TimingType,
-  animationItemSet
-} from "./types/pageAnimation"
+  animationItemSet,
+  numberAnimationType
+} from "./types/animationType/pageAnimation"
 /**
  * 安装插件到Vue应用中
  * @param app Vue应用实例
@@ -247,14 +248,13 @@ export declare const AnimationUtils: {
     strokeLinecap: string = "round",
     fill: string = "none"
   ):void;
-  /**
-   * 数字动画函数
-   * @param duration 动画持续时间 ms
-   * @param from 起始值
-   * @param to 结束值
-   * @param callback 回调函数
-   */
-  numberAnimate(duration: number, from: number, to: number, callback: Function):void;
+  numberAnimate(
+    duration: number,
+    from: number,
+    to: number,
+    callback: (value: number) => void,
+    animationType?: numberAnimationType
+  ): void
 };
 
 /**

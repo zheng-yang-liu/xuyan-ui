@@ -32,7 +32,7 @@ export type setFrameProperties = {
 };
 export type animationItem = {
   element: { elType: string; el: string; additional?: string };
-  config?: {[key:CSSStyleValue]:string};
+  config?: {[key:string]:string};
 };
 export type animationItemSet = {
   element: { elType: string; el: string; additional?: string };
@@ -67,4 +67,16 @@ export type animationRangeItem = {
     end:number;
   }
 }
+
 export type TimingType = 'ease' | 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'step-start' | 'step-end' | 'steps' | 'cubic-bezier';
+
+//numberAnimate
+export type numberAnFunction = (t: number) => number;
+export type numberAnimationType = 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'step-start' | 'step-end' | 'ease' | string | numberAnFunction;
+
+
+
+
+
+
+

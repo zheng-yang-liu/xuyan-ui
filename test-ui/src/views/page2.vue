@@ -16,7 +16,7 @@
 
 <script lang="ts" setup>
 import {onMounted} from "vue";
-import {AnimationUtils} from "../../../packages"
+import {AnimationUtils} from "yanyan-ui"
 
 console.log(AnimationUtils, 'AnimationUtils')
 

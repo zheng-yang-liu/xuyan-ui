@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <el-button type="primary">Primary</el-button>
-    {{msg}}
+    {{msg}}nininininin
     <slot></slot>
     再见
   </div>
