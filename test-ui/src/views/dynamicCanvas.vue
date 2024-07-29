@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted,onBeforeUnmount} from 'vue';
-import {Tools} from "yanyan-ui"
+import {Tools} from "../../../packages"
 
 const canvas = ref<HTMLCanvasElement | null>(null);
 const speed = 1;

@@ -9,7 +9,7 @@
 
 <script lang="ts" setup>
 import {ref,onMounted,watch,onBeforeUnmount} from 'vue';
-import {DrawGraph} from "yanyan-ui";
+import {DrawGraph} from "../../../packages";
 
 let canvas = null;
 const graphColor= ref("#e8e6e6");

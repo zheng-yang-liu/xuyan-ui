@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import {reactive} from "vue"
-import {Tools} from "yanyan-ui"
+import {Tools} from "../../../packages"
 const state = reactive({
   visible:false,
 })

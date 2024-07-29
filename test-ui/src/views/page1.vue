@@ -16,7 +16,7 @@
 
 <script lang="ts" setup>
 import {onMounted} from "vue";
-import {AnimationUtils} from "yanyan-ui"
+import {AnimationUtils} from "../../../packages"
 
 const elementId = ['page1', 'page1_sticky', 'page1_video', 'page1_text'];
 

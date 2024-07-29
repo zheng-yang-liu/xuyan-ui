@@ -3,8 +3,8 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import ElementPlus from "element-plus"
 import "element-plus/dist/index.css"
-import xy from "yanyan-ui"
-import"yanyan-ui/assets/iconFont/iconfont.css"
+import xy from "../../packages"
+import"../../packages/assets/iconFont/iconfont.css"
 // @ts-ignore
 import App from './App.vue'
 import router from './router'

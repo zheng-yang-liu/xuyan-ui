@@ -6,9 +6,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { AnimationUtils } from 'yanyan-ui'
+import { AnimationUtils } from '../../../packages'
 const count = ref(0)
-console.log(AnimationUtils.conTest)
 
 const action = ()=>{
   // 使用示例
@@ -21,7 +20,7 @@ const action = ()=>{
       console.log(value);        // 回调函数，每帧调用一次
       count.value = value
     },
-    'step-end'
+    'linear'
   );
 
 

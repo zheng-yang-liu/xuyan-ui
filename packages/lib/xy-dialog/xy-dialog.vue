@@ -245,10 +245,10 @@ $upAndDownHeight: 40px;
   background-color: rgba(184, 184, 184, 0.5);
   border: none;
   outline: none; /* 去除可能存在的焦点轮廓线 */
+  position: relative;
   &::backdrop {
     background-color: transparent;
   }
-  position: relative;
   .xy-dialog-content{
     position: absolute;
     top: 50%;

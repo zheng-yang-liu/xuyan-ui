@@ -23,12 +23,12 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue'
-import {Tools} from "yanyan-ui"
+import {AnimationUtils} from "../../../packages"
 export default defineComponent({
   name: "svgAnimation",
   setup(props, context) {
     onMounted(() => {
-      Tools.svgAnimation();
+      AnimationUtils.svgAnimation();
     })
 
     return {
