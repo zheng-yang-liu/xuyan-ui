@@ -14,20 +14,20 @@
     >
       <div class="effect-code" v-if="showCode">
         <xy-code-preview :code="code" :language="language" :round="false"></xy-code-preview>
-        <div class="effect-code-close" @click="showCode=!showCode">
-          <i class="iconfont icon-insert-right-full"></i>
-          <p>隐藏源代码</p>
-        </div>
       </div>
     </transition>
-
+    <div class="effect-code-close" @click="showCode=!showCode" v-if="showCode" :style="graduallyAppearing">
+      <i class="iconfont icon-insert-right-full"></i>
+      <p>隐藏源代码</p>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent,ref} from 'vue'
+import {defineComponent,ref,watch} from 'vue'
 import xyCodePreview from "./xy-code-preview.vue";
-import{copyText}from "../../Utils/Tools"
+import{copyText,setCssVar}from "../../Utils/Tools"
+import animationAPI from"../../Utils/AnimationAPI/AnimationUtils"
 export default defineComponent({
   name: "xy-effect-preview",
   props: {
@@ -52,8 +52,8 @@ export default defineComponent({
     xyCodePreview
   },
   setup(props, context) {
-    const showCode = ref<Boolean>(false)
-
+    const showCode = ref<Boolean>(false);
+    const graduallyAppearing = ref<Object>({opacity:0});
     const beforeEnter = (el: HTMLElement) => {
       el.style.height = '0';
     };
@@ -75,19 +75,37 @@ export default defineComponent({
     const copy = async ()=>{
       await copyText(props.code);
     }
-
+    setCssVar('--effect-preview-overflow','hidden');
+    watch(()=>showCode.value,(newValue)=>{
+      if(newValue){
+        setTimeout(
+          ()=> {
+            setCssVar('--effect-preview-overflow', 'none');
+            animationAPI.numberAnimate(400,0,1,(value:number)=>{
+              graduallyAppearing.value.opacity=value;
+            },"ease")
+          },
+          400);
+      }else{
+        setCssVar('--effect-preview-overflow','hidden')
+      }
+    })
     return {
       showCode,
       beforeEnter,
       enter,
       leave,
-      copy
+      copy,
+      graduallyAppearing
     }
   }
 })
 </script>
 
 <style scoped lang="scss">
+:root{
+  //--effect-preview-overflow:none;
+}
 @import"../../assets/style/mixin.scss";
 $bgColor: #ffffff;
 $borderSolid: 1px solid #cdcdcd;
@@ -96,10 +114,11 @@ $animationLaunch:height 0.5s ease;
   background-color: $bgColor;
   border: $borderSolid;
   border-radius: 5px;
-  overflow: hidden;
+  overflow: var(--effect-preview-overflow);
   .effect-box{
     padding: 24px;
     border-bottom: $borderSolid;
+
   }
   .effect-tools{
     padding: 8px;
@@ -111,22 +130,28 @@ $animationLaunch:height 0.5s ease;
     }
   }
   .effect-code{
-    .effect-code-close{
-      width: 100%;
-      height: 40px;
-      cursor: pointer;
-      //background-color: $bgColor;
 
-      transition: $animationLaunch;
+  }
+  .effect-code-close{
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+    background-color: $bgColor;
+    position: sticky;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
 
-      @include display-flex(center,center);
-      i{
-        display: inline-block;
-        transform: rotate(-90deg);
-      }
-      &:hover{
-        color: #3c9cff;
-      }
+    transition: $animationLaunch;
+
+    @include display-flex(center,center);
+    i{
+      display: inline-block;
+      transform: rotate(-90deg);
+    }
+    &:hover{
+      color: #3c9cff;
     }
   }
   .showCode-enter-active,

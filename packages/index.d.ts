@@ -196,6 +196,12 @@ export declare const Tools: {
    * @returns {number}返回一个随机整数
    */
   randomInterval(min,max): number;
+  /**
+   * 设置 CSS 变量的值
+   * @param cssVarName CSS 变量名
+   * @param value CSS 变量值
+   * */
+  setCssVar(cssVarName: string, value: string):void
 };
 
 /**

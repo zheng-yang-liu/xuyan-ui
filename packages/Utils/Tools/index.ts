@@ -630,6 +630,14 @@ export const changeColor = (colorValue: string, degree: number, originally: bool
 export const randomInterval = (min,max):number => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
+/**
+ * 设置 CSS 变量的值
+ * @param cssVarName CSS 变量名
+ * @param value CSS 变量值
+ * */
+export const setCssVar = (cssVarName: string, value: string):void => {
+  document.documentElement.style.setProperty(cssVarName, value);
+};
 
 
 
