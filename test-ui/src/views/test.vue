@@ -53,7 +53,7 @@
             <template #pageExplain>44444444444444444444</template>
             <template #basicUsage>
               <div class="nnnnnnnSlot">基础用法qqq</div>
-              <xy-tooltip content="这是一段被隐藏的文字" :hover-show="false" position="right">
+              <xy-tooltip content="这是一段被隐藏的文字" :hover-show="false">
                 <p>显示更多</p>
               </xy-tooltip>
             </template>

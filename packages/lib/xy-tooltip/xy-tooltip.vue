@@ -212,77 +212,97 @@ export default defineComponent({
     position: fixed;
     opacity: 0;
     border: 1px solid #dcdfe6;
-    &:before {
+
+    &::before,
+    &::after {
       content: '';
       position: absolute;
       border: 5px solid transparent;
       z-index: 9999;
     }
-    &:after {
-      content: '';
-      position: absolute;
-      z-index: 9999;
-      border: 5px solid transparent;
-    }
-  }
-  .tooltipContentTop{
-    @extend .tooltipContent;
-    &:before{
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
+
+    &::before {
       border-bottom-color: #dcdfe6;
     }
-    &:after{
-      top: -9px;
-      left: 50%;
-      transform: translateX(-50%);
+
+    &::after {
       border-bottom-color: #ffffff;
     }
   }
-  .tooltipContentBottom{
+
+  .tooltipContentTop {
     @extend .tooltipContent;
-    &:before{
+
+    &::before {
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    &::after {
+      top: -9px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  .tooltipContentBottom {
+    @extend .tooltipContent;
+
+    &::before {
       top: 34px;
       left: 50%;
       transform: translateX(-50%);
       border-top-color: #dcdfe6;
+      border-bottom-color: transparent;
     }
-    &:after{
+
+    &::after {
       top: 33px;
       left: 50%;
       transform: translateX(-50%);
       border-top-color: #ffffff;
+      border-bottom-color: transparent;
     }
   }
-  .tooltipContentLeft{
+
+  .tooltipContentLeft {
     @extend .tooltipContent;
-    &:before{
+
+    &::before {
       top: 50%;
       left: -10px;
       transform: translateY(-50%);
       border-right-color: #dcdfe6;
+      border-bottom-color: transparent;
     }
-    &:after{
+
+    &::after {
       top: 50%;
       left: -9px;
       transform: translateY(-50%);
       border-right-color: #ffffff;
+      border-bottom-color: transparent;
     }
   }
-  .tooltipContentRight{
+
+  .tooltipContentRight {
     @extend .tooltipContent;
-    &:before{
+
+    &::before {
       top: 50%;
       right: -10px;
       transform: translateY(-50%);
       border-left-color: #dcdfe6;
+      border-bottom-color: transparent;
     }
-    &:after{
+
+    &::after {
       top: 50%;
       right: -9px;
       transform: translateY(-50%);
       border-left-color: #ffffff;
+      border-bottom-color: transparent;
     }
   }
 }
