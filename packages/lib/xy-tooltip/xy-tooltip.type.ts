@@ -1,0 +1,1 @@
+export type positionType = 'top' | 'right' | 'bottom' | 'left';

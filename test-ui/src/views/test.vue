@@ -53,7 +53,7 @@
             <template #pageExplain>44444444444444444444</template>
             <template #basicUsage>
               <div class="nnnnnnnSlot">基础用法qqq</div>
-              <xy-tooltip content="这是一段被隐藏的文字">
+              <xy-tooltip content="这是一段被隐藏的文字" :hover-show="false" position="right">
                 <p>显示更多</p>
               </xy-tooltip>
             </template>
@@ -287,56 +287,7 @@ const menuItems = [
         id: '3-2',
       }
     ]
-  },
-  {
-    title: "ceshi1",
-    id: "4",
-  },
-  {
-    title: "ceshi2",
-    id: "5",
-  },
-  {
-    title: "ceshi3",
-    id: "6",
-  },
-  {
-    title: 'ceshi4',
-    id: '7',
-  },
-  {
-    title: "ceshi5",
-    id: "4",
-  },
-  {
-    title: "ceshi6",
-    id: "5",
-  },
-  {
-    title: "ceshi7",
-    id: "6",
-  },
-  {
-    title: 'ceshi8',
-    id: '7',
-  },
-  {
-    title: "ceshi9",
-    id: "4",
-  },
-  {
-    title: "ceshi10",
-    id: "5",
-  },
-  {
-    title: "ceshi11",
-    id: "6",
-  },
-  {
-    title: 'ceshi12',
-    id: '7',
-  },
-
+  }
 ]
 
 const menuItemswewe = [

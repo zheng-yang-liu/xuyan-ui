@@ -80,7 +80,7 @@ export default defineComponent({
       if(newValue){
         setTimeout(
           ()=> {
-            setCssVar('--effect-preview-overflow', 'none');
+            setCssVar('--effect-preview-overflow', 'visible');
             animationAPI.numberAnimate(400,0,1,(value:number)=>{
               graduallyAppearing.value.opacity=value;
             },"ease")

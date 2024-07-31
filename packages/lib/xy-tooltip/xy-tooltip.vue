@@ -7,7 +7,7 @@
     >
       <slot></slot>
     </div>
-    <div class="tooltipContent" ref="tooltipContent">
+    <div :class="tooltipContentType[position]" ref="tooltipContent">
       <div v-if="content" class="contentText" ref="contentText">{{ content }}</div>
       <template v-if="!content">
         <slot name="prompt" style="width: 100px"></slot>
@@ -17,8 +17,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted, nextTick } from 'vue';
+import {defineComponent, ref, onMounted, onUnmounted, nextTick, PropType} from 'vue';
 import emitter from '../../Utils/mitt';
+import {positionType}from"./xy-tooltip.type"
 
 export default defineComponent({
   name: "xy-tooltip",
@@ -46,6 +47,10 @@ export default defineComponent({
     XOffset: {
       type: Number,
       default: 0
+    },
+    position: {
+      type: String as PropType<positionType>,
+      default: 'bottom'
     }
   },
   setup(props) {
@@ -53,6 +58,12 @@ export default defineComponent({
     const tooltipContent = ref<HTMLElement | null>(null);
     const contentText = ref<HTMLElement | null>(null);
     const isVisible = ref(false);
+    const tooltipContentType = {
+      top: 'tooltipContentBottom',
+      right: 'tooltipContentLeft',
+      bottom: 'tooltipContentTop',
+      left: 'tooltipContentRight'
+    };
 
     const initTooltipContent = async () => {
       await nextTick(); // 确保 DOM 已更新
@@ -69,8 +80,32 @@ export default defineComponent({
         const vertexX = tooltipBoxRect.left + tooltipBoxRect.width / 2;
         const vertexY = tooltipBoxRect.top + tooltipBoxRect.height;
         const contentRect = tooltipContent.value.getBoundingClientRect();
-        tooltipContent.value.style.left = (vertexX - contentRect.width / 2) + props.XOffset + 'px';
-        tooltipContent.value.style.top = vertexY + props.topOffset + 'px';
+
+        const setupAndDown = (distance:number)=>{
+          tooltipContent.value.style.left = (vertexX - contentRect.width / 2) + props.XOffset + 'px';
+
+          tooltipContent.value.style.top = distance + 'px';
+        }
+        const setLeftAndRight = (distance:number)=>{
+          tooltipContent.value.style.left = distance + 'px';
+          tooltipContent.value.style.top = tooltipBoxRect.top -contentRect.height/4  + 'px';
+        }
+
+        switch (props.position){
+          case 'top':
+            const topVertexY = tooltipBoxRect.top - tooltipBoxRect.height - 12;
+            setupAndDown(topVertexY - props.topOffset);
+            break;
+          case 'right':
+            setLeftAndRight(tooltipBoxRect.right + 12 + props.XOffset);
+            break;
+          case 'bottom':
+            setupAndDown(vertexY + props.topOffset);
+            break;
+          case 'left':
+            setLeftAndRight(tooltipBoxRect.left - contentRect.width -12 + props.XOffset);
+            break;
+        }
       }
     };
 
@@ -157,7 +192,8 @@ export default defineComponent({
       mouseOver,
       mouseLeave,
       clickShow,
-      contentText
+      contentText,
+      tooltipContentType
     };
   }
 });
@@ -179,22 +215,74 @@ export default defineComponent({
     &:before {
       content: '';
       position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
       border: 5px solid transparent;
-      border-bottom-color: #dcdfe6;
       z-index: 9999;
     }
     &:after {
       content: '';
       position: absolute;
+      z-index: 9999;
+      border: 5px solid transparent;
+    }
+  }
+  .tooltipContentTop{
+    @extend .tooltipContent;
+    &:before{
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-bottom-color: #dcdfe6;
+    }
+    &:after{
       top: -9px;
       left: 50%;
       transform: translateX(-50%);
-      border: 5px solid transparent;
       border-bottom-color: #ffffff;
-      z-index: 9999;
+    }
+  }
+  .tooltipContentBottom{
+    @extend .tooltipContent;
+    &:before{
+      top: 34px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-top-color: #dcdfe6;
+    }
+    &:after{
+      top: 33px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-top-color: #ffffff;
+    }
+  }
+  .tooltipContentLeft{
+    @extend .tooltipContent;
+    &:before{
+      top: 50%;
+      left: -10px;
+      transform: translateY(-50%);
+      border-right-color: #dcdfe6;
+    }
+    &:after{
+      top: 50%;
+      left: -9px;
+      transform: translateY(-50%);
+      border-right-color: #ffffff;
+    }
+  }
+  .tooltipContentRight{
+    @extend .tooltipContent;
+    &:before{
+      top: 50%;
+      right: -10px;
+      transform: translateY(-50%);
+      border-left-color: #dcdfe6;
+    }
+    &:after{
+      top: 50%;
+      right: -9px;
+      transform: translateY(-50%);
+      border-left-color: #ffffff;
     }
   }
 }
