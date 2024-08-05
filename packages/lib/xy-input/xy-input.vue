@@ -262,9 +262,6 @@ export default defineComponent({
       }catch (e){
         console.error(props.focusoutColor,'颜色值不正确')
       }
-
-      console.log(props.focusoutColor)
-      console.log(changeColor(props.focusoutColor,-50))
       if(props.minLength){
         limit.value.style.color = 'red'
       }
