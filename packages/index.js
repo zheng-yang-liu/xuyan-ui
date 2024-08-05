@@ -17,6 +17,7 @@ import {xyTooltip} from "./lib/xy-tooltip";
 import {xyDialog} from "./lib/xy-dialog";
 import {xyButton} from "./lib/xy-button";
 import {xyIcon} from "./lib/xy-icon";
+import {xyInput} from "./lib/xy-input";
 
 //挂载组件
 const install = (app) =>{
@@ -35,8 +36,8 @@ const install = (app) =>{
         xyMenuCatalog,
         xyDialog,
         xyButton,
-        xyIcon
-
+        xyIcon,
+        xyInput
     ];
     components.forEach(item=>{
         const name = item.name || item.__name;
