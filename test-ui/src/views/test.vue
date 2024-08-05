@@ -85,8 +85,15 @@
               <xy-input v-model="testValue" placeholder="请输入" textarea textChangeSize="horizontal"></xy-input>
               多行文本允许垂直
               <xy-input v-model="testValue" placeholder="请输入" textarea textChangeSize="vertical"></xy-input>
-              多行自动高度
-              <xy-input v-model="testValue" placeholder="请输入" textarea textChangeSize="vertical" autoSize></xy-input>
+              多行自动高度w
+              <xy-input
+                v-model="testValue"
+                placeholder="请输入"
+                textarea
+                textChangeSize="vertical"
+                autoSize
+                min-length="40"
+              ></xy-input>
             </div>
             前置slot
             <xy-input v-model="testValue" width="500">
