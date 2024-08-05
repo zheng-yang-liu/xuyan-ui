@@ -74,6 +74,7 @@
 import { defineComponent, PropType, computed, onMounted ,ref ,watch} from 'vue'
 import { inputSize ,textChangeSizeType} from './xy-input.types'
 import xyTooltip from "../xy-tooltip/xy-tooltip.vue"
+import {changeColor}from"../../Utils/Tools"
 
 export default defineComponent({
   name: 'xy-input',
@@ -221,6 +222,7 @@ export default defineComponent({
       '--input-border-color': '#c0c4cc',
       '--xy-input-icon-cursor': 'pointer',
       '--xy-input-textarea-resize':'both',
+      '--xy-input-hover-color':'#6a6b6e'
     })
 
     watch(()=>inputValue.value,(newVal)=>{
@@ -255,7 +257,14 @@ export default defineComponent({
       cssValue.value["--input-border-color"] = props.focusoutColor
       props.iconCanClick|| (cssValue.value["--xy-input-icon-cursor"] = 'text')
       cssValue.value["--xy-input-textarea-resize"] = props.textChangeSize
+      try {
+        cssValue.value['--xy-input-hover-color'] = changeColor(props.focusoutColor,-60)
+      }catch (e){
+        console.error(props.focusoutColor,'颜色值不正确')
+      }
 
+      console.log(props.focusoutColor)
+      console.log(changeColor(props.focusoutColor,-50))
       if(props.minLength){
         limit.value.style.color = 'red'
       }
@@ -450,6 +459,9 @@ $borderRadius:4px;
       };
       color: #9e9e9e;
     }
+    &:hover{
+      border-color: var(--xy-input-hover-color);
+    }
   }
   .textareaBox{
     position:relative;
@@ -464,6 +476,9 @@ $borderRadius:4px;
       resize: var(--xy-input-textarea-resize);
       word-wrap: break-word;
       overflow-wrap: break-word;
+      &:hover{
+        border-color: var(--xy-input-hover-color);
+      }
     }
     .textareaLimit{
       position: absolute;

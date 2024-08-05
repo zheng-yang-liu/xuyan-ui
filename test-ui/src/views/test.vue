@@ -45,7 +45,7 @@
               禁用
               <xy-input size="large" disabled placeholder="禁用"></xy-input>
               自定义边框颜色
-              <xy-input v-model="testValue" focusoutColor="red" focusColor="green" max-length="10"></xy-input>
+              <xy-input v-model="testValue" focusoutColor="#ff2e63" focusColor="green" max-length="10"></xy-input>
               small样式
               <xy-input size="small" v-model="testValue" min-length="10"></xy-input>
               可清除
@@ -75,7 +75,7 @@
                 :iconCanClick="false"
               ></xy-input>
               密码框
-              <xy-input focusoutColor="red" focusColor="green" password></xy-input>
+              <xy-input focusoutColor="#ff2e63" focusColor="green" password></xy-input>
               多行文本允许任意调节
               <xy-input v-model="testValue" placeholder="请输入" textarea max-length="40"></xy-input>
               <xy-input v-model="testValue" placeholder="请输入" textarea min-length="40"></xy-input>
