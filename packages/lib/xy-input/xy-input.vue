@@ -384,8 +384,6 @@ $borderRadius:4px;
 @include scrollbar();
 .xy-input{
   width: var(--xy-input-width);
-  //margin: 10px;
-  //display: inline-block;
   cursor: text;
   display:flex;
   .xy-input-box {
