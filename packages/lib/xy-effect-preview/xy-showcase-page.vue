@@ -1,7 +1,6 @@
 <script lang="ts">
 import {defineComponent,PropType,h,ref,onMounted,onBeforeUnmount} from 'vue'
 import {catalogueType} from"./effect.type"
-import xyMenuLeft from "../xy-menu/xy-menu-left.vue";
 import{calculateItemDepth,deepLookup,throttle,debounce}from "../../Utils/Tools"
 import xyMenuCatalog from "../xy-menu/xy-menu-catalog.vue";
 export default defineComponent({
@@ -40,7 +39,6 @@ export default defineComponent({
     }
   },
   components: {
-    xyMenuLeft
   },
   setup(props, context) {
     const promptBlockTop = ref(0);
@@ -226,12 +224,12 @@ export default defineComponent({
     pageElement = pageElement.concat(renderCatalogue(this.catalogue))
     //@ts-ignore
     const catalogueCom = h(xyMenuCatalog,{
-      startID:this.startID,
-      promptBlockTop:this.promptBlockTop,
-      catalogue:this.updatedList,
-      onClickItem:this.clickItemToTitle,
-      showPromptBlock:this.showPromptBlock,
-    },{
+        startID:this.startID,
+        promptBlockTop:this.promptBlockTop,
+        catalogue:this.updatedList,
+        onClickItem:this.clickItemToTitle,
+        showPromptBlock:this.showPromptBlock,
+      },{
         logo:()=>h('div',{
           style:{
             position:'relative',
@@ -244,6 +242,7 @@ export default defineComponent({
 
     return h('div', { class: 'xy-showcase' },[
       h('div',{class:'xy-showcase-left'},[pageElement]),
+      this.displayCatalogue?h('div',{style:{width:'40px'}}):'',
       this.displayCatalogue?catalogueCom:''
     ]);
   }
@@ -259,7 +258,7 @@ export default defineComponent({
   }
   .xy-showcase-left{
     width: 100%;
-    padding-right: 40px;
+    //padding-right: 40px;
   }
   .hTag{
     position: relative;

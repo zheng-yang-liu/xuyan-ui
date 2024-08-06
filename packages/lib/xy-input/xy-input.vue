@@ -89,10 +89,6 @@ export default defineComponent({
       type: Number,
       default: 0
     },
-    minWidth: {
-      type: Number,
-      default: 0
-    },
     height: {
       type: Number,
       default: 0
@@ -239,7 +235,6 @@ export default defineComponent({
     const cssValue = computed(()=>{
       let width = props.width || sizes[props.size].width
       let maxWidth = props.maxWidth || sizes[props.size].width
-      let minWidth = props.minWidth || sizes[props.size].width
       let height = props.height || sizes[props.size].height
       let padding = sizes[props.size].padding
       if(props.textarea){
@@ -251,7 +246,6 @@ export default defineComponent({
 
       return{
         '--xy-input-max-width': `${maxWidth}px`,
-        '--xy-input-min-width': `${minWidth}px`,
         '--xy-input-width': `${width}px`,
         '--xy-input-height': `${height}px`,
         '--xy-input-padding': padding,
@@ -408,7 +402,6 @@ $borderRadius:4px;
 .xy-input{
   //width: var(--xy-input-width);
   max-width: var(--xy-input-max-width);
-  min-width: var(--xy-input-min-width);
   cursor: text;
   display:flex;
   .placeholder{
