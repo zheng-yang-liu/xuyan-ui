@@ -68,7 +68,7 @@ export type animationRangeItem = {
   }
 }
 
-export type TimingType = 'ease' | 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'step-start' | 'step-end' | 'steps' | 'cubic-bezier';
+export type TimingType = 'ease' | 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'step-start' | 'step-end' | string;
 
 //numberAnimate
 export type numberAnFunction = (t: number) => number;
