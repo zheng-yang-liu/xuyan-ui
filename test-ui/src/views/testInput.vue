@@ -55,13 +55,15 @@
       autoSize
     ></xy-input>
     前置slot
-    <xy-input v-model="testValue" width="500">
+    <xy-input v-model="testValue"
+              maxWidth="400">
       <template #prepend>
         kkkk
       </template>
     </xy-input>
     后置slot
-    <xy-input v-model="testValue">
+    <xy-input v-model="testValue"
+              maxWidth="400">
       <template #append>
         kkkk
       </template>
@@ -69,7 +71,7 @@
     插槽
     <xy-input
       v-model="testValue"
-      width="500"
+      maxWidth="400"
       @append-down="dianji2"
       @prepend-down="dianji"
     >
