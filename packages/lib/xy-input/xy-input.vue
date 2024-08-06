@@ -219,16 +219,36 @@ export default defineComponent({
     const showPrepend = !!content.slots['prepend']
     const showAppend = !!content.slots['append']
 
-    const cssValue = ref({
-      '--xy-input-width': '240px',
-      '--xy-input-height': '32px',
-      '--xy-input-padding': '1px 11px',
-      '--input-border-color': '#c0c4cc',
-      '--xy-input-icon-cursor': 'pointer',
-      '--xy-input-textarea-resize':'both',
-      '--xy-input-hover-color':'#c0c4cc',
-      '--xy-input-bgColor':'white'
+    const cssValue = computed(()=>{
+      let width = props.width || sizes[props.size].width
+      let height = props.height || sizes[props.size].height
+      let padding = sizes[props.size].padding
+      if(props.textarea){
+        width = sizes.textarea.width
+        height = sizes.textarea.height
+        padding = sizes.textarea.padding
+      }
+      const iconClick = props.iconCanClick?'pointer':'text'
+      let hoverColor = "#c0c4cc"
+      try {
+        !props.disabled&&(hoverColor = changeColor(props.focusoutColor,-60))
+      }catch (e){
+        console.error(props.focusoutColor,'颜色值不正确')
+      }
+
+
+      return{
+        '--xy-input-width': `${width}px`,
+        '--xy-input-height': `${height}px`,
+        '--xy-input-padding': padding,
+        '--input-border-color': props.focusoutColor,
+        '--xy-input-icon-cursor': iconClick,
+        '--xy-input-textarea-resize': props.textChangeSize,
+        '--xy-input-bgColor': props.bgColor,
+        '--xy-input-hover-color':hoverColor
+      }
     })
+
 
     watch(()=>inputValue.value,(newVal)=>{
       if(props.maxLength){
@@ -247,31 +267,9 @@ export default defineComponent({
       props.clearable&&(showAfterIcon.value = newVal.length > 0)
     })
     const init = () => {
-      let width = props.width || sizes[props.size].width
-      let height = props.height || sizes[props.size].height
-      let padding = sizes[props.size].padding
-      if(props.textarea){
-        width = sizes.textarea.width
-        height = sizes.textarea.height
-        padding = sizes.textarea.padding
-      }
-
-      cssValue.value["--xy-input-width"] = `${width}px`
-      cssValue.value["--xy-input-height"] = `${height}px`
-      cssValue.value["--xy-input-padding"] = padding
-      cssValue.value["--input-border-color"] = props.focusoutColor
-      props.iconCanClick|| (cssValue.value["--xy-input-icon-cursor"] = 'text')
-      cssValue.value["--xy-input-textarea-resize"] = props.textChangeSize
-      cssValue.value["--xy-input-bgColor"] = props.bgColor
-      try {
-        !props.disabled&&(cssValue.value['--xy-input-hover-color'] = changeColor(props.focusoutColor,-60))
-      }catch (e){
-        console.error(props.focusoutColor,'颜色值不正确')
-      }
       if(props.minLength){
         limit.value.style.color = 'red'
       }
-
       props.clearable && (afterIconName.value = iconList['quxiao'])
       if(props.password){
         afterIconName.value = iconList['xianshi']
