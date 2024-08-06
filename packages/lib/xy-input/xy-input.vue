@@ -218,7 +218,16 @@ export default defineComponent({
     const inputValue = ref('')
     const showPrepend = !!content.slots['prepend']
     const showAppend = !!content.slots['append']
+    const inputBorderColor = ref(props.focusoutColor)
+    const hoverColor = ref("#c0c4cc")
 
+    const setHoverColor = () => {
+      try {
+        !props.disabled&&(hoverColor.value = changeColor(props.focusoutColor,-60))
+      }catch (e){
+        console.error(props.focusoutColor,'颜色值不正确')
+      }
+    }
     const cssValue = computed(()=>{
       let width = props.width || sizes[props.size].width
       let height = props.height || sizes[props.size].height
@@ -229,26 +238,18 @@ export default defineComponent({
         padding = sizes.textarea.padding
       }
       const iconClick = props.iconCanClick?'pointer':'text'
-      let hoverColor = "#c0c4cc"
-      try {
-        !props.disabled&&(hoverColor = changeColor(props.focusoutColor,-60))
-      }catch (e){
-        console.error(props.focusoutColor,'颜色值不正确')
-      }
-
 
       return{
         '--xy-input-width': `${width}px`,
         '--xy-input-height': `${height}px`,
         '--xy-input-padding': padding,
-        '--input-border-color': props.focusoutColor,
+        '--xy-input-border-color': inputBorderColor.value,
         '--xy-input-icon-cursor': iconClick,
         '--xy-input-textarea-resize': props.textChangeSize,
         '--xy-input-bgColor': props.bgColor,
-        '--xy-input-hover-color':hoverColor
+        '--xy-input-hover-color':hoverColor.value
       }
     })
-
 
     watch(()=>inputValue.value,(newVal)=>{
       if(props.maxLength){
@@ -303,11 +304,12 @@ export default defineComponent({
       inputInner.value?.focus()
     }
     const onFocus = () => {
-      cssValue.value["--input-border-color"] = props.focusColor
+      inputBorderColor.value = props.focusColor
+      hoverColor.value = props.focusColor
     }
     const onFocusOut = () => {
-      cssValue.value["--input-border-color"] = props.focusoutColor
-
+      inputBorderColor.value = props.focusoutColor
+      setHoverColor()
     }
     const onMouseOver = () => {
       if(props.clearable){
@@ -322,11 +324,9 @@ export default defineComponent({
     const afterIconDown = () => {
       if(props.clearable){
         inputValue.value = ''
-        inputInner.value?.focus()
         return
       }
       if(props.password){
-        inputInner.value?.focus()
         afterIconName.value = afterIconName.value === iconList['xianshi']?iconList['yincang']:iconList['xianshi']
         inputType.value = afterIconName.value === iconList['xianshi']?'password':'text'
       }
@@ -355,6 +355,7 @@ export default defineComponent({
 
     onMounted(()=>{
       init()
+      setHoverColor()
     })
     return {
       onMouseDown,
@@ -399,7 +400,7 @@ $borderRadius:4px;
   .xy-input-box {
     padding: var(--xy-input-padding);
     border-radius: $borderRadius;
-    border: 1px solid var(--input-border-color);
+    border: 1px solid var(--xy-input-border-color);
     display: flex;
     align-items: center;
     width: 100%;
@@ -469,7 +470,7 @@ $borderRadius:4px;
   .textareaBox{
     position:relative;
     .xy-input-textarea-inner{
-      border: 1px solid var(--input-border-color);
+      border: 1px solid var(--xy-input-border-color);
       border-radius: 4px;
       outline: none;
       padding: var(--xy-input-padding);
