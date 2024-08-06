@@ -194,7 +194,7 @@ export default defineComponent({
       },
       textarea: {
         width: 240,
-        height: 50,
+        height: 29,
         padding: '5px 11px'
       }
     }
