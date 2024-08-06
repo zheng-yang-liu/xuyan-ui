@@ -92,7 +92,6 @@
                 textarea
                 textChangeSize="vertical"
                 autoSize
-                min-length="40"
               ></xy-input>
             </div>
             前置slot
