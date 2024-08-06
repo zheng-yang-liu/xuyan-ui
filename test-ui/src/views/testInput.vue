@@ -47,7 +47,9 @@
     多行自动高度w
     <xy-input
       v-model="testValue"
-      placeholder="请输入"
+      placeholder="请输入文字"
+      height="50"
+      width="300"
       textarea
       textChangeSize="vertical"
       autoSize

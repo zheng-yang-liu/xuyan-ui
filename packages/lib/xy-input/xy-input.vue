@@ -19,6 +19,7 @@
         id="textareaInner"
         ref="textareaInner"
         v-model="inputValue"
+        :placeholder="placeholder"
         class="xy-input-textarea-inner"
         @focus="onFocus"
         @focusout="onFocusOut"
@@ -233,8 +234,8 @@ export default defineComponent({
       let height = props.height || sizes[props.size].height
       let padding = sizes[props.size].padding
       if(props.textarea){
-        width = sizes.textarea.width
-        height = sizes.textarea.height
+        width = props.width || sizes.textarea.width
+        height = props.height || sizes.textarea.height
         padding = sizes.textarea.padding
       }
       const iconClick = props.iconCanClick?'pointer':'text'
@@ -397,6 +398,39 @@ $borderRadius:4px;
   width: var(--xy-input-width);
   cursor: text;
   display:flex;
+  .placeholder{
+    @mixin placeholderStyle(){
+      color: #a8abb2;
+      //font-weight: 600;
+      //font-style: normal;
+      opacity: 0.6;
+      //font-size: 16px;
+    }
+    /* 通用占位符样式 */
+    &::placeholder {
+      @include placeholderStyle();
+    }
+
+    /* 兼容WebKit浏览器 */
+    &::-webkit-input-placeholder {
+      @include placeholderStyle();
+    }
+
+    /* 兼容Mozilla浏览器 */
+    &::-moz-placeholder {
+      @include placeholderStyle();
+    }
+
+    /* 兼容Microsoft Edge */
+    &:-ms-input-placeholder {
+      @include placeholderStyle();
+    }
+
+    /* 兼容Internet Explorer */
+    &::-ms-input-placeholder {
+      @include placeholderStyle();
+    }
+  }
   .xy-input-box {
     padding: var(--xy-input-padding);
     border-radius: $borderRadius;
@@ -415,37 +449,7 @@ $borderRadius:4px;
       border-radius: 4px;
       padding: 0 2px;
       background-color: var(--xy-input-bgColor);
-      @mixin placeholderStyle(){
-        color: #a8abb2;
-        //font-weight: 600;
-        font-style: normal;
-        opacity: 0.6;
-        //font-size: 16px;
-      }
-      /* 通用占位符样式 */
-      &::placeholder {
-        @include placeholderStyle();
-      }
-
-      /* 兼容WebKit浏览器 */
-      &::-webkit-input-placeholder {
-        @include placeholderStyle();
-      }
-
-      /* 兼容Mozilla浏览器 */
-      &::-moz-placeholder {
-        @include placeholderStyle();
-      }
-
-      /* 兼容Microsoft Edge */
-      &:-ms-input-placeholder {
-        @include placeholderStyle();
-      }
-
-      /* 兼容Internet Explorer */
-      &::-ms-input-placeholder {
-        @include placeholderStyle();
-      }
+      @extend .placeholder;
     }
     .icon{
       width: calc(var(--xy-input-height)/2);
@@ -456,7 +460,6 @@ $borderRadius:4px;
       //background-color: green;
       cursor: var(--xy-input-icon-cursor);
     }
-
     .limit{
       font: {
         size: calc(var(--xy-input-height) * 2 / 5);
@@ -480,9 +483,11 @@ $borderRadius:4px;
       resize: var(--xy-input-textarea-resize);
       word-wrap: break-word;
       overflow-wrap: break-word;
+      @extend .placeholder;
       &:hover{
         border-color: var(--xy-input-hover-color);
       }
+
     }
     .textareaLimit{
       position: absolute;
@@ -517,7 +522,6 @@ $borderRadius:4px;
     border-right: 1px solid #c0c4cc;
   }
 }
-
 .disabledInput {
   background-color: #f5f5f5;
   color: #c0c4cc;
