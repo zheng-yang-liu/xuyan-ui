@@ -111,8 +111,7 @@ export default defineComponent({
     },
     modelValue: {
       type: String,
-      default: '',
-      required: true
+      default: ''
     },//默认值
     placeholder: {
       type: String,
