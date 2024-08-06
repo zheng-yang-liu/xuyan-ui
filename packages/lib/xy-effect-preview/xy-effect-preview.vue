@@ -1,5 +1,5 @@
 <template>
-  <div :style="{width:width}" class="effect-preview">
+  <div :style="[{width:width},cssValue]" class="effect-preview">
     <div class="effect-box" :style="{minHeight:`${effectHeight}px`}"><slot></slot></div>
     <div class="effect-tools">
 
@@ -26,7 +26,7 @@
 <script lang="ts">
 import {defineComponent,ref,watch} from 'vue'
 import xyCodePreview from "./xy-code-preview.vue";
-import{copyText,setCssVar}from "../../Utils/Tools"
+import{copyText}from "../../Utils/Tools"
 import animationAPI from"../../Utils/AnimationAPI/AnimationUtils"
 export default defineComponent({
   name: "xy-effect-preview",
@@ -54,6 +54,9 @@ export default defineComponent({
   setup(props, context) {
     const showCode = ref<Boolean>(false);
     const graduallyAppearing = ref<Object>({opacity:0});
+    const cssValue = ref({
+      '--effect-preview-overflow':'hidden'
+    })
     const beforeEnter = (el: HTMLElement) => {
       el.style.height = '0';
     };
@@ -75,19 +78,19 @@ export default defineComponent({
     const copy = async ()=>{
       await copyText(props.code);
     }
-    setCssVar('--effect-preview-overflow','hidden');
+    cssValue.value['--effect-preview-overflow']='hidden'
     watch(()=>showCode.value,(newValue)=>{
       if(newValue){
         setTimeout(
           ()=> {
-            setCssVar('--effect-preview-overflow', 'visible');
+            cssValue.value['--effect-preview-overflow']='visible'
             animationAPI.numberAnimate(400,0,1,(value:number)=>{
               graduallyAppearing.value.opacity=value;
             },"ease")
           },
           400);
       }else{
-        setCssVar('--effect-preview-overflow','hidden')
+        cssValue.value['--effect-preview-overflow']='hidden'
       }
     })
     return {
@@ -96,16 +99,14 @@ export default defineComponent({
       enter,
       leave,
       copy,
-      graduallyAppearing
+      graduallyAppearing,
+      cssValue
     }
   }
 })
 </script>
 
 <style scoped lang="scss">
-:root{
-  //--effect-preview-overflow:none;
-}
 @import"../../assets/style/mixin.scss";
 $bgColor: #ffffff;
 $borderSolid: 1px solid #cdcdcd;
