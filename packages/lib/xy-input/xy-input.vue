@@ -160,6 +160,10 @@ export default defineComponent({
     maxLength:{
       type:Number,
       default:0
+    },
+    bgColor:{
+      type:String,
+      default:'white'
     }
   },
   emits: [
@@ -222,7 +226,8 @@ export default defineComponent({
       '--input-border-color': '#c0c4cc',
       '--xy-input-icon-cursor': 'pointer',
       '--xy-input-textarea-resize':'both',
-      '--xy-input-hover-color':'#6a6b6e'
+      '--xy-input-hover-color':'#c0c4cc',
+      '--xy-input-bgColor':'white'
     })
 
     watch(()=>inputValue.value,(newVal)=>{
@@ -257,8 +262,9 @@ export default defineComponent({
       cssValue.value["--input-border-color"] = props.focusoutColor
       props.iconCanClick|| (cssValue.value["--xy-input-icon-cursor"] = 'text')
       cssValue.value["--xy-input-textarea-resize"] = props.textChangeSize
+      cssValue.value["--xy-input-bgColor"] = props.bgColor
       try {
-        cssValue.value['--xy-input-hover-color'] = changeColor(props.focusoutColor,-60)
+          !props.disabled&&(cssValue.value['--xy-input-hover-color'] = changeColor(props.focusoutColor,-60))
       }catch (e){
         console.error(props.focusoutColor,'颜色值不正确')
       }
@@ -400,6 +406,7 @@ $borderRadius:4px;
     align-items: center;
     width: 100%;
     box-sizing: border-box;
+    background-color: var(--xy-input-bgColor);
     .xy-input-inner {
       width: 100%;
       height: var(--xy-input-height);
@@ -408,6 +415,7 @@ $borderRadius:4px;
       outline: none;
       border-radius: 4px;
       padding: 0 2px;
+      background-color: var(--xy-input-bgColor);
       @mixin placeholderStyle(){
         color: #a8abb2;
         //font-weight: 600;
@@ -518,6 +526,7 @@ $borderRadius:4px;
   border-radius: $borderRadius;
   box-shadow: 0 0 0 1px #e4e7ed;
   .xy-input-box{
+    background-color: #f5f5f5;
     .xy-input-inner{
       background-color: #f5f5f5;
       cursor: not-allowed !important;
