@@ -264,7 +264,7 @@ export default defineComponent({
       cssValue.value["--xy-input-textarea-resize"] = props.textChangeSize
       cssValue.value["--xy-input-bgColor"] = props.bgColor
       try {
-          !props.disabled&&(cssValue.value['--xy-input-hover-color'] = changeColor(props.focusoutColor,-60))
+        !props.disabled&&(cssValue.value['--xy-input-hover-color'] = changeColor(props.focusoutColor,-60))
       }catch (e){
         console.error(props.focusoutColor,'颜色值不正确')
       }
