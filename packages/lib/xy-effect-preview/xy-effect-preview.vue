@@ -136,13 +136,13 @@ $radius: 4px;
   }
   .effect-code-close{
     width: 100%;
-    height: 40px;
+    height: 42px;
     cursor: pointer;
     background-color: $bgColor;
     position: sticky;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: -2px;
     z-index: 10;
     border-bottom-right-radius: $radius;
     border-bottom-left-radius: $radius;
