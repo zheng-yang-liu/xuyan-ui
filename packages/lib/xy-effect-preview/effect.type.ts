@@ -11,11 +11,10 @@ export type dataType = {
   default?:string
 }
 export type catalogueType = {
-  [key: string]: any;
   id: string;
   slot?: string;
   title: string;
-  explain?: string;
+  explain?: string|string[];
   indentValue?: number;
   listPosition?: string;
   children?: catalogueType[];

@@ -35,12 +35,12 @@
       </template>
       <template #main>
         <div class="mainBox"
-             style="background-color: #f6f6f6;width: 100%;height: 100%;padding: 0 10px;overflow: hidden;overflow-y: auto">
+             style="background-color: white;width: 100%;height: 100%;padding: 0 10px;overflow: hidden;overflow-y: auto">
 <!--          <xy-menu-catalog :catalogue="catalogue" @clickItem="catalogueClickItem"></xy-menu-catalog>-->
-          <testInput></testInput>
+<!--          <testInput></testInput>-->
           <xy-effect-preview :code="vueComponentString">
 <!--            <preIcon></preIcon>-->
-            <testInput></testInput>
+<!--            <testInput></testInput>-->
           </xy-effect-preview>
 
           <xy-showcase-page
@@ -92,13 +92,14 @@ const catalogue = [
   },
   {
     title: "设置文案",
-    explain: ["可以在分割线上自定义文本内容", "测试多个P元素"],
+    explain: ["可以在分割线上`text文本`自定义文本内容", "测试多个P元素"],
     slot: 'setWords',
     id: 'ffb11a4fb28c94c976acf9cf672be273',
   },
   {
     title: "API",
     id: 'db974238714ca8de634a7ce1d083a14f',
+    explain: "组件的api属性`code内容`",
     children: [
       {
         title: "Props",
@@ -129,7 +130,7 @@ const catalogue = [
       },
       {
         title: "Slots",
-        explain: "Divider 分割线的插槽",
+        explain: "slots插槽",
         slot: 'slots',
         id: 'f573ad6f99732daf89b2f9dd79ba77e0'
       }

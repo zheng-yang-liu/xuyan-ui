@@ -140,14 +140,23 @@ export default defineComponent({
     function createSlot(slotName:string){
       return that.$slots[slotName] ? that.$slots[slotName]():'';
     }
+    function setCodeP (text:string){
+      const parts = text.split(/(`[^`]+`)/g);
+      return parts.map(part => {
+        if (part.startsWith('`') && part.endsWith('`')) {
+          return h('code', {}, part.slice(1, -1));
+        }
+        return part;
+      })
+    }
     function createP(PData:string|Array<string>){
       if(!PData){
         return ''
       }
       if(Array.isArray(PData)){
-        return PData.map(item=>h('p',{class:'xy-showcase-page-p'},item))
+        return PData.map(item=>h('p',{class:'xy-showcase-page-p'},setCodeP(item)))
       }else{
-        return h('p',{class:'xy-showcase-page-p'},PData)
+        return h('p',{class:'xy-showcase-page-p'},setCodeP(PData))
       }
     }
     function renderCatalogue(catalogue, depth = 2,subelement:boolean = false) {
@@ -173,6 +182,7 @@ export default defineComponent({
               item.title,
               h('a',{name:item.id?item.id:item.title,},'#')
             ]),
+            createP(item.explain),
             createSlot(item.slot),
             renderCatalogue(item.children, depth + 1,true)
           ]);
@@ -204,15 +214,6 @@ export default defineComponent({
           ]);
         }
       });
-    }
-    const createAssembly = () =>{
-      let result = []
-      if(this.displayCatalogue){
-        result.push(
-
-        )
-      }
-      return result
     }
 
     let pageElement = [
@@ -259,6 +260,15 @@ export default defineComponent({
   .xy-showcase-left{
     width: 100%;
     //padding-right: 40px;
+    .xy-showcase-page-p{
+      code{
+        background-color: #f5f7fa;
+        padding: 4px 10px;
+        border-radius: 5px;
+        margin: 0 5px;
+        font-weight: 600;
+      }
+    }
   }
   .hTag{
     position: relative;
