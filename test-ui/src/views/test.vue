@@ -292,64 +292,46 @@ const menuItems = [
 ]
 const attributesData = [
   {
-    name: 'catalogue',
-    explain: '目录列表',
+    name: 'direction',
+    explain: '配列方向',
     type: [
       {
-        value:"Array",
-        complexType:`{
-          id: string;
-          title: string;
-          slot?: string;
-          explain?: string | string[];
-          children?: catalogue[];
-        }`
-      }, {
-        value:"Array",
-        complexType:`{
-          id: string;
-          title: string;
-          slot?: string;
-          explain?: string | string[];
-          children?: catalogue[];
-        }`
+        value:"directionType",
+        complexType:"'horizontal' | 'vertical'"
       }
-
     ],
   },
   {
-    name: 'pageTitle',
-    explain: '页面标题',
-    type: 'string'
+    name: 'asideWidth',
+    explain: '侧边栏宽度',
+    type: 'number',
+    default: 200,
   },
   {
-    name: 'introduction',
-    explain: '页面介绍`height`,这是一段开始说明的问题，开始查看所有的问题',
-    type: 'string',
+    name: 'headerHeight',
+    explain: '头部高度',
+    type: 'number',
+    default: 50,
   },
   {
-    name:"showCatalogue",
-    explain:"textarea尺寸的改变方式,`none`不允许调整、`both`允许任意调整、`horizontal`允许水平调整、`vertical`允许垂直调整",
-    type:"boolean",
-    default:"true"
+    name: 'headerStyle',
+    explain: '头部样式',
+    type: 'CSSStyleValue',
   },
   {
-    name:"titleTriggerRange",
-    explain:"标题触发范围的`height`,从顶部开始计算,为屏幕高度的四分之三+`titleTriggerRange`",
-    type:"number",
-    default:"0"
+    name: 'sectionStyle',
+    explain: 'section样式',
+    type: 'CSSStyleValue',
   },
   {
-    name:"showCatalogueWidth",
-    explain:"动态显示目录的宽度",
-    type:"number",
-    default:"1075"
+    name: 'asideStyle',
+    explain: '侧边栏样式',
+    type: 'CSSStyleValue',
   },
   {
-    name:"screenMaxCatalogue",
-    explain:"只有全屏状态下才显示目录",
-    type:"boolean",
-    default:"false"
+    name: 'mainStyle',
+    explain: '主体样式',
+    type: 'CSSStyleValue',
   }
 
 ]

@@ -11,7 +11,7 @@
         >
           <p
             class="explain"
-            v-html="setCodeP(item[itemColumns.key]?item[itemColumns.key]:'-')"
+            v-html="setCodeP(item[itemColumns.key]?item[itemColumns.key]:'-',itemColumns.key)"
           ></p>
         </div>
 
@@ -138,7 +138,8 @@ export default defineComponent({
         attributeBox.value.style.gridTemplateColumns = gridColumns
       }
     }
-    const setCodeP = (text)=>{
+    const setCodeP = (text,key)=>{
+      if(key!=='explain') return text
       return text.replace(/`([^`]+)`/g,`<code>$1</code>`)
     }
     onMounted(()=>{
