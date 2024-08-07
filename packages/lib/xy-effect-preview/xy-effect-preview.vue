@@ -111,10 +111,11 @@ export default defineComponent({
 $bgColor: #ffffff;
 $borderSolid: 1px solid #cdcdcd;
 $animationLaunch:height 0.5s ease;
+$radius: 4px;
 .effect-preview{
   background-color: $bgColor;
   border: $borderSolid;
-  border-radius: 5px;
+  border-radius: $radius;
   overflow: var(--effect-preview-overflow);
   .effect-box{
     padding: 24px;
@@ -143,7 +144,8 @@ $animationLaunch:height 0.5s ease;
     right: 0;
     bottom: 0;
     z-index: 10;
-
+    border-bottom-right-radius: $radius;
+    border-bottom-left-radius: $radius;
     transition: $animationLaunch;
 
     @include display-flex(center,center);

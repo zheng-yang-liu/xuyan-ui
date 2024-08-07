@@ -42,14 +42,6 @@
 <!--            <preIcon></preIcon>-->
             <testInput></testInput>
           </xy-effect-preview>
-          <xy-attribute-table :columnsNoDefault="false" :data="data"></xy-attribute-table>
-          <div style="width: 100%;height: 1000px;background-color: red">
-            <div style="width: 100%;height: 100px;background-color: #e0f0ff"></div>
-            <div style="width: 100%;height: 100px;background-color: white"></div>
-            <div style="width: 100%;height: 100px;background-color: black"></div>
-            <div style="width: 100%;height: 100px;background-color: #fae7e7"></div>
-            <div style="width: 100%;height: 100px; background-color: green;position: sticky;bottom: 0"></div>
-          </div>
 
           <xy-showcase-page
             :catalogue="catalogue"
