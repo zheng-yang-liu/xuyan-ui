@@ -32,7 +32,7 @@
                 :style="{display: 'inline-block',marginBottom:'5px'}"
               >
                 <span v-if="indexType!==0" style="margin: 0 5px">/</span>
-                <xy-code :code="itemType.value"></xy-code>
+                <xy-code :codeStyle="{margin:'0 5px 0 0'}" :code="itemType.value"></xy-code>
                 <xyTooltip
                   v-if="showComplexType(itemType.value)"
                   :hoverShow="false"
@@ -49,7 +49,7 @@
 
         </div>
         <div class="attribute-line cells" v-else style="display: flex;align-items: center">
-          <xy-code :code="item[itemColumns.key]"></xy-code>
+          <xy-code :codeStyle="{margin:'0 5px 0 0'}" :code="item[itemColumns.key]"></xy-code>
           <xyTooltip
             v-if="showComplexType(item[itemColumns.key])"
             :hoverShow="false"
@@ -179,6 +179,7 @@ export default defineComponent({
         padding: 3px 6px;
         border-radius: 5px;
         font-weight: 600;
+        margin: 0 5px;
         //box-decoration-break: clone;
         //-webkit-box-decoration-break: clone;
       }

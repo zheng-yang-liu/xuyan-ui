@@ -1,5 +1,5 @@
 <template>
-  <code class="xy-code">{{code}}</code>
+  <code class="xy-code" :style="codeStyle">{{code}}</code>
 </template>
 
 <script lang="ts">
@@ -11,13 +11,12 @@ export default defineComponent({
     code: {
       type: String,
       default: ''
+    },
+    codeStyle:{
+      type: Object,
+      default: ()=>({})
     }
   },
-  components: {},
-  setup(props, context) {
-
-    return {}
-  }
 })
 </script>
 
@@ -28,6 +27,5 @@ export default defineComponent({
   padding: 3px 6px;
   border-radius: 5px;
   background-color: #f5f7fa;
-
 }
 </style>
