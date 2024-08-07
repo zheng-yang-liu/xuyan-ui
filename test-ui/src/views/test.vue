@@ -42,7 +42,7 @@
 <!--            <preIcon></preIcon>-->
 <!--            <testInput></testInput>-->
           </xy-effect-preview>
-
+          <xy-attribute-table :data="attributesData"></xy-attribute-table>
           <xy-showcase-page
             :catalogue="catalogue"
             :showCatalogue="true"
@@ -290,7 +290,69 @@ const menuItems = [
     ]
   }
 ]
+const attributesData = [
+  {
+    name: 'catalogue',
+    explain: '目录列表',
+    type: [
+      {
+        value:"Array",
+        complexType:`{
+          id: string;
+          title: string;
+          slot?: string;
+          explain?: string | string[];
+          children?: catalogue[];
+        }`
+      }, {
+        value:"Array",
+        complexType:`{
+          id: string;
+          title: string;
+          slot?: string;
+          explain?: string | string[];
+          children?: catalogue[];
+        }`
+      }
 
+    ],
+  },
+  {
+    name: 'pageTitle',
+    explain: '页面标题',
+    type: 'string'
+  },
+  {
+    name: 'introduction',
+    explain: '页面介绍`height`,这是一段开始说明的问题，开始查看所有的问题',
+    type: 'string',
+  },
+  {
+    name:"showCatalogue",
+    explain:"是否显示目录",
+    type:"boolean",
+    default:"true"
+  },
+  {
+    name:"titleTriggerRange",
+    explain:"标题触发范围的`height`,从顶部开始计算,为屏幕高度的四分之三+`titleTriggerRange`",
+    type:"number",
+    default:"0"
+  },
+  {
+    name:"showCatalogueWidth",
+    explain:"动态显示目录的宽度",
+    type:"number",
+    default:"1075"
+  },
+  {
+    name:"screenMaxCatalogue",
+    explain:"只有全屏状态下才显示目录",
+    type:"boolean",
+    default:"false"
+  }
+
+]
 const menuItemswewe = [
   {
     title: '地球',

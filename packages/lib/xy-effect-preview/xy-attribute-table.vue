@@ -5,9 +5,16 @@
     </template>
     <template v-for="(item,index) in data" :key="index">
       <template v-for="(itemColumns,index) in columnsCH" :key="itemColumns.key">
-        <div class="attribute-line cells" v-if="itemColumns.key!=='type'">
-          {{item[itemColumns.key]?item[itemColumns.key]:'-'}}
+        <div
+          class="attribute-line cells"
+          v-if="itemColumns.key!=='type'"
+        >
+          <p
+            class="explain"
+            v-html="setCodeP(item[itemColumns.key]?item[itemColumns.key]:'-')"
+          ></p>
         </div>
+
         <div
           class="attribute-line cells"
           v-else-if="typeof(item[itemColumns.key])!=='string'"
@@ -25,7 +32,7 @@
                 :style="{display: 'inline-block',marginBottom:'5px'}"
               >
                 <span v-if="indexType!==0" style="margin: 0 5px">/</span>
-                <code>{{itemType.value}}</code>
+                <xy-code :code="itemType.value"></xy-code>
                 <xyTooltip
                   v-if="showComplexType(itemType.value)"
                   :hoverShow="false"
@@ -42,7 +49,7 @@
 
         </div>
         <div class="attribute-line cells" v-else style="display: flex;align-items: center">
-          <code>{{item[itemColumns.key]}}</code>
+          <xy-code :code="item[itemColumns.key]"></xy-code>
           <xyTooltip
             v-if="showComplexType(item[itemColumns.key])"
             :hoverShow="false"
@@ -61,10 +68,12 @@
 </template>
 
 <script lang="ts">
-import {defineComponent,PropType,ref,onMounted} from 'vue'
+import {defineComponent,PropType,ref,onMounted,h} from 'vue'
 import {dataType} from "./effect.type"
 import xyTooltip from "../xy-tooltip/xy-tooltip.vue";
 import xyCodePreview from "./xy-code-preview.vue";
+import xyCode from "./xy-code.vue";
+import XyCode from "./xy-code.vue";
 export default defineComponent({
   name: "xy-attribute-table",
   props: {
@@ -86,6 +95,7 @@ export default defineComponent({
     }
   },
   components: {
+    XyCode,
     xyCodePreview,
     xyTooltip
   },
@@ -128,13 +138,17 @@ export default defineComponent({
         attributeBox.value.style.gridTemplateColumns = gridColumns
       }
     }
+    const setCodeP = (text)=>{
+      return text.replace(/`([^`]+)`/g,`<code>$1</code>`)
+    }
     onMounted(()=>{
       initGridColumns();
     })
     return {
       showComplexType,
       attributeBox,
-      columnsCH
+      columnsCH,
+      setCodeP
     }
   }
 })
@@ -160,11 +174,13 @@ export default defineComponent({
     }
   }
   .attribute-line{
-    code{
-      background-color: #f5f7fa;
-      padding: 3px 6px;
-      border-radius: 5px;
-      margin-right: 5px;
+    .explain{
+      ::v-deep(code){
+        background-color: #f5f7fa;
+        padding: 3px 6px;
+        border-radius: 5px;
+        font-weight: 600;
+      }
     }
     i{
       &:hover{
@@ -181,4 +197,5 @@ export default defineComponent({
       }
   }
 }
+
 </style>

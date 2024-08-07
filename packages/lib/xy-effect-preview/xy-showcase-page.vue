@@ -3,6 +3,7 @@ import {defineComponent,PropType,h,ref,onMounted,onBeforeUnmount} from 'vue'
 import {catalogueType} from"./effect.type"
 import{calculateItemDepth,deepLookup,throttle,debounce}from "../../Utils/Tools"
 import xyMenuCatalog from "../xy-menu/xy-menu-catalog.vue";
+import xyCode from "./xy-code.vue";
 export default defineComponent({
   name: "xy-showcase-page",
   props: {//目录列表
@@ -144,7 +145,7 @@ export default defineComponent({
       const parts = text.split(/(`[^`]+`)/g);
       return parts.map(part => {
         if (part.startsWith('`') && part.endsWith('`')) {
-          return h('code', {}, part.slice(1, -1));
+          return h(xyCode, {code:part.slice(1, -1)})
         }
         return part;
       })
@@ -260,15 +261,6 @@ export default defineComponent({
   .xy-showcase-left{
     width: 100%;
     //padding-right: 40px;
-    .xy-showcase-page-p{
-      code{
-        background-color: #f5f7fa;
-        padding: 4px 10px;
-        border-radius: 5px;
-        margin: 0 5px;
-        font-weight: 600;
-      }
-    }
   }
   .hTag{
     position: relative;
