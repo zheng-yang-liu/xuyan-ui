@@ -169,12 +169,11 @@ export default defineComponent({
     height: 100%;
   }
   .attribute-columns{
-    font:{
-      weight:600;
-    }
+    font-weight:600;
   }
   .attribute-line{
     .explain{
+      line-height: 23px;
       ::v-deep(code){
         background-color: #f5f7fa;
         padding: 3px 6px;
