@@ -179,6 +179,8 @@ export default defineComponent({
         padding: 3px 6px;
         border-radius: 5px;
         font-weight: 600;
+        //box-decoration-break: clone;
+        //-webkit-box-decoration-break: clone;
       }
     }
     i{
