@@ -193,7 +193,17 @@ export default defineComponent({
               },
             }, [
               item.title,
-              h('a',{id:item.id?item.id:item.title,},'#')
+              h('a',{
+                style:{cursor:'pointer'},
+                id:item.id?item.id:item.title,
+                href:`#${item.id?item.id:item.title}`,
+                onMouseover: (e:any) => {
+                  e.target.style.opacity = 1;
+                },
+                onMouseleave: (e:any) => {
+                  e.target.style.opacity = 0;
+                },
+              },'#')
             ]),
             createP(item.explain),
             createSlot(item.slot),
@@ -208,19 +218,29 @@ export default defineComponent({
               style:{
                 margin:subelement?'24px 0 0':`${marginTop-(8*(depth>=3?depth-2:0))}px 0 ${marginBottom-(5*(depth>=3?depth-2:0))}px`
               },
-              onMouseover: (e) => {
+              onMouseover: (e:any) => {
                 if (e.target.children.length > 0) {
                   e.target.children[0].style.opacity = 1;
                 }
               },
-              onMouseleave: (e) => {
+              onMouseleave: (e:any) => {
                 if (e.target.children.length > 0) {
                   e.target.children[0].style.opacity = 0;
                 }
               },
             }, [
               item.title,
-              h('a',{id:item.id?item.id:item.title,},'#')
+              h('a',{
+                style:{cursor:'pointer'},
+                id:item.id?item.id:item.title,
+                href:`#${item.id?item.id:item.title}`,
+                onMouseover: (e:any) => {
+                  e.target.style.opacity = 1;
+                },
+                onMouseleave: (e:any) => {
+                  e.target.style.opacity = 0;
+                },
+              },'#'),
             ]),
             createP(item.explain),
             createSlot(item.slot),
