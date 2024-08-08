@@ -143,6 +143,10 @@ export default defineComponent({
         dialogEndX.value = x + rect.width;
         dialogY.value = y;
         dialogEndY.value = y + rect.height;
+        if(!props.drag || dragAndDropNoHappen.value)return;
+        dialogContent.value.style.top = '50%'
+        dialogContent.value.style.left = '50%'
+        dialogContent.value.style.transform = 'translate(-50%, -50%)'
 
         setTimeout(()=>{
           window.addEventListener('click',mouseClick);
@@ -155,12 +159,6 @@ export default defineComponent({
         xyDialog.value.close();
         window.removeEventListener('click',mouseClick);
         window.removeEventListener('keydown',monitorKeyboardPresses);
-        // console.log(top,left)
-        console.log(props.drag)
-        console.log(dragAndDropNoHappen.value)
-        if(!props.drag || dragAndDropNoHappen.value)return;
-        dialogContent.value.style.top = `${startTop+halfHeight}px`;
-        dialogContent.value.style.left = `${startLeft+halfWidth}px`;
       }
     }
     const closeDialog = () => {
@@ -213,7 +211,6 @@ export default defineComponent({
       startY = e.clientY;
       startTop = rectContent.value.top;
       startLeft = rectContent.value.left;
-
 
       dragging = true;
       document.addEventListener('mousemove', onHoleMouseMove);

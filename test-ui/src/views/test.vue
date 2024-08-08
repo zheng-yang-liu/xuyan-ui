@@ -42,19 +42,26 @@
           <xy-attribute-table :data="attributesData"></xy-attribute-table>
           <div>
             <xy-button @click="visible=true">打开弹框</xy-button>
-            <xy-dialog v-model:visible="visible">
-              <div style="height: 100px;width: 100px">
-               <p>1</p>
-               <p>1</p>
-               <p>1</p>
-               <p>1</p>
-               <p>1</p>
-               <p>1</p>
-               <p>1</p>
-               <p>1</p>
-               <p>1</p>
-              </div>
+            <xy-dialog
+              :drag="true"
+              default-bottom
+              v-model:visible="visible"
+            >
+              拖拽存在范围限制
             </xy-dialog>
+<!--            <xy-dialog v-model:visible="visible">-->
+<!--              <div style="height: 100px;width: 100px">-->
+<!--               <p>1</p>-->
+<!--               <p>1</p>-->
+<!--               <p>1</p>-->
+<!--               <p>1</p>-->
+<!--               <p>1</p>-->
+<!--               <p>1</p>-->
+<!--               <p>1</p>-->
+<!--               <p>1</p>-->
+<!--               <p>1</p>-->
+<!--              </div>-->
+<!--            </xy-dialog>-->
           </div>
           <xy-showcase-page
             :catalogue="catalogue"
