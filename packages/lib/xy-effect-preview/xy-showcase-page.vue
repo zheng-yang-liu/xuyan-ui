@@ -1,6 +1,6 @@
 <script lang="ts">
 import {defineComponent,PropType,h,ref,onMounted,onBeforeUnmount} from 'vue'
-import {catalogueType} from"./effect.type"
+import {catalogueType,introductionType} from"./effect.type"
 import{calculateItemDepth,deepLookup,throttle,debounce,setCssVar}from "../../Utils/Tools"
 import xyMenuCatalog from "../xy-menu/xy-menu-catalog.vue";
 import xyCode from "./xy-code.vue";
@@ -18,9 +18,12 @@ export default defineComponent({
       required: true
     },//页面介绍
     introduction:{
-      type: String,
-      default: '',
-      required: true
+      type: [String, Array] as PropType<introductionType>,
+      required: true,  // 如果需要该 prop 必须传递
+      validator: (value: unknown): boolean => {
+        // 确保 value 是字符串或字符串数组
+        return typeof value === 'string' || (Array.isArray(value) && value.every(item => typeof item === 'string'));
+      },
     },//是否显示目录
     showCatalogue:{
       type: Boolean,
@@ -257,7 +260,7 @@ export default defineComponent({
 
     let pageElement = [
       h('h1', {style:{margin:'0 0 32px'}}, this.pageTitle),
-      h('p',{class:'xy-showcase-page-p'},this.introduction),
+      createP(this.introduction),
       createSlot('pageExplain')
     ]
 

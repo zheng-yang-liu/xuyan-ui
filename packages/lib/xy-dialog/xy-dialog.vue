@@ -2,7 +2,7 @@
   <dialog ref="xyDialog" class="xy-dialog" :style="dialogStyle">
     <div
       class="xy-dialog-content"
-      :style="{minWidth:`${width}px`,width:`${width}px`,minHeight:`${height}px`}"
+      :style="{width:`${width}px`,minHeight:`${height}px`}"
       ref="dialogContent"
     >
       <div

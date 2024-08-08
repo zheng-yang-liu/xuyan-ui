@@ -19,3 +19,4 @@ export type catalogueType = {
   listPosition?: string;
   children?: catalogueType[];
 }
+export type introductionType = string | Array<string>;

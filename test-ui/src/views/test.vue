@@ -54,7 +54,7 @@
           <xy-showcase-page
             :catalogue="catalogue"
             :showCatalogue="true"
-            introduction="Divider分割线"
+            :introduction="['Divider分割线`@nameList`','年后`nihao`这是一段文字来吧开始展示']"
             pageTitle="区隔内容的分割线"
             v-model:currentTitleID="currentTitleID"
           >
