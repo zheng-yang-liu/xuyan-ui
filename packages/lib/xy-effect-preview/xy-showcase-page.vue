@@ -196,12 +196,15 @@ export default defineComponent({
               h('a',{
                 style:{cursor:'pointer'},
                 id:item.id?item.id:item.title,
-                href:`#${item.id?item.id:item.title}`,
                 onMouseover: (e:any) => {
                   e.target.style.opacity = 1;
                 },
                 onMouseleave: (e:any) => {
                   e.target.style.opacity = 0;
+                },
+                onMousedown: (e:any) => {
+                  e.preventDefault();
+                  e.target.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
                 },
               },'#')
             ]),
@@ -233,12 +236,15 @@ export default defineComponent({
               h('a',{
                 style:{cursor:'pointer'},
                 id:item.id?item.id:item.title,
-                href:`#${item.id?item.id:item.title}`,
                 onMouseover: (e:any) => {
                   e.target.style.opacity = 1;
                 },
                 onMouseleave: (e:any) => {
                   e.target.style.opacity = 0;
+                },
+                onMousedown: (e:any) => {
+                  e.preventDefault();
+                  e.target.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
                 },
               },'#'),
             ]),
