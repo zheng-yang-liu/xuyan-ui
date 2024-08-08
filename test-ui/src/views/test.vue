@@ -2,8 +2,8 @@
   <div>
     <xy-classic-page v-model:direction="direction">
       <template #header>
-        <el-button @click="dianji">header</el-button>
-        <el-button @click="dddddddd">header2</el-button>
+        <el-button @click="direction='horizontal'">header</el-button>
+        <el-button @click="direction='vertical'">header2</el-button>
         <i class="iconfont icon-kuaidiyuan-xianxing"></i>
         <xy-icon icon="fuzhi" @click="dianjitwo"></xy-icon>
         <xy-dialog
@@ -27,9 +27,6 @@
             :isTheHeightSet="true"
             :menuItems="menuItems"
           >
-            <!--            <template #logo>-->
-            <!--              <div style="height: 40px;width: 100%;background-color: red"></div>-->
-            <!--            </template>-->
           </xy-menu-left>
         </div>
       </template>
@@ -43,6 +40,22 @@
 <!--            <testInput></testInput>-->
           </xy-effect-preview>
           <xy-attribute-table :data="attributesData"></xy-attribute-table>
+          <div>
+            <xy-button @click="visible=true">打开弹框</xy-button>
+            <xy-dialog v-model:visible="visible">
+              <div style="height: 100px;width: 100px">
+               <p>1</p>
+               <p>1</p>
+               <p>1</p>
+               <p>1</p>
+               <p>1</p>
+               <p>1</p>
+               <p>1</p>
+               <p>1</p>
+               <p>1</p>
+              </div>
+            </xy-dialog>
+          </div>
           <xy-showcase-page
             :catalogue="catalogue"
             :showCatalogue="true"
@@ -82,7 +95,7 @@ import {ref} from 'vue'
 import vueComponentString from "@/views/codeTest";
 import preIcon from "./preIcon.vue"
 import testInput from "@/views/testInput.vue";
-
+const visible = ref(false)
 const catalogue = [
   {
     title: '基础用法',

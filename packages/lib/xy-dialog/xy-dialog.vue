@@ -95,15 +95,41 @@ export default defineComponent({
     let halfWidth = 0;
     let halfHeight = 0;
     let dragging = false;
-    const rectDialog = ref({});
-    const rectContent = ref({});
+    const rectDialog = ref({})
+    const rectContent = ref({})
     const dragAndDropNoHappen = ref(true);
+    const disableScrolling=()=> {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollTop}px`;
+      document.body.style.left = `-${scrollLeft}px`;
+    }
+
+    const enableScrolling=()=> {
+      const scrollTop = -parseInt(document.body.style.top || '0', 10);
+      const scrollLeft = -parseInt(document.body.style.left || '0', 10);
+
+
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+
+      window.scrollTo(scrollLeft, scrollTop);
+    }
 
     watch(()=>props.visible,(val)=>{
       if(val){
-        show();
+        disableScrolling()
+        show()
       }else{
-        close();
+        close()
+        enableScrolling()
       }
     })
     const show = () => {
