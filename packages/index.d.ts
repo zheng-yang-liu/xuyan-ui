@@ -202,6 +202,12 @@ export declare const Tools: {
    * @param value CSS 变量值
    * */
   setCssVar(cssVarName: string, value: string):void
+  /**
+   * 获取 CSS 变量的值
+   * @param cssVarName CSS 变量名
+   * @returns {string}返回 CSS 变量值
+   * */
+  getCssVar(cssVarName: string):string
 };
 
 /**

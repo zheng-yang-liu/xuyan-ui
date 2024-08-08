@@ -49,25 +49,13 @@
             >
               拖拽存在范围限制
             </xy-dialog>
-<!--            <xy-dialog v-model:visible="visible">-->
-<!--              <div style="height: 100px;width: 100px">-->
-<!--               <p>1</p>-->
-<!--               <p>1</p>-->
-<!--               <p>1</p>-->
-<!--               <p>1</p>-->
-<!--               <p>1</p>-->
-<!--               <p>1</p>-->
-<!--               <p>1</p>-->
-<!--               <p>1</p>-->
-<!--               <p>1</p>-->
-<!--              </div>-->
-<!--            </xy-dialog>-->
           </div>
           <xy-showcase-page
             :catalogue="catalogue"
             :showCatalogue="true"
             introduction="Divider分割线"
             pageTitle="区隔内容的分割线"
+            v-model:currentTitleID="currentTitleID"
           >
             <template #pageExplain>44444444444444444444</template>
             <template #basicUsage>
@@ -98,10 +86,15 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from 'vue'
+import {ref, watch} from 'vue'
 import vueComponentString from "@/views/codeTest";
 import preIcon from "./preIcon.vue"
 import testInput from "@/views/testInput.vue";
+const currentTitleID = ref('')
+import{Tools}from"../../../packages"
+watch(() => currentTitleID.value, (newVal) => {
+  console.log(newVal)
+})
 const visible = ref(false)
 const catalogue = [
   {
@@ -410,6 +403,8 @@ const menuLeftStyle = {
 }
 const dianjitwo = () => {
   console.log('ppppppp')
+  const currentTitleID = Tools.getCssVar('--current-titleID')
+  console.log(currentTitleID)
 }
 const dianji = () => {
   console.log('dianji1')

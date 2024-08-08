@@ -1,7 +1,7 @@
 <script lang="ts">
 import {defineComponent,PropType,h,ref,onMounted,onBeforeUnmount} from 'vue'
 import {catalogueType} from"./effect.type"
-import{calculateItemDepth,deepLookup,throttle,debounce}from "../../Utils/Tools"
+import{calculateItemDepth,deepLookup,throttle,debounce,setCssVar}from "../../Utils/Tools"
 import xyMenuCatalog from "../xy-menu/xy-menu-catalog.vue";
 import xyCode from "./xy-code.vue";
 export default defineComponent({
@@ -37,11 +37,16 @@ export default defineComponent({
     screenMaxCatalogue:{
       type: Boolean,
       default: false
+    },//currentTitleID
+    currentTitleID:{
+      type: String,
+      default: ''
     }
   },
+  emits:['update:currentTitleID'],
   components: {
   },
-  setup(props, context) {
+  setup(props, content) {
     const promptBlockTop = ref(0);
     const menuItemHeight = 30;
     const showPromptBlock = ref<Boolean>(false);
@@ -102,6 +107,9 @@ export default defineComponent({
             const resultLook = deepLookup(updatedList,(item)=>item.id===targetName);
             promptBlockTop.value = menuItemHeight * resultLook[0].listPosition
             startID.value = targetName;
+            // console.log(startID.value)
+            content.emit('update:currentTitleID',startID.value)
+            setCssVar('--current-titleID',startID.value)
           }else{
             // showPromptBlock.value=false;
             // startID.value= '';
@@ -119,6 +127,7 @@ export default defineComponent({
     onMounted(()=>{
       window.addEventListener('resize', debounceResize);
       window.addEventListener('resize', setDirectoryDebounce);
+      setCssVar('--current-titleID','')
       setDirectory();
     })
     onBeforeUnmount(() => {

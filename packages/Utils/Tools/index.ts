@@ -638,6 +638,14 @@ export const randomInterval = (min,max):number => {
 export const setCssVar = (cssVarName: string, value: string):void => {
   document.documentElement.style.setProperty(cssVarName, value);
 };
+/**
+ * 获取CSS 变量的值
+ * @param cssVarName CSS 变量名
+ * */
+export const getCssVar = (cssVarName:string):string=>{
+  const rootStyles = getComputedStyle(document.documentElement);
+  return rootStyles.getPropertyValue(cssVarName).trim();
+}
 
 
 
