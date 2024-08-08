@@ -179,8 +179,7 @@ export default defineComponent({
               class:'hTag',
               name:item.id,
               style:{
-                margin:`${marginTop-(8*(depth>=3?depth-2:0))}px 0 ${marginBottom-(5*(depth>=3?depth-2:0))}px`,
-                backgroundColor: 'red'
+                margin:`${marginTop-(8*(depth>=3?depth-2:0))}px 0 ${marginBottom-(5*(depth>=3?depth-2:0))}px`
               },
               onMouseover:(e)=>{
                 if (e.target.children.length > 0) {
