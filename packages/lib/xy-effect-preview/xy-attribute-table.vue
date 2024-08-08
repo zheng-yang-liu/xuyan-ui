@@ -173,6 +173,8 @@ export default defineComponent({
     font-weight:600;
   }
   .attribute-line{
+    word-wrap: break-word;
+    word-break: break-all;
     .explain{
       line-height: 23px;
       ::v-deep(code){
