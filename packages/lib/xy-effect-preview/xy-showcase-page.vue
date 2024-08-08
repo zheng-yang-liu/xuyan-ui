@@ -70,7 +70,7 @@ export default defineComponent({
         displayCatalogue.value = originalWidth > props.showCatalogueWidth;
       }
     }
-    const clickItemToTitle = (item) => {
+    const clickItemToTitle = (item:any) => {
       const tempATag = document.createElement('a');
       tempATag.href = `#${item.id?item.id:item.title}`;
       tempATag.click();
@@ -107,7 +107,6 @@ export default defineComponent({
             const resultLook = deepLookup(updatedList,(item)=>item.id===targetName);
             promptBlockTop.value = menuItemHeight * resultLook[0].listPosition
             startID.value = targetName;
-            // console.log(startID.value)
             content.emit('update:currentTitleID',startID.value)
             setCssVar('--current-titleID',startID.value)
           }else{
@@ -180,17 +179,22 @@ export default defineComponent({
               class:'hTag',
               name:item.id,
               style:{
-                margin:`${marginTop-(8*(depth>=3?depth-2:0))}px 0 ${marginBottom-(5*(depth>=3?depth-2:0))}px`
+                margin:`${marginTop-(8*(depth>=3?depth-2:0))}px 0 ${marginBottom-(5*(depth>=3?depth-2:0))}px`,
+                backgroundColor: 'red'
               },
               onMouseover:(e)=>{
-                e.target.children[0].style.opacity = 1;
+                if (e.target.children.length > 0) {
+                  e.target.children[0].style.opacity = 1;
+                }
               },
               onMouseleave:(e)=>{
-                e.target.children[0].style.opacity = 0
+                if (e.target.children.length > 0) {
+                  e.target.children[0].style.opacity = 0;
+                }
               },
             }, [
               item.title,
-              h('a',{name:item.id?item.id:item.title,},'#')
+              h('a',{id:item.id?item.id:item.title,},'#')
             ]),
             createP(item.explain),
             createSlot(item.slot),
@@ -217,7 +221,7 @@ export default defineComponent({
               },
             }, [
               item.title,
-              h('a',{name:item.id?item.id:item.title,},'#')
+              h('a',{id:item.id?item.id:item.title,},'#')
             ]),
             createP(item.explain),
             createSlot(item.slot),
