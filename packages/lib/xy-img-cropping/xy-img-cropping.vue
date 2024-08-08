@@ -5,6 +5,7 @@
     v-model:visible="state.diaVisible"
     :width="previewSizeFixed ? 600 : 800"
     :clickOnExternalClose="clickOnExternalClose"
+    @handleClose="closeAfter"
   >
     <div class="croppingBox">
       <input type="file" @change="onFileChange" style="display: none" ref="fileInput" />
@@ -157,6 +158,9 @@ export default defineComponent({
         }, 0);
       }
     });
+    watch(()=>state.diaVisible,(newVal)=>{
+      context.emit("update:visible", newVal);
+    })
 
     const resetHole = () => {
       hole.width = 100;
@@ -189,7 +193,7 @@ export default defineComponent({
     };
 
     const closeAfter = () => {
-      context.emit("update:visible", false);
+      // context.emit("update:visible", false);
     };
 
     const confirm = async () => {

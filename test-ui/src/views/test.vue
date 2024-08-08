@@ -40,6 +40,7 @@
 <!--            <testInput></testInput>-->
           </xy-effect-preview>
           <xy-attribute-table :data="attributesData"></xy-attribute-table>
+          <basehtml></basehtml>
           <div>
             <xy-button @click="visible=true">打开弹框</xy-button>
             <xy-dialog
@@ -88,6 +89,7 @@
 <script lang="ts" setup>
 import {ref, watch} from 'vue'
 import vueComponentString from "@/views/codeTest";
+import basehtml from"./base.vue"
 import preIcon from "./preIcon.vue"
 import testInput from "@/views/testInput.vue";
 const currentTitleID = ref('')
