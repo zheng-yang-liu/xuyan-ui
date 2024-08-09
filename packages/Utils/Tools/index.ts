@@ -508,10 +508,12 @@ export const copyText = (text:string,ifShowMsg:Boolean=true):Promise<{code:numbe
       } catch (err) {
         if(ifShowMsg){showMsg('error','复制失败'+err)}
         resolve({code:100,message:"复制失败"+err})
+      } finally{
+        document.body.removeChild(codeElement);
+        selection.removeAllRanges();
       }
 
-      document.body.removeChild(codeElement);
-      selection.removeAllRanges();
+
     }
   })
 }

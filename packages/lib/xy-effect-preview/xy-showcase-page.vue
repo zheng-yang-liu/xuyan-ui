@@ -74,9 +74,9 @@ export default defineComponent({
       }
     }
     const clickItemToTitle = (item:any) => {
-      const tempATag = document.createElement('a');
-      tempATag.href = `#${item.id?item.id:item.title}`;
-      tempATag.click();
+      const selectEl = document.getElementById(item.id?item.id:item.title);
+      selectEl&&selectEl.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+
       showPromptBlock.value = true;
       promptBlockTop.value = menuItemHeight * item.listPosition
     }
