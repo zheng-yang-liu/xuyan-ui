@@ -13,7 +13,7 @@
           :dragRange="false"
           :escClose="false"
         >
-          去微软推
+          去微软推iii
           <template #footer>
             <xy-button @click="cancel">取消w</xy-button>
             <xy-button style="margin-left: 10px" type="primary" @click="confirm">确定</xy-button>
@@ -42,13 +42,13 @@
           <xy-attribute-table :data="attributesData"></xy-attribute-table>
           <basehtml></basehtml>
           <div>
-            <xy-button @click="visible=true">打开弹框</xy-button>
+            <xy-button @click="visible=true">打开弹框ww</xy-button>
             <xy-dialog
               :drag="true"
               default-bottom
               v-model:visible="visible"
             >
-              拖拽存在范围限制
+              拖拽存在范围限制www
             </xy-dialog>
           </div>
           <xy-showcase-page
@@ -87,13 +87,15 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, watch} from 'vue'
+import {ref, watch,onMounted} from 'vue'
 import vueComponentString from "@/views/codeTest";
 import basehtml from"./base.vue"
 import preIcon from "./preIcon.vue"
 import testInput from "@/views/testInput.vue";
-const currentTitleID = ref('')
 import{Tools}from"../../../packages"
+import { diffWords } from 'diff';
+
+const currentTitleID = ref('')
 watch(() => currentTitleID.value, (newVal) => {
   console.log(newVal)
 })
@@ -491,6 +493,12 @@ const confirmCallback = () => {
   console.log('confirmCallback')
   return false;
 }
+const oldText='2021年度考核合格、2022年度考核优秀、2023年度考核称职'
+const newText='2021年度考核合格;2022年度考核优秀;2023年度考核称职'
+onMounted(()=>{
+  const diff = diffWords(oldText, newText);
+  console.log(diff)
+})
 
 </script>
 

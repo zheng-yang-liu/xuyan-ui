@@ -104,7 +104,7 @@ export const convertTimeFormat = (format: string, date: formatDateNum | Date | n
   };
 
   const paramUnify = (date: formatDateNum | Date | number): formatDateStr => {
-    if (typeof date === 'object' && 'year' in date) {
+    if (typeof date === 'object' && ('year' in date || 'month' in date)) {
       return {
         year: String(date.year),
         month: padZero(date.month),
@@ -114,7 +114,7 @@ export const convertTimeFormat = (format: string, date: formatDateNum | Date | n
         second: padZero(date.second)
       };
     }
-    return formatDate(date);
+    return formatDate(date as Date | number);
   };
 
   const afterConvertDate = paramUnify(date);
@@ -446,7 +446,7 @@ export const calculateItemDepth = (
  * @param findRules 查找规则
  * @returns 返回一个数组，包含查找到的元素
  */
-export const deepLookup = (dataList:Array<any>,findRules:Function)=>{
+export const deepLookup = (dataList:Array<any>,findRules:Function):Array<any>=>{
   let result: Array<any> = [];
 
   const search = (items: Array<any>) => {
@@ -512,8 +512,6 @@ export const copyText = (text:string,ifShowMsg:Boolean=true):Promise<{code:numbe
         document.body.removeChild(codeElement);
         selection.removeAllRanges();
       }
-
-
     }
   })
 }
