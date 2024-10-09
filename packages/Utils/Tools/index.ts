@@ -1,15 +1,16 @@
-import {
+import type {
   dateListItemType,
   dayContentType,
   formatDateNum,
   formatDateStr,
   MessageTypes,
-  dataType
+  dataType, convertDateType, targetDateFormat
 } from "../../types/tools";
 
 import type {Action} from 'element-plus';
-import {ElMessage, ElMessageBox, MessageBoxState} from "element-plus";
-import {VNode} from "vue"
+import {ElMessage, ElMessageBox } from "element-plus";
+import type {MessageBoxState } from "element-plus";
+import type {VNode} from "vue"
 /*
   *获取某日期所在月份的日历天数
   *@param year 年份
@@ -132,6 +133,19 @@ export const convertTimeFormat = (format: string, date: formatDateNum | Date | n
     .replace('ss', afterConvertDate.second)
     .replace('s', String(Number(afterConvertDate.second)));
 };
+/**
+ * 根据模板直接转换日期格式
+ * @param date 日期字符串
+ * @param targetFormat 目标的日期格式
+ * @returns 返回一个字符串，格式为targetFormat的日期格式
+ * */
+export const convertDateFormatByTemplate = (date: convertDateType, targetFormat: targetDateFormat): string =>  {
+  const dateArr:RegExpMatchArray = date.match(/\d+/g) || ['error','error','error'];
+  while(dateArr.length < 3){
+    dateArr.push('error');
+  }
+  return targetFormat.replace('YYYY', dateArr[0]).replace('MM', dateArr[1]).replace('DD', dateArr[2]);
+}
 
 /**
  * 数组分类函数

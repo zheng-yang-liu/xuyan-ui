@@ -1,7 +1,7 @@
-import {formatDateNum, MessageTypes,dataType} from './types/tools'
-import {MessageBoxState} from "element-plus";
-import {VNode,DefineComponent } from "vue"
-import {
+import type {formatDateNum, MessageTypes, dataType, convertDateType, targetDateFormat} from './types/tools'
+import type {MessageBoxState} from "element-plus";
+import type {VNode } from "vue"
+import type {
   animationItem,
   animationCriticalItem,
   rangeTargetID,
@@ -28,6 +28,15 @@ export declare const Tools: {
    * @example Tools.convertTimeFormat('YYYY-MM-DD HH:mm:ss',new Date())
    * */
   convertTimeFormat(format: string, date: formatDateNum | Date | number):string;
+
+  /**
+   * 根据模板直接转换日期格式
+   * @param date 日期字符串
+   * @param targetFormat 目标的日期格式
+   * @returns 返回一个字符串，格式为targetFormat的日期格式
+   * */
+  convertDateFormatByTemplate(date: convertDateType, targetFormat: targetDateFormat):string;
+
   /**
    * 数组分类函数
    * @param array 需要分类的数组
