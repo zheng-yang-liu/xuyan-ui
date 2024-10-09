@@ -89,6 +89,11 @@ export declare const install: (app: import("vue").App<any>) => void;
 ```
 npm publish --registry=https://registry.npmjs.org/
 ```
+```
+切换yarn镜像源
+yarn publish
+根据提示完成发布
+```
 
 ## 测试组件库
 ```

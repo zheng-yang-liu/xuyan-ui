@@ -134,7 +134,7 @@ export const convertTimeFormat = (format: string, date: formatDateNum | Date | n
     .replace('s', String(Number(afterConvertDate.second)));
 };
 /**
- * 根据模板直接转换日期格式
+ * 根据模板转换日期格式
  * @param date 日期字符串
  * @param targetFormat 目标的日期格式
  * @returns 返回一个字符串，格式为targetFormat的日期格式
