@@ -68,11 +68,23 @@ export type animationRangeItem = {
   }
 }
 
-export type TimingType = 'ease' | 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'step-start' | 'step-end' | string;
+type slowlyMoving = 'ease'
+  | 'linear'
+  | 'ease-in'
+  | 'ease-out'
+  | 'ease-in-out'
+  | 'step-start'
+  | 'step-end'
+  | `cubic-bezier(${number},${number},${number},${number})`
+  | `steps(${number},${'start' | 'end'})`
+
+export type TimingType = slowlyMoving;
 
 //numberAnimate
 export type numberAnFunction = (t: number) => number;
-export type numberAnimationType = 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'step-start' | 'step-end' | 'ease' | string | numberAnFunction;
+export type numberAnimationType = slowlyMoving | numberAnFunction;
+
+
 
 
 

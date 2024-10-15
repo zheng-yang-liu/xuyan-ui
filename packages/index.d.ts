@@ -1,4 +1,4 @@
-import type {formatDateNum, MessageTypes, dataType, convertDateType, targetDateFormat} from './types/tools'
+import type {formatDateNum, MessageTypes, dataType, convertDateType} from './types/tools'
 import type {MessageBoxState} from "element-plus";
 import type {VNode } from "vue"
 import type {
@@ -31,11 +31,11 @@ export declare const Tools: {
 
   /**
    * 根据模板直接转换日期格式
-   * @param date 日期字符串
+   * @param date 日期字符串年月日之间必须有任意非数字分隔符
    * @param targetFormat 目标的日期格式
    * @returns 返回一个字符串，格式为targetFormat的日期格式
    * */
-  convertDateFormatByTemplate(date: convertDateType, targetFormat: targetDateFormat):string;
+  convertDateFormatByTemplate(date: string, targetFormat: string):string;
 
   /**
    * 数组分类函数

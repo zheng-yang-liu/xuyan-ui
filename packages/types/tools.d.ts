@@ -10,8 +10,6 @@ export type dayContentType = {
   content: string,
 };
 
-export type convertDateType = `${number}${number}${number}${number}${string}${number}${number}${string}${number}${number}`
-export type targetDateFormat = `YYYY${string}MM${string}DD`
 
 
 export type formatDateNum = {

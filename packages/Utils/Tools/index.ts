@@ -4,7 +4,7 @@ import type {
   formatDateNum,
   formatDateStr,
   MessageTypes,
-  dataType, convertDateType, targetDateFormat
+  dataType
 } from "../../types/tools";
 
 import type {Action} from 'element-plus';
@@ -134,12 +134,12 @@ export const convertTimeFormat = (format: string, date: formatDateNum | Date | n
     .replace('s', String(Number(afterConvertDate.second)));
 };
 /**
- * 根据模板转换日期格式
- * @param date 日期字符串
+ * 根据模板直接转换日期格式
+ * @param date 日期字符串年月日之间必须有任意非数字分隔符
  * @param targetFormat 目标的日期格式
  * @returns 返回一个字符串，格式为targetFormat的日期格式
  * */
-export const convertDateFormatByTemplate = (date: convertDateType, targetFormat: targetDateFormat): string =>  {
+export const convertDateFormatByTemplate = (date: string, targetFormat:string): string =>  {
   const dateArr:RegExpMatchArray = date.match(/\d+/g) || ['error','error','error'];
   while(dateArr.length < 3){
     dateArr.push('error');
