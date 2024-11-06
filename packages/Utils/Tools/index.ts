@@ -660,8 +660,16 @@ export const getCssVar = (cssVarName:string):string=>{
   const rootStyles = getComputedStyle(document.documentElement);
   return rootStyles.getPropertyValue(cssVarName).trim();
 }
-
-
+/**
+ * 获取cookie列表
+ * */
+export const getCookieList = ():{[key:string]:string}=>{
+  return document.cookie.split(';').reduce((acc, cookie) => {
+    const [key, value] = cookie.split('=');
+    acc[key.trim()] = decodeURIComponent(value);
+    return acc;
+  }, {});
+}
 
 
 

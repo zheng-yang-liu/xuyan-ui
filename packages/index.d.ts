@@ -1,4 +1,4 @@
-import type {formatDateNum, MessageTypes, dataType, convertDateType} from './types/tools'
+import type {formatDateNum, MessageTypes, dataType} from './types/tools'
 import type {MessageBoxState} from "element-plus";
 import type {VNode } from "vue"
 import type {
@@ -269,6 +269,14 @@ export declare const AnimationUtils: {
     strokeLinecap: string = "round",
     fill: string = "none"
   ):void;
+  /**
+   * 数字动画函数
+   * @param duration 动画持续时间 ms
+   * @param from 起始值
+   * @param to 结束值
+   * @param callback 回调函数
+   * @param animationType 动画类型
+   */
   numberAnimate(
     duration: number,
     from: number,
